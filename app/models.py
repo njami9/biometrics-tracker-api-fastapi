@@ -29,7 +29,7 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column
-
+from sqlalchemy import Integer, String, Text, Date, ForeignKey
 from .db import Base
 
 
@@ -83,6 +83,16 @@ class QCComment(Base):
     updated_at: Mapped[Optional[datetime]] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
+    
+
+class Personnel(Base):
+    __tablename__ = "personnel"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    member_id: Mapped[Optional[int]] = mapped_column(Integer, index=True)
+    preferred_name: Mapped[Optional[str]] = mapped_column(String, index=True)
+    full_name: Mapped[Optional[str]] = mapped_column(String, index=True)
+    status: Mapped[Optional[str]] = mapped_column(String, index=True)
 
 
 # ---- TOC Items (shared model for tables/figures/listings) ----

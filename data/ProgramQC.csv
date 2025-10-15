@@ -1,0 +1,20 @@
+﻿ProgId,DeliverableID,Output File Name,Program Name,Due Date,Prod Programmer,QC Programmer,QC Method,Program Ready Date,QC Completion Date
+23,200,t_14-1-1_scrnfail_all,t_scrnfail_all,5/24/2025,rrossinni,jgruenke,code review,5/21/2025,5/22/2025
+24,201,t_14-1-1-1_enrol_site_itt,t_enrol_site_itt,5/25/2025,rrossinni,jgruenke,DP,6/21/2025,6/22/2025
+25,202,t_14-1-1-3_enrol_site_amd_itt,t_enrol_site_amd_itt,5/26/2025,rrossinni,jgruenke,code review,6/21/2025,6/23/2025
+26,203,t_14-1-2-x_protdev_,t_protdev_,5/27/2025,rrossinni,jgruenke,DP,6/22/2025,6/24/2025
+27,204,t_14-1-3-1-x_disp_,t_disp_,5/28/2025,rrossinni,jgruenke,DP,6/23/2025,6/25/2025
+28,205,t_14-1-3-2-x_disptrt_,t_disptrt_,5/29/2025,rrossinni,jgruenke,code review,6/24/2025,6/26/2025
+29,206,t_14-1-3-3_anaset_,t_anaset_,5/30/2025,rrossinni,jgruenke,DP,6/25/2025,6/27/2025
+30,207,t_14-1-4-x_demog_,t_demog_,5/31/2025,rrossinni,jgruenke,code review,6/26/2025,6/28/2025
+31,208,t_14-1-4-x_base_,t_base_,5/28/2025,rrossinni,jgruenke,DP,6/27/2025,6/29/2025
+32,209,t_14-1-4-x_strat_,t_strat_,5/29/2025,rrossinni,jgruenke,code review,6/28/2025,6/30/2025
+33,210,t_14-1-4-x_concordancerand_,t_concordancerand_,5/25/2025,rrossinni,jgruenke,DP,6/29/2025,7/1/2025
+34,211,t_14-1-4-x_mh_,t_mh_,5/26/2025,rrossinni,jgruenke,DP,6/30/2025,7/2/2025
+35,212,t_14-1-5-x_prior_npact_,t_prior_npact_,5/27/2025,rrossinni,jgruenke,code review,7/1/2025,7/3/2025
+36,213,t_14-1-5-x_meds_type_pre_itt,t_meds_type_pre_itt,5/29/2025,rrossinni,jgruenke,DP,7/2/2025,7/4/2025
+37,214,t_14-1-5-x_surg_1_,t_surg_1_,5/30/2025,rrossinni,jgruenke,code review,7/3/2025,7/5/2025
+38,215,t_14-1-5-x_radthp_1_,t_radthp_1_,5/31/2025,rrossinni,jgruenke,code review,7/4/2025,7/6/2025
+39,216,t_14-1-5-x_meds_atc_pt_pre_itt,t_meds_atc_pt_pre_itt,5/28/2025,rrossinni,jgruenke,DP,7/5/2025,7/7/2025
+40,217,t_14-1-6-x_surg_2_,t_surg_2_,5/29/2025,rrossinni,jgruenke,DP,7/6/2025,7/8/2025
+41,218,t_14-1-6-x_radthp_2_,t_radthp_2_,5/30/2025,rrossinni,jgruenke,code review,7/7/2025,7/9/2025

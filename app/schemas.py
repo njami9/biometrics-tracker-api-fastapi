@@ -72,6 +72,33 @@ class QCCommentOut(BaseModel):
     class Config:
         from_attributes = True
 
+# --- Personnel ---
+class PersonnelBase(BaseModel):
+    member_id: Optional[int] = None
+    preferred_name: Optional[str] = None
+    full_name: Optional[str] = None
+    status: Optional[str] = None
+
+class PersonnelCreate(PersonnelBase):
+    pass
+
+class PersonnelUpdate(BaseModel):
+    member_id: Optional[int] = None
+    preferred_name: Optional[str] = None
+    full_name: Optional[str] = None
+    status: Optional[str] = None
+
+class PersonnelOut(PersonnelBase):
+    id: int
+    member_id: Optional[int] = None
+    preferred_name: Optional[str] = None
+    full_name: Optional[str] = None
+    status: Optional[str] = None
+    
+    class Config:
+        from_attributes = True  
+
+
 # --- TOC (read-only list output) ---
 class TOCItemOut(BaseModel):
     id: int
