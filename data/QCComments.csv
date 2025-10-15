@@ -1,0 +1,20 @@
+ProgID,CommentID,Commenter,Comment,Status,Resolver
+23,t_14-1-1_scrnfail_all,rrossinni,"""Subject 1023 is marked as screen failed, but no corresponding screen failure reason is documented. Please verify and update the screen_fail_reason field to ensure compliance with protocol documentation requirements.""",open,jgruenke
+24,t_14-1-1-1_enrol_site_itt,rrossinni,"""Enrollment date for Site 105 appears to be earlier than site activation date. Please confirm if this is a data entry error or if site activation date needs correction.""",resolved,jgruenke
+25,t_14-1-1-3_enrol_site_amd_itt,rrossinni,"""Amendment version 2.0 is listed for Site 110, but the effective date is missing. Please confirm and populate the amendment_effective_date field to maintain audit trail integrity.""",resolved,jgrueke
+26,t_14-1-2-x_protdev_,rrossinni,"""Protocol deviation for Subject 2045 is recorded without a deviation category. Please review and assign the appropriate deviation classification (e.g., major/minor) per protocol deviation log standards.""",closed,jgrueke
+27,t_14-1-3-1-x_disp_,rrossinni,"""Subject disposition has been reviewed and updated to reflect study completion without any protocol deviations or early termination.""",resolved,jgrueke
+28,t_14-1-3-2-x_disptrt_,rrossinni,"""Treatment disposition was updated to indicate discontinuation due to an adverse event. The event was reviewed and deemed related to study drug administration.""",open,jgrueke
+29,t_14-1-3-3_anaset_,rrossinni,"""Subject was included in the ITT analysis set based on randomized treatment assignment and receipt of at least one dose of study medication.""",closed,jgrueke
+30,t_14-1-4-x_demog_,rrossinni,"""Demographic data has been verified against source documents. Subject is a 56-year-old female with no discrepancies noted""",resolved,jgrueke
+31,t_14-1-4-x_base_,rrossinni,"""Baseline vitals and lab values have been reviewed and confirmed to be within protocol-defined ranges for eligibility.""",closed,jgrueke
+32,t_14-1-4-x_strat_,rrossinni,"""Stratification factor was correctly applied based on geographic region and disease severity at screening.""",open,jgrueke
+33,t_14-1-4-x_concordancerand_,rrossinni,"""Randomization was performed per protocol using the IWRS system. Concordance between randomization and treatment assignment has been verified.""",open,jgrueke
+34,t_14-1-4-x_mh_,rrossinni,"""Medical history entries have been reconciled with the subject’s source records. Hypertension and diabetes were pre-existing conditions.""",resolved,jgrueke
+35,t_14-1-5-x_prior_npact_,rrossinni,"""Prior non-protocol therapies were documented and reviewed. Subject received chemotherapy within 6 months prior to screening.""",open,jgrueke
+36,t_14-1-5-x_meds_type_pre_itt,rrossinni,"""Pre-treatment medications were reviewed and categorized. Subject was on antihypertensives and statins prior to study entry.""",closed,jgrueke
+37,t_14-1-5-x_surg_1_,rrossinni,"""Surgical history includes appendectomy performed in 2010. No complications or relevance to study outcomes noted.""",closed,jgrueke
+38,t_14-1-5-x_radthp_1_,rrossinni,"""Radiotherapy history includes pelvic radiation for prior malignancy. Treatment concluded over a year before screening.""",open,jgrueke
+39,t_14-1-5-x_meds_atc_pt_pre_itt,rrossinni,"""ATC-coded medications were mapped and verified. Ramipril was used for blood pressure management prior to study entry.""",resolved,jgrueke
+40,t_14-1-6-x_surg_2_,rrossinni,"""Second surgical history entry reflects cholecystectomy. Procedure was elective and unrelated to study indication.""",resolved,jgrueke
+41,t_14-1-6-x_radthp_2_,rrossinni,"""Second radiotherapy entry pertains to thoracic radiation for lung metastases. Treatment was completed prior to enrollment.""",closed,jgrueke
