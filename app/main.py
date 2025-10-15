@@ -6,7 +6,7 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from .db import create_tables, get_db
-from .routers import deliverables, program_qc, qc_comments
+from .routers import deliverables, program_qc, qc_comments, personnel
 from .routers.toc import tables as toc_tables, figures as toc_figures, listings as toc_listings
 
 app = FastAPI(title="Biometrics Tracker API", version="1.0.0")
@@ -45,6 +45,7 @@ def db_ping(db: Session = Depends(get_db)):
 app.include_router(deliverables.router, prefix="/v1", tags=["deliverables"])
 app.include_router(program_qc.router, prefix="/v1", tags=["program_qc"])
 app.include_router(qc_comments.router, prefix="/v1", tags=["qc_comments"])
+app.include_router(personnel.router, prefix="/v1", tags=["personnel"])
 app.include_router(toc_tables.router, prefix="/v1", tags=["toc"])
 app.include_router(toc_figures.router, prefix="/v1", tags=["toc"])
 app.include_router(toc_listings.router, prefix="/v1", tags=["toc"])
