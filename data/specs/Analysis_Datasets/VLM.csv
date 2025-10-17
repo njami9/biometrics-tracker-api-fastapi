@@ -1,0 +1,1294 @@
+﻿Dataset,Variable,Where Clause,Description,Type,Codelist,Origin,Derivation / Comments / Predecessor,Column1,XL Comments,
+ADBASE,AVALC,PARAMCD EQ BONEDXYN,Bone-Only Disease ,text,NY,Predecessor,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'BONEDXYN'.
+If no such record in CD domain, or if CDSTRESC is null, left missing.
+",,"ML 3/30/2023: Please update the codelist/where clause as per SDTM.CD for 092-002
+MS 4/17/2023: Updated",
+ADBASE,AVALC,PARAMCD EQ BRMYN   ,Brain\cranial Metastases Present? ,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'BRMYN'.
+If no such record in CD domain, or if CDSTRESC is null, left missing.
+",,,
+ADBASE,AVALC,PARAMCD EQ CDHSFYN ,Sarcomatoid Feature ,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'CDHSFYN'.
+If no such record in CD domain, or if CDSTRESC is null, left missing.
+",,,
+ADBASE,AVALC,PARAMCD EQ CDHSFP,Percentage of Sarcomatoid Feature ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'CDHSFP'.
+If no such record in CD domain, or if CDSTRESC is null, left missing.
+",,,
+ADBASE,AVALC,PARAMCD EQ CHDTC   ,Date/Time of Initial Diagnosis ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'CHDTC'.
+If no such record in CD domain, or if CDSTRESC is null, left missing.
+If CDSTRESC is a partial date, impute ADT as follows:
+
+If only day is missing: set to 15th of the month.  
+If day and month are missing: set to July 1st.  
+If either imputation rule above results in a diagnosis date > 
+informed consent: set diagnosis date to the date of informed 
+consent (ADSL.RFICDT) - 1.  
+",,,
+ADBASE,AVALC,PARAMCD EQ HISTSP  ,"Histology Other, Specify ",text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'HISTSP'.
+If no such record, or if CDSTRESC is null, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ HISTTYPC,Histology Type ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'HISTTYPC'.
+If no such record, or if CDSTRESC is null, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ IMDCPSC ,IMDC Prognostic Score ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'IMDCPSC'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ LDRPDDTC,Date of Recurrence/Progression ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'LDRPDDTC'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ MCRPCDTC,Date/Time of Diagnosis of MCRPC ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'MCRPCDTC'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ PACYN   ,Diagnosed with Prostate Adenocarcinoma ,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'PACYN'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ PDL1YN   ,Previous Immune Checkpoint Inhibitor,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'PDL1YN'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ PRGLSC  ,Primary Gleason Score at Diagnosis ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'PRGLSC'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVAL,PARAMCD EQ PRGLSC  ,Primary Gleason Score at Diagnosis ,integer,,Assigned,"Set to missing if CDSTRESC where CDTESTCD = 'PRGLSC' is null or 'UNKNOWN'
+else set to numeric CDSTRESC",,,
+ADBASE,AVALC,PARAMCD EQ PSAPDYN ,PSA Progression at Screening ,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'PSAPDYN'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ RNLPRYN ,Nephrectomy Performed ,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'RNLPRYN'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ SEGLSC  ,Secondary Gleason Score at Diagnosis ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'SEGLSC'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVAL,PARAMCD EQ SEGLSC  ,Secondary Gleason Score at Diagnosis ,integer,,Assigned,"Set to missing if CDSTRESC where CDTESTCD = 'SEGLSC' is null or 'UNKNOWN'
+else set to numeric CDSTRESC",,,
+ADBASE,AVALC,PARAMCD EQ CHSTAGE   ,Current Disease Stage / Cancer Stage ,text,CSTAGE,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'CHSTAGE'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ STPDYN  ,Soft Tissue PD at Screening ,text,NY,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'STPDYN'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ SUBTUMOR,Tumor Sub Type ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'SUBTUMOR'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ TOTGLSC ,Total Gleason Score at Diagnosis ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'TOTGLSC'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVAL,PARAMCD EQ TOTGLSC  ,Total Gleason Score at Diagnosis ,integer,,Assigned,"Set to missing if CDSTRESC where CDTESTCD = 'TOTGLSC' is null or 'UNKNOWN'
+else set to numeric CDSTRESC",,,
+ADBASE,AVALC,PARAMCD EQ TUMOR   ,Pathological Diagnosis Tumor Type ,text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'TUMOR'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALC,PARAMCD EQ TUMORSP,"Tumor Other, Specify ",text,,Assigned,"A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+AVALC set to CD.CDSTRESC where CDTESTCD = 'TUMORSP'.
+If no such record, or if CDSTRESC is null then, then left missing.",,,
+ADBASE,AVALCAT1,PARAMCD EQ CHSTAGE,,text,CSTGCAT,Assigned,"Set to the value of AVALC with ""STAGE"" updated to ""Stage"", minus any trailing letter values (e.g. if AVALC = 'STAGE IIA' then set AVALCAT1 to 'Stage II').
+If AVALC is null, set to 'Missing'",,,
+ADBASE,AVAL,PARAMCD EQ DIAGDURY,Duration from Initial Diagnosis to First Dose (years),integer,,Derived,"From PARAMCD = 'CHDTC', calculated as: (TRTSDT - ADT)/365.25
+
+A record is only created if both ADSL.TRTSDT is non-missing and the subject has a record with non-missing AVALC where PARAMCD = 'CHDTC'.",,,
+ADEXSUM,AVAL,PARAMCD EQ TOTDURN,Total Duration of Any Treatment (Months),float,,Derived,Calculate as (TRTEDT - TRTSDT + 1) / 30.4375,,,
+ADEXSUM,AVAL,PARAMCD EQ XLTRDURM,Duration of Exposure for XL092 (Months),float,,Derived,"
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'XLTRDURD'}/30.4375",,,
+ADEXSUM,AVAL,PARAMCD EQ XLCUMDOS,Cumulative Dose of XL092 (mg),float,,Derived,"Total doses in mg received.
+Calculated as the sum of ADEX.TOTDOSE across all records where ADEX.ECTRT = 'XL092'",,,
+ADEXSUM,AVAL,PARAMCD EQ XLDOSAVG,Average Daily Dose of XL092 (mg/day),float,,Derived,"Total doses received (mg) / duration of exposure (days) .
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'XLCUMDOS'} / {ADEXSUM.AVAL where PARAMCD = 'XLTRDURD'}",,,
+ADEXSUM,AVAL,PARAMCD EQ XLDOSINT,Percent Dose Intensity for XL092 (%),float,,Derived,"100%*(Average daily dose mg/day) / (XX mg/day)
+
+Calculated as: 100*(ADEXSUM.AVAL where PARAMCD = 'XLDOSAVG') / XX where XX=ADEX:DOSEP
+",,,
+ADEXSUM,AVAL,PARAMCD EQ DURTDH,Duration of Total Dose Hold (Days),float,,Derived,"Do the following within an ADEX.ECTRT: 
+Using the records ADEX.ADURN for derivation: sum ADEX.ADURN where ADEX.CRIT18FL=Y for each subject. If no applicable records, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ DUREHLD,Duration of Exp Exc. Dose Hold (Months),float,,Derived,"If ECTRT=""XL092"", Set to  [(latest ADEX.AENDT where ECTRT='XL092' and AVAL>0 - earliest ADEX.ASTDT where ECTRT='XL092' and AVAL>0 +1)-(ADEXSUM.AVAL where PARAMCD=DURTDH and ECTRT='XL092')]/30.4375",,,
+ADEXSUM,AVAL,PARAMCD EQ NVTRDURD,Duration of Exposure for Nivo (Days),float,,Derived,"Defined as: (Earlier of {Date of decision to discontinue study treatment, death date, cutoff date} – date of first dose + 1)
+
+Calculated as: (min(ADSL.EONDCDT, ADSL.DTHDT, ADSL.CUTDT) - ADSL.NVTRTSDT + 1)
+
+Set to ADSL.NTRTDURD",,,
+ADEXSUM,AVAL,PARAMCD EQ NVTRDURM,Duration of Exposure for Nivo (Months),float,,Derived,"
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'NVTRDURD'}/30.4375",,,
+ADEXSUM,AVAL,PARAMCD EQ NVCUMDOS,Cumulative Dose of Nivolumab (mg),float,,Derived,"Total doses in mg received.
+Calculated as the sum of ADEX.TOTDOSE across all records where ADEX.ECTRT = 'Nivolumab'",,,
+ADEXSUM,AVAL,PARAMCD EQ NVNUMINF,Number of Infusions of Nivolumab ,float,,Derived,The total number of records in ADEX where ADEX.ECTRT = 'Nivolumab' and ECOCCUR = 'Y' and ECDOSE>0,,,
+ADEXSUM,AVAL,PARAMCD EQ NVNEXINF,Number of Expected Infusions of Nivo ,float,,Derived,"Expected number of Nivo infusions received = (earlier of {start date of last infusion of Nivolumab, cut-off date} - Date of first dose + 21)/21; Expected number of Nivo infusions does not have to be a integer. 
+Calculated as:
+AVAL=(ADEXSUM.AVAL where PARAMCD='NVTRDURD'  +27)/ 28",,ML 07/23/24: New PARAMS were added.                        ML 09/16/24: Updated derivation in red,
+ADEXSUM,AVAL,PARAMCD EQ NVEXCDOS,Cumulative Expected Dose for Nivo (mg),float,,Derived,"Expected cumulative dose assuming 480 mg for Expected Number of Nivo Infusion received calculated as:
+AVAL = 480 * (ADEXSUM.AVAL where PARAMCD='NVNEXINF')",,ML 07/23/24: New PARAMS were added. ML 09/16/24: Updated derivation to use 480 mg for Nivo.,
+ADEXSUM,AVAL,PARAMCD EQ NVDOSAVG,Average dose per Inf Nivo (mg/infusion) ,float,,Derived,"Average dose of Nivo (mg/infusion) = total doses in mg received / number of infusions received.
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'NVCUMDOS'} / {ADEXSUM.AVAL where PARAMCD = 'NVNUMINF'}",,,
+ADEXSUM,AVAL,PARAMCD EQ NVDOSINT,Percent Dose Intensity For Nivolumab (%),float,,Derived,"
+Calculated as: 100* [ADEXSUM.AVAL where PARAMCD=NVCUMDOS/sum(ADEX.DOSEP) where ADEX.EXTRT='Nivolumab' ] 
+
+Calculated as: 100*(ADEXSUM.AVAL where PARAMCD=NVCUMDOS/NVTRDURD)/[sum(ADEX.DOSEP)/NVTRDURD)] where ADEX.EXTRT='Nivolumab'  
+
+100%*(actual cumulative dose (mg)) / (expected cumulative dose (mg))
+
+Calculated as: 100*(ADEXSUM.AVAL where PARAMCD = 'NVCUMDOS') / (ADEXSUM.AVAL where PARAMCD = 'NVEXCDOS')",,ML 9/10/24: PARAM derivation was updated,
+ADEXSUM,AVAL,PARAMCD EQ NVADINT,Actual Dose Int Nivolumab (mg/week),float,,Derived,"If ADEX.EXTRT=Nivolumab:
+(ADEXSUM.AVAL where PARAMCD=NVCUMDOS)/((Latest EX.EXSTDTC where EX.DOSE>0 - ADSL.NTRTDURD+XX)/7)
+If ADSL.COHORT=ESC A: SOLID TUMOR XL092 100+NIVO360 then :
+Set XX=21
+If ADSL.COHORT=ESC B: SOLID TUMOR XL092 80+NIVO3+IPI1 then do:
+If NVTRTEDT–NVTRTSDT + 1 >  84 days then set XX=21 
+if NVTRTEDT–NVTRTSDT + 1 <=  84 days then set XX=28
+For all others set XX=28 ",,,
+ADEXSUM,AVAL,PARAMCD EQ RLTRDURD,Duration of Exposure for Nivo/Rela FDC (Days),float,,Derived,"Defined as: (Earlier of {Date of decision to discontinue study treatment, death date, cutoff date} – date of first dose + 1)
+
+Calculated as: (min(ADSL.EORDCDT, ADSL.DTHDT, ADSL.CUTDT) - ADSL.NVTRTSDT + 1)
+
+Set to ADSL.RTRTDURD",,,
+ADEXSUM,AVAL,PARAMCD EQ RLTRDURM,Duration of Exposure for Nivo/Rela FDC (Months),float,,Derived,"
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'RLTRDURD'}/30.4375",,,
+ADEXSUM,AVAL,PARAMCD EQ RLNUMINF,Number of Nivo/Rela FDC Infusions Received,integer,,Derived,The total number of records in ADEX where ADEX.ECTRT = 'Relatlimab' and ECOCCUR = 'Y' and ECDOSE>0,,,
+ADEXSUM,AVAL,PARAMCD EQ RLCUMDOS,Cumulative Dose of Nivo/Rela FDC (mg),float,,Derived,"Total doses in mg received.
+Calculated as the sum of ADEX.TOTDOSE across all records where ADEX.ECTRT = 'Relatlimab'",,,
+ADEXSUM,AVAL,PARAMCD EQ RLDOSAVG,Average dose per Inf Nivo/Rela FDC (mg/infusion) ,float,,Derived,"Average dose of Relatlimab (mg/infusion) = total doses in mg received / number of infusions received.
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'RLCUMDOS'} / {ADEXSUM.AVAL where PARAMCD = 'RLNUMINF'}",,,
+ADEXSUM,AVAL,PARAMCD EQ RLNEXINF,Number of Expected Infusions of Nivo/Rela FDC ,float,,Derived,"Expected number of Rela infusions received = (earlier of {start date of last infusion of Relatlimab, cut-off date} - Date of first dose + 28)/28; Expected number of Rela infusions does not have to be a integer. 
+Calculated as:
+AVAL=(ADEXSUM.AVAL where PARAMCD='RLTRDURD' +27)/ 28",,ML 9/10/24: New PARAMS were added,
+ADEXSUM,AVAL,PARAMCD EQ RLEXCDOS,Cumulative Expected Dose for Nivo/Rela FDC (mg),float,,Derived,"Expected cumulative dose assuming 480 mg for Expected Number of Nivo Infusion received calculated as:
+AVAL = 480 * (ADEXSUM.AVAL where PARAMCD='RLNEXINF')",,ML 9/10/24: New PARAMS were added,
+ADEXSUM,AVAL,PARAMCD EQ RLDOSINT,Percent Dose Intensity For Nivo/Rela FDC (%),float,,Derived,"If ECTRT=""Relatlimab""
+({ADEXSUM.AVAL where PARAMCD=RLCUMDOS / [ADEXSUM.AVAL where PARAMCD=RLTRDURD+27]} / [160/28])*100 
+
+Calculated as: 100*(ADEXSUM.AVAL where PARAMCD.RLCUMDOS/RLTRDURD)/[sum(ADEX.DOSEP)/RLTRDURD)] where ADEX.EXTRT contains ""Relatlimab"" or combos of Relatlimab
+
+100%*(actual cumulative dose (mg)) / (expected cumulative dose (mg))
+
+Calculated as: 100*(ADEXSUM.AVAL where PARAMCD = 'RLCUMDOS') / (ADEXSUM.AVAL where PARAMCD = 'RLEXCDOS')",,ML 9/10/24: PARAM derivation was updated,
+ADEXSUM,AVAL,PARAMCD EQ XLADINT,Actual Dose Int XL092 (mg/week),float,,Derived,"If ADEX.ECTRT=XL092:
+(ADEXSUM.AVAL where PARAMCD=XLCUMDOS)/((Latest EX.EXSTDTC where EX.DOSE>0 - ADSL.XLTRDURD+28)/7)",,,
+ADEXSUM,AVAL,PARAMCD EQ RADINT,Actual Dose Int Nivo/Rela FDC (mg/week),float,,Derived,"If ADEX.ECTRT=Relatlimab:
+(ADEXSUM.AVAL where PARAMCD=RLCUMDOS)/((Latest EX.EXSTDTC where EX.DOSE>0 - ADSL.RTRTDURD+28)/7)",,,
+ADEXSUM,AVAL,PARAMCD EQ IPTRDURD,Duration of Exposure for Nivo/Rela FDC (Days),float,,Derived,Set to ADSL.ITRTDURD,,,
+ADEXSUM,AVAL,PARAMCD EQ IPTRDURM,Duration of Exposure for Nivo/Rela FDC (Months),float,,Derived,"
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'IPTRDURD'}/30.4375",,,
+ADEXSUM,AVAL,PARAMCD EQ IPCUMDOS,Cumulative Dose of Ipilimumab (mg),float,,Derived,"Total doses in mg received.
+Calculated as the sum of ADEX.TOTDOSE across all records where ADEX.ECTRT = 'Ipilimumab'",,,
+ADEXSUM,AVAL,PARAMCD EQ IPNUMINF,Number of Ipilimumab Infusions Received,integer,,Derived,The total number of records in ADEX where ADEX.ECTRT = 'Ipilimumab' and ECOCCUR = 'Y' and ECDOSE>0,,,
+ADEXSUM,AVAL,PARAMCD EQ INEXINF,Number of Expected Infusions of Ipi ,float,,Derived,"Expected number of Ipi infusions received = (earlier of {start date of last infusion of Ipilimumab, cut-off date} - Date of first dose + 21)/21; Expected number of Ipi infusions does not have to be a integer. 
+Calculated as:
+AVAL=(ADEXSUM.AVAL where PARAMCD='IPTRDURD' +20)/ 21",,,
+ADEXSUM,AVAL,PARAMCD EQ IEXCDOS,Cumulative Expected Dose for Ipi (mg),float,,Derived,"Expected cumulative dose using baseline weight for Expected Number of Ipi Infusion received calculated as:
+AVAL = ADSL.WTBL * (ADEXSUM.AVAL where PARAMCD='INEXINF')",,,
+ADEXSUM,AVAL,PARAMCD EQ IPDOSAVG,Average dose per Inf Ipi (mg/infusion) ,float,,Derived,"Average dose of Ipilimumab (mg/infusion) = total doses in mg received / number of infusions received.
+Calculated as:
+{ADEXSUM.AVAL where PARAMCD = 'ICUMDOS'} / {ADEXSUM.AVAL where PARAMCD = 'INUMINF'}",,,
+ADEXSUM,AVAL,PARAMCD EQ IADINT,Actual Dose Int Ipilimumab (mg/week),float,,Derived,"If ADEX.ECTRT=Ipilimumab:
+(ADEXSUM.AVAL where PARAMCD=IPCUMDOS)/((Latest EX.EXSTDTC where EX.DOSE>0 - ADSL.ITRTDURD+21)/7)
+",,,
+ADEXSUM,AVAL,PARAMCD EQ IPDOSINT,Percent Dose Intensity For Ipi (%),float,,Derived,"
+100%*(actual cumulative dose (mg)) / (expected cumulative dose (mg))
+
+Calculated as: 100*(ADEXSUM.AVAL where PARAMCD = 'ICUMDOS') / (ADEXSUM.AVAL where PARAMCD = 'IEXCDOS')",,,
+ADEXSUM,AVAL,PARAMCD EQ XAEREDS,Number of AE Dose Reductions for XL092,float,,Derived,"If ADEX.EXTRT=XL092 count number of unique ADEX.AVAL recods exist where CRIT2FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ XNDOSRED,Number of Dose Reductions for XL092,float,,Derived,"If ECTRT=""XL092"", count number of unique ADEX.AVAL recods exist where CRIT17FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ XTT1RED,Time to 1st Dose Red for XL092 (Days),float,,Derived,"If ECTRT=""XL092""
+Find earliest ADEX.ASTDT where ADEX.CRIT2FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT2FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ XAEHLDS,Number of AE Dose Holds for XL092,float,,Derived,"If EXTRT=""XL092""  where ADEX.POSTRTFL^='Y':
+count number of unique ADEX recods where CRIT3FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ XNDOSHLD,Number of Dose Holds for XL092,float,,Derived,"If EXTRT=""XL092"", count number of unique ADEX.AVAL recods exist where CRIT18FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ XTT1HLD,Time to 1st Dose Hold for XL092 (Days),float,,Derived,"If ECTRT=""XL092""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y and ADEX.POSTRTFL ^=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT3FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ NMODANYX,Number of Any XL092 Dose Mods ,float,,Derived,Sum of ADEXSUM.AVAL for parameters XNDOSRED and XNDOSHLD,,,
+ADEXSUM,AVAL,PARAMCD EQ NMODAEX,Number of Any XL092 Dose Mods due to AE,float,,Derived,Sum of ADEXSUM.AVAL for parameters XAEREDS and XAEHLDS,,,
+ADEXSUM,AVAL,PARAMCD EQ XTTFMOD,Time to 1st XL092 Dose AE Mod (Days),float,,Derived,"Smallest AVAL of the following PARAMCD: XTT1RED and XTT1HLD. If none of the above PARAMCD exist, then don't populate this PARAMCD. ",,,
+ADEXSUM,AVAL,PARAMCD EQ LOWDOSE,Lowest Non-zero Dose Received,float,,Derived,"If EXTRT=""XL092"". Set to lowest 0<ADEX.AVAL where CRIT4FL=""Y"". Only create records if available records. ",,,
+ADEXSUM,AVAL,PARAMCD EQ TT1HLD07,Time to 1st 7 day AE Dose Hold (Days),float,,Derived,"If EXTRT=""XL092""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y and (ADEX.ADURN)>=7 days. Only populate when AVAL is not missing. 
+AVAL = the above ADEX.ASTDT - TRTSDT +1",,,
+ADEXSUM,AVAL,PARAMCD EQ TT1HLD14,Time to 1st 14 day AE Dose Hold (Days),float,,Derived,"If EXTRT=""XL092""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y and (ADEX.ADURN)>=14 days. Only populate when AVAL is not missing. 
+AVAL = the above ADEX.ASTDT - TRTSDT +1",,,
+ADEXSUM,AVAL,PARAMCD EQ TT1HLD21,Time to 1st 21 day AE Dose Hold (Days),float,,Derived,"If EXTRT=""XL092""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y and (ADEX.ADURN)>=21 days. Only populate when AVAL is not missing. 
+AVAL = the above ADEX.ASTDT - TRTSDT +1",,,
+ADEXSUM,AVAL,PARAMCD EQ HLDAEDUR,Duration of Dose Holds Due to AE,float,,Derived,"A record for each dose hold due to AE is created:
+For each record in ADEX where EXTRT='XL092' and CRIT3FL = 'Y'  and  POSTRTFL^='Y', a record is created.
+AVAL is set to ADEX.DURDHAE.",,,
+ADEXSUM,AVAL,PARAMCD EQ TOTHLDAE,Total Duration of Dose Holds Due to AE,float,,Derived,Sum of AVAL from ADEXSUM.PARAMCD = 'HLDAEDUR',,,
+ADEXSUM,AVAL,PARAMCD EQ NAEREDS,Number of AE Dose Reductions for Nivo,float,,Derived,"If ADEX.EXTRT=Nivolumab count number of unique ADEX.AVAL recods exist where CRIT2FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ NNDOSRED,Number of Dose Reductions for Nivo,float,,Derived,"If EXTRT=""Nivolumab"", count number of unique ADEX.AVAL recods exist where CRIT17FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ NTT1RED,Time to 1st Dose Red for Nivo (Days),float,,Derived,"If EXTRT=""Nivolumab""
+Find earliest ADEX.ASTDT where ADEX.CRIT2FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT2FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ NAEHLDS,Number of AE Dose Holds for Nivo,float,,Derived,"If EXTRT=""Nivolumab""  where ADEX.POSTRTFL^='Y':
+count number of unique ADEX recods where CRIT3FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ NNDOSHLD,Number of Dose Holds for Nivo,float,,Derived,"If EXTRT=""Nivolumab"", count number of unique ADEX.AVAL recods exist where CRIT18FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ NTT1HLD,Time to 1st Dose Hold for Nivo (Days),float,,Derived,"If EXTRT=""Nivolumab""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT3FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ NMODANYN,Number of Any Nivo Dose Mods ,float,,Derived,Sum of ADEXSUM.AVAL for parameters NNDOSRED and NNDOSHLD,,,
+ADEXSUM,AVAL,PARAMCD EQ NMODAEN,Number of Any Nivo Dose Mods due to AE,float,,Derived,Sum of ADEXSUM.AVAL for parameters NAEREDS and NAEHLDS,,,
+ADEXSUM,AVAL,PARAMCD EQ NTTFMOD,Time to 1st Nivo Dose AE Mod (Days),float,,Derived,"Smallest AVAL of the following PARAMCD: NTT1RED and NTT1HLD. If none of the above PARAMCD exist, then don't populate this PARAMCD. ",,,
+ADEXSUM,AVAL,PARAMCD EQ RAEREDS,Number of AE Dose Reductions for Nivo/Rela FDC,float,,Derived,"If ADEX.EXTRT=Relatlimab/Nivolumab FDC count number of unique ADEX.AVAL recods exist where CRIT2FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ RNDOSRED,Number of Dose Reductions for Nivo/Rela FDC,float,,Derived,"If EXTRT=""Relatlimab/Nivolumab FDC"", count number of unique ADEX.AVAL recods exist where CRIT17FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ RTT1RED,Time to 1st Dose Red for Nivo/Rela FDC (Days),float,,Derived,"If EXTRT=""Relatlimab/Nivolumab FDC""
+Find earliest ADEX.ASTDT where ADEX.CRIT2FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT2FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ RAEHLDS,Number of AE Dose Holds for Nivo/Rela FDC,float,,Derived,"If EXTRT=""Relatlimab/Nivolumab FDC""  where ADEX.POSTRTFL^='Y':
+count number of unique ADEX recods where CRIT3FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ RNDOSHLD,Number of Dose Holds for Nivo/Rela FDC,float,,Derived,"If EXTRT=""Relatlimab/Nivolumab FDC"", count number of unique ADEX.AVAL recods exist where CRIT18FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ RTT1HLD,Time to 1st Dose Hold for Nivo/Rela FDC (Days),float,,Derived,"If EXTRT=""Relatlimab/Nivolumab FDC""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT3FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ NMODANYR,Number of Any Nivo/Rela FDC Dose Mods ,float,,Derived,Sum of ADEXSUM.AVAL for parameters RNDOSRED and RNDOSHLD,,,
+ADEXSUM,AVAL,PARAMCD EQ NMODAER,Number of Any Nivo/Rela FDC Dose Mods due to AE,float,,Derived,Sum of ADEXSUM.AVAL for parameters RAEREDS and RAEHLDS,,,
+ADEXSUM,AVAL,PARAMCD EQ RTTFMOD,Time to 1st Nivo/Rela FDC Dose AE Mod (Days),float,,Derived,"Smallest AVAL of the following PARAMCD: RTT1RED and RTT1HLD. If none of the above PARAMCD exist, then don't populate this PARAMCD. ",,,
+ADEXSUM,AVAL,PARAMCD EQ IAEREDS,Number of AE Dose Reductions for Ipi,float,,Derived,"If ADEX.EXTRT=Ipilimumab count number of unique ADEX.AVAL recods exist where CRIT2FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ INDOSRED,Number of Dose Reductions for Ipi,float,,Derived,"If EXTRT=""Ipilimumab"", count number of unique ADEX.AVAL recods exist where CRIT17FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ ITT1RED,Time to 1st Dose Red for Ipi (Days),float,,Derived,"If EXTRT=""Ipilimumab""
+Find earliest ADEX.ASTDT where ADEX.CRIT2FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT2FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ IAEHLDS,Number of AE Dose Holds for Ipi,float,,Derived,"If EXTRT=""Ipilimumab""  where ADEX.POSTRTFL^='Y':
+count number of unique ADEX recods where CRIT3FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ INDOSHLD,Number of Dose Holds for Ipi,float,,Derived,"If EXTRT=""Ipilimumab"", count number of unique ADEX.AVAL recods exist where CRIT18FL=""Y"" for each subject. If none, then populate AVAL with 0. ",,,
+ADEXSUM,AVAL,PARAMCD EQ ITT1HLD,Time to 1st Dose Hold for Ipi (Days),float,,Derived,"If EXTRT=""Ipilimumab""
+Find earliest ADEX.ASTDT where ADEX.CRIT3FL=Y
+AVAL = the above ADEX.ASTDT - TRTSDT +1.
+Note: only populate when AVAL is not missing. Do not output an ADEXSUM record if no ADEX record exists where CRIT3FL=""Y""",,,
+ADEXSUM,AVAL,PARAMCD EQ NMODANYI,Number of Any Ipi Dose Mods ,float,,Derived,Sum of ADEXSUM.AVAL for parameters INDOSRED and INDOSHLD,,,
+ADEXSUM,AVAL,PARAMCD EQ NMODAEI,Number of Any Ipi Dose Mods due to AE,float,,Derived,Sum of ADEXSUM.AVAL for parameters IAEREDS and IAEHLDS,,,
+ADEXSUM,AVAL,PARAMCD EQ ITTFMOD,Time to 1st Ipi Dose AE Mod (Days),float,,Derived,"Smallest AVAL of the following PARAMCD: ITT1RED and ITT1HLD. If none of the above PARAMCD exist, then don't populate this PARAMCD. ",,,
+ADEXSUM,SRCVAR,"PARAMCD IN (NVNUMINF, IPNUMINF, RLNUMINF)",,text,,Assigned,"Set to ""ECOCCUR""",,,
+ADEXSUM,SRCVAR,"PARAMCD IN (XLCUMDOS, NVCUMDOS, IPCUMDOS, RLCUMDOS)",,text,,Assigned,"Set to ""TOTDOSE""",,,
+ADEXSUM,SRCVAR,"PARAMCD NOTIN (XLCUMDOS, NVCUMDOS, RLCUMDOS, IPCUMDOS, NVNUMINF, IPNUMINF, RLNUMINF)",,text,,Assigned,Null.,,,
+ADLB,ATOXDSCH,PARAMCD EQ ALP,Toxicity High for ALP,text,,Assigned,Set to 'Alkaline phosphatase increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ ALT,Toxicity High for ALT,text,,Assigned,Set to 'Alanine aminotransferase increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ AMYLASE,Toxicity High for AMYLASE,text,,Assigned,Set to 'Serum amylase increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ AST,Toxicity High for AST,text,,Assigned,Set to 'Aspartate aminotransferase increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ BILI,Toxicity High for BILI,text,,Assigned,Set to 'Blood bilirubin increased'.,,,
+ADLB,ATOXDSCH,"PARAMCD IN (CACR, CAION)",Toxicity High for CACR,text,,Assigned,Set to 'Hypercalcemia'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ CREAT,Toxicity High for CREAT,text,,Assigned,Set to 'Serum creatinine increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ EOS,Toxicity High for EOS,text,,Assigned,Set to 'Eosinophils increased';,,,
+ADLB,ATOXDSCH,PARAMCD EQ GLUC,Toxicity High for GLUC,text,,Assigned,Set to 'Hyperglycemia'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ GGT,Toxicity High for GGT,text,,Assigned,Set to 'GGT increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ K,Toxicity High for K,text,,Assigned,Set to 'Hyperkalemia'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ LDH,Toxicity High for LDH,text,,Assigned,Set to Blood lactate dehydrogenase increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ LIPASE,Toxicity High for LIPASE,text,,Assigned,Set to 'Lipase increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ MG,Toxicity High for MG,text,,Assigned,Set to 'Hypermagnesemia'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ SODIUM,Toxicity High for SODIUM,text,,Assigned,Set to 'Hypernatremia'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ HGB,Toxicity High for HGB,text,,Assigned,Set to 'Hemoglobin increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ LYM,Toxicity High for LYM,text,,Assigned,Set to 'Lymphocyte count increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ PROTCRT,Toxicity High for PROTCRT,text,,Assigned,Set to 'UPCR increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ WBC,Toxicity High for WBC,text,,Assigned,Set to 'Leukocytosis'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ APTT,Toxicity High for APTT,text,,Assigned,Set to 'PTT increased'.,,,
+ADLB,ATOXDSCH,PARAMCD EQ INR,Toxicity High for INR,text,,Assigned,Set to 'INR increased'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ ALB,Toxicity Low for ALB,text,,Assigned,Set to 'Hypoalbuminemia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ BICARB,Toxicity Low for BICARB,text,,Assigned,Set to 'Blood bicarbonate decreased'.,,,
+ADLB,ATOXDSCL,"PARAMCD IN (CACR, CAION)",Toxicity Low for CACR,text,,Assigned,Set to 'Hypocalcemia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ GLUC,Toxicity Low for GLUC,text,,Assigned,Set to 'Hypoglycemia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ K,Toxicity Low for K,text,,Assigned,Set to 'Hypokalemia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ MG,Toxicity Low for MG,text,,Assigned,Set to 'Hypomagnesemia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ PHOS,Toxicity Low for PHOS,text,,Assigned,Set to 'Hypophosphatemia',,,
+ADLB,ATOXDSCL,PARAMCD EQ SODIUM,Toxicity Low for SODIUM,text,,Assigned,Set to 'Hyponatremia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ HGB,Toxicity Low for HGB,text,,Assigned,Set to 'Anemia'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ LYM,Toxicity Low for LYM,text,,Assigned,Set to 'Lymphocytes decreased'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ NEUT,Toxicity Low for NEUT,text,,Assigned,Set to 'Neutrophils (ANC) decreased'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ PLAT,Toxicity Low for PLAT,text,,Assigned,Set to 'Platelets decreased'.,,,
+ADLB,ATOXDSCL,PARAMCD EQ WBC,Toxicity Low for WBC,text,,Assigned,Set to 'Leukopenia'.,,,
+ADTR,AVALC,PARAMCD EQ TUMSTIV,AVALC for Tumor State per Inv (mm),text,,Assigned,Set to TR.TRSTRESC where TRTESTCD = 'TUMSTATE' and TREVAL = 'INVESTIGATOR'.,,,34
+ADTR,AVAL,PARAMCD EQ LDIAMIV,AVAL for Longest Diameter per Inv (mm),float,,Assigned,Set to TR.TRSTRESN where TRTESTCD = 'LDIAM' and TREVAL = 'INVESTIGATOR',"""TOO SMALL TO MEASURE"" is being updated to 5mm at the SDTM level.
+
+eCRF does not differentiate between nodal and non-nodal lesions. Therefore, there are no ""short axis"" measurements, just longest diameter measurements. No parameter for Short Axis created at this time.
+",,38
+ADTR,AVAL,PARAMCD EQ SUMDIV,AVAL for Sum of Diameters per Inv (mm) ,float,,Derived,"A 'SUMDIV' record is created for each unique subject and visit present in TR domain.
+AVAL is the sum of non-missing TRSTRESN from records with TRTESTCD = 'LDIAM' and TREVAL = 'INVESTIGATOR' and TRGRPID = 'TARGET'  within the given subject and visit.
+For post-baseline visits, AVAL is only calculated if there is a non-missing LDIAM value for each TRLNKID value used in the calculation of the parameter at baseline.
+Exception: if an LDIAM value is missing for some TRLNKIDs, but there exists a record wherein the missing TRLNKIDs are included together in a new TRLNKID (e.g. records with TRLNKID in (""TL1"", ""TL2"") are missing, but there exists a record with TRLNKID = ""TL1/TL2"" for that visit), then the lesions have merged and the calculation may proceed using the new combined measurement.
+If any lesions contributing to the calculation have missing TRSTRESN for the given subject, visit, a record is created but AVAL is left missing.","Current eCRF does not seem to permit split tumors, so that condition is not considered.",,39
+ADTR,AVALC,PARAMCD EQ TUMSTIR,AVALC for Tumor State per Independent Assessor (mm),text,,Assigned,Set to TR.TRSTRESC where TRTESTCD = 'TUMSTATE' and TREVAL = 'INDEPENDENT ASSESSOR'.,,,
+ADTR,AVAL,PARAMCD EQ LDIAMIR,AVAL for Longest Diameter per Independent Assessor (mm),float,,Assigned,Set to TR.TRSTRESN where TRTESTCD = 'LDIAM' and TREVAL = 'INDEPENDENT ASSESSOR',"""TOO SMALL TO MEASURE"" is being updated to 5mm at the SDTM level.
+
+eCRF does not differentiate between nodal and non-nodal lesions. Therefore, there are no ""short axis"" measurements, just longest diameter measurements. No parameter for Short Axis created at this time.
+",,
+ADTR,AVAL,PARAMCD EQ SUMDIR,AVAL for Sum of Diameters per Independent Assessor (mm) ,float,,Derived,Set to TR.TRSTRESN where TRTESTCD = 'SUMDIAM' and TREVAL = 'INDEPENDENT ASSESSOR',"Current eCRF does not seem to permit split tumors, so that condition is not considered.",,
+ADRS,AVALC,PARAMCD EQ NTRGIVR,AVALC for Non-Target Response per Investigator,text,,Assigned,Set to RS.RSSTRESC where RSTESTCD = 'NTRGRESP' and RSEVAL = 'INVESTIGATOR',,,46
+ADRS,AVALC,PARAMCD EQ NEWLIVR,AVALC for New Lesions per Investigator,text,Y,Assigned,Set to RS.RSSTRESC where RSTESTCD = 'NEWLIND' and RSEVAL = 'INVESTIGATOR',,,
+ADRS,AVALC,PARAMCD EQ OVRLRIVR,AVALC for Overall Response per Investigator,text,TURESPO,Assigned,Set to RS.RSSTRESC where RSTESTCD = 'OVRLRESP' and RSEVAL = 'INVESTIGATOR',,,
+ADEFFSUM,AVALC,PARAMCD EQ BPBSDIVR,"AVALC for At Least 1 BL and Post-BL SoD, per Inv using RECIST 1.1",text,NY,Derived,"AVALC = 'Y' if a subject has a baseline SoD measurement per Investigator and a post-baseline measurement that occurs prior to subsequent anti-cancer therapy and prior to or on first PD. Otherwrise, AVALC = 'N'.
+
+1 record for each subject in the SAF population (where ADSL.SAFFL = 'Y') is created. Considering Sum of Diameter records per Investigator (PARAMCD = 'SUMDIV'), AVALC = 'Y' if the subject has: 
+(1) a record with ABLFL = 'Y' and AVAL not missing
+(2) a record with PSBLFL = 'Y' and AVAL not missing and PREPDFL = 'Y' and PREACTFL = 'Y'.
+
+Otherwise, AVALC = 'N'.",,,
+ADEFFSUM,SRCDOM,PARAMCD EQ BPBSDIVR,SRCDOM for BPBSDIVR,text,,Assigned,"If AVALC = 'Y' then set to ""ADTR"".
+Otherwise, left null.",,,
+ADEFFSUM,SRCVAR,PARAMCD EQ BPBSDIVR,SRCVAR for BPBSDIVR,text,,Assigned,Null,,,
+ADEFFSUM,SRCSEQ,PARAMCD EQ BPBSDIVR,SRCSEQ for BPBSDIVR,integer,,Assigned,Null,,,
+ADEFFSUM,AVISIT,PARAMCD EQ BPBSDIVR,AVISIT for BPBSDIVR,text,,Assigned,Null,,,
+ADEFFSUM,ADT,PARAMCD EQ BPBSDIVR,ADT for BPBSDIVR,integer,,Assigned,Null,,,
+ADEFFSUM,AVAL,PARAMCD EQ MXPSDIVR,"AVAL for Maximum Percent Reduction from BL SoD, per Inv using RECIST 1.1",integer,,Derived,"ADTR.PCHG from the post-baseline sum of diameter record with the largest %reduction from baseline that occurs prior to start of new anti-cancer therapy and on or prior to the first PD.
+Set ADEFFSUM.AVAL = ADTR.PCHG from the record with PARAMCD = 'SUMDIV' and ANL01FL = 'Y'.
+
+A record is created for each subject who has such a record in ADTR.",,,
+ADEFFSUM,AVALC,PARAMCD EQ REDSDIVR,"AVALC for Any Reduction in SoD Before 1st PD, per Inv using RECIST 1.1 ",text,NY,Derived,"See details for AVAL for PARAMCD = 'MXPSDIVR'.
+For every 'MXPSDIVR' record, create a record for PARAMCD = 'REDSDIVR'.
+
+If, on the record selected to populate AVAL for ADEFFSUM.PARAMCD = 'MXPSDIVR', ADTR.CRIT1FL = 'Y', then for ADEFFSUM.PARAMCD = 'REDSDIVR', AVALC = 'Y'.
+Otherwise, AVALC = 'N'.",,,
+ADEFFSUM,SRCDOM,PARAMCD EQ MXPSDIVR,"SRCDOM for MXPSDIVR, REDSDIVR",text,,Assigned,"""ADTR""",,,
+ADEFFSUM,SRCDOM,PARAMCD EQ REDSDIVR,SRCDOM for REDSDIVR,text,,Assigned,"If AVALC = 'Y' then set to ""ADTR"".
+Otherwise, left null.",,,
+ADEFFSUM,SRCVAR,PARAMCD EQ MXPSDIVR,SRCVAR for MXPSDIVR,text,,Assigned,"""PCHG""",,,
+ADEFFSUM,SRCVAR,PARAMCD EQ REDSDIVR,SRCVAR for REDSDIVR,text,,Assigned,"If AVALC = 'Y' then set to ""CRIT1FL"".
+Otherwise, left null.",,,
+ADEFFSUM,SRCSEQ,PARAMCD EQ MXPSDIVR,SRCSEQ for MXPSDIVR,integer,,Assigned,ADTR.ASEQ from the record selected to populate AVAL.,,,
+ADEFFSUM,SRCSEQ,PARAMCD EQ REDSDIVR,SRCSEQ for REDSDIVR,integer,,Assigned,"If AVALC = 'Y' then set to ADTR.ASEQ from the record selected to populate AVAL.
+Otherwise, left null.",,,
+ADEFFSUM,AVISIT,"PARAMCD IN (MXPSDIVR, REDSDIVR)","AVISIT for MXPSDIVR, REDSDIVR",text,,Assigned,ADTR.AVISIT from the record selected to popuate AVAL.,,,
+ADEFFSUM,ADT,"PARAMCD IN (MXPSDIVR, REDSDIVR)","ADT for MXPSDIVR, REDSDIVR",integer,,Assigned,ADTR.ADT from the record selected to popuate AVAL.,,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEIVR1,"AVALC for Reason 1 For BOR of NE, per Inv using RECIST 1.1 ",text,,Derived,"For each subject with a record where PARAMCD = 'CBORIVR' and AVALC = 'NE' at least one PARAMCD in ('BNEIVR1', 'BNEIVR2', 'BNEIVR3', 'BNEIVR4', 'BNEIVR5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRIVR') that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y' ), but all such records are not evaluable (have AVALC = 'NE'), then a record for PARAMCD = 'BNEIVR1' is created and AVALC set to ""All Tumor Assessments are NE""",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEIVR2,"AVALC for Reason 2 For BOR of NE, per Inv using RECIST 1.1 ",text,,Derived,"For each subject with a record where PARAMCD = 'CBORIVR' and AVALC = 'NE' at least one PARAMCD in ('BNEIVR1', 'BNEIVR2', 'BNEIVR3', 'BNEIVR4', 'BNEIVR5') is created.
+
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR prior to randomization (where ADT <= RANDDT) then a record is created for PARAMCD = 'BNEIVR2' with AVALC = 'No baseline assessments'.
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR prior to treatment start (where ADT <= TRTSDT) then a record is created for PARAMCD = 'BNEIVR2' with AVALC = 'No baseline assessments'.",,"ML 12/20/24: Since subjects in Escalation stage are not randomized, their RANDDT will be missing. We need to use TRTSDT for such subjects.",
+ADEFFSUM,AVALC,PARAMCD EQ BNEIVR3,"AVALC for Reason 3 For BOR of NE, per Inv using RECIST 1.1 ",text,,Derived,"For each subject with a record where PARAMCD = 'CBORIVR' and AVALC = 'NE' at least one PARAMCD in ('BNEIVR1', 'BNEIVR2', 'BNEIVR3', 'BNEIVR4', 'BNEIVR5') is created.
+
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRIVR') then a record is created for PARAMCD = 'BNEIVR3' with AVALC = 'No post-baseline assessments'",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEIVR4,"AVALC for Reason 4 For BOR of NE, per Inv using RECIST 1.1 ",text,,Derived,"For each subject with a record where PARAMCD = 'CBORIVR' and AVALC = 'NE' at least one PARAMCD in ('BNEIVR1', 'BNEIVR2', 'BNEIVR3', 'BNEIVR4', 'BNEIVR5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRIVR'), but all such records are after first anti-cancer therapy date (PREACTFL = '') or the only available scan is PD after 2 ore more missing scans (AVALC = 'PD' and CRIT1FL = 'Y') then a record for PARAMCD = 'BNEIVR4' is created with AVALC = 'No qualifying post-baseline assessments on or before PFS censoring or event date'",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEIVR5,"AVALC for Reason 5 For BOR of NE, per Inv using RECIST 1.1 ",text,,Derived,"For each subject with a record where PARAMCD = 'CBORIVR' and AVALC = 'NE' at least one PARAMCD in ('BNEIVR1', 'BNEIVR2', 'BNEIVR3', 'BNEIVR4', 'BNEIVR5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRIVR') that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y' ), but all such records are SD or better and occur prior to Day 49 (ADRS.AVALC in ('CR', 'PR', 'SD', 'NON-CR/NON-PD') and SDDYFL = '') then a record for PARAMCD = 'BNEIVR5' is created with AVALC = 'SD not meeting minimum criteria from randomization'",Spec language updated for Day 49 (previously Day 42)- does not impact programming.,,
+ADEFFSUM,AVALC,PARAMCD EQ CBORIVR,"AVALC for Confirmed Best Overall Response, per Inv using RECIST 1.1 ",text,TURESPBC_C,Derived,"A record is created for each subject in the ITT population (where ADSL.SAFFL = 'Y').
+
+Overall Response records from ADRS (ADRS.PARAMCD = 'OVRLRIVR' where AVALC not missing) that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y') are considered. For PD that occur after 2 or more missing scans (AVALC = 'PD' and CRIT1FL = 'Y'), those scans are not considered in the derivation.
+
+Set ADEFFSUM.AVALC to the best response from among ADRS.AVALC observed according to this heirarchy:
+Confirmed Complete Response (CR) {best}
+Confirmed Partial Response (PR)
+Stable Disease (SD)
+Non-CR / Non-PD (NON-CR/NON-PD)
+Progressive Disease (PD) 
+Non-Evaluable (NE)  {worst} 
+
+Confirmed CR records are those with ADRS.AVALC = 'CR' and CONFCRFL = 'Y'.
+Confirmed PR records are those with ADRS.AVALC = 'PR' and CONFPRFL = 'Y'.
+
+Non-confirmed CR (UCRFL ='Y') or PR (UPRFL='Y') at least 49 days after randomization (ADRS.SDDYFL='Y') are treated as ""SD"" in the derivation of confirmed BOR.
+
+SD, Non-CR/Non-PD, or non-confirmed CR or PR less than 49 days after randomization  (ADRS.SDDYFL ^= 'Y') are treated as ""NE"" in the derivation of confirmed BOR.
+
+If multiple records with the same AVALC, select the earliest such record for populating ADT and SRC variables.
+
+If the subject has no Overall Response records meeting the requirements above, set ADEFFSUM.AVALC = 'NE'.",,,
+ADEFFSUM,SRCDOM,PARAMCD IN (CBORIVR CBORPC CBORBI),SRCDOM for CBORIVR/CBORPC/CBORPC,text,,Assigned,"if subject has AVALC derived from a record in ADRS, set to ""ADRS"" 
+Otherwise, set to ""ADSL"".",,,
+ADEFFSUM,SRCVAR,PARAMCD IN (CBORIVR CBORPC CBORBI),SRCVAR for CBORIVR/CBORPC/CBORPC,text,,Assigned,"if subject has AVALC derived from a record in ADRS, set to ""AVALC"" 
+Otherwise, null.",,,
+ADEFFSUM,SRCSEQ,PARAMCD IN (CBORIVR CBORPC CBORBI),SRCSEQ for CBORIVR/CBORPC/CBORPC,integer,,Assigned,"if subject has AVALC derived from a record in ADRS, set to ADRS.ASEQ from the record selected  to popuate AVALC.
+Otherwise, null.",,,
+ADEFFSUM,AVISIT,PARAMCD IN (CBORIVR CBORPC CBORBI),AVISIT for CBORIVR/CBORPC/CBORPC,text,,Assigned,"if subject has AVALC derived from a record in ADRS, set to ADRS.AVISIT from the record selected  to popuate AVALC.
+Otherwise, null.",,,
+ADEFFSUM,ADT,PARAMCD IN (CBORIVR CBORPC CBORBI),ADT for CBORIVR/CBORPC/CBORPC,integer,,Assigned,"if subject has AVALC derived from a record in ADRS, set to ADRS.ADT from the record selected  to popuate AVALC.
+Otherwise, null.",,,
+ADEFFSUM,SRCDOM,"PARAMCD IN (BNEIVR1, BNEIVR2, BNEIVR3, BNEIVR4, BNEIVR5, BNEPC1, BNEPC2, BNEPC3, BNEPC4, BNEPC5, BNEBI1, BNEBI2, BNEBI3, BNEBI4, BNEBI5)",SRCDOM for Reasons For BOR of NE,text,,Assigned,"
+If AVALC =  'All Tumor Assessments are NE"", then set to ""ADRS""
+If  AVALC = 'No baseline assessments' then set to ""ADTR"".
+If AVALC = 'No post-baseline assessments', then set to ""ADRS"".
+If AVALC =  'No qualifying post-baseline assessments on or before start of subsequent anti-cancer therapy', then set to ""ADRS""
+If AVALC =  'SD not meeting minimum criteria from randomization"", then set to ""ADRS""",,,
+ADEFFSUM,SRCVAR,"PARAMCD IN (BNEIVR1, BNEIVR2, BNEIVR3, BNEIVR4, BNEIVR5, BNEPC1, BNEPC2, BNEPC3, BNEPC4, BNEPC5, BNEBI1, BNEBI2, BNEBI3, BNEBI4, BNEBI5)",SRCVAR for Reasons For BOR of NE,text,,Assigned,Null,,,
+ADEFFSUM,SRCSEQ,"PARAMCD IN (BNEIVR1, BNEIVR2, BNEIVR3, BNEIVR4, BNEIVR5, BNEPC1, BNEPC2, BNEPC3, BNEPC4, BNEPC5, BNEBI1, BNEBI2, BNEBI3, BNEBI4, BNEBI5)",SRCSEQ for Reasons For BOR of NE,integer,,Assigned,Null,,,
+ADEFFSUM,AVISIT,"PARAMCD IN (BNEIVR1, BNEIVR2, BNEIVR3, BNEIVR4, BNEIVR5, BNEPC1, BNEPC2, BNEPC3, BNEPC4, BNEPC5, BNEBI1, BNEBI2, BNEBI3, BNEBI4, BNEBI5)",AVISIT for Reasons For BOR of NE,text,,Assigned,Nul,,,
+ADEFFSUM,ADT,"PARAMCD IN (BNEIVR1, BNEIVR2, BNEIVR3, BNEIVR4, BNEIVR5, BNEPC1, BNEPC2, BNEPC3, BNEPC4, BNEPC5, BNEBI1, BNEBI2, BNEBI3, BNEBI4, BNEBI5)",ADT for Reasons For BOR of NE,integer,,Assigned,Null,,,
+ADEFFSUM,AVAL,PARAMCD = TTRIVR,"AVAL for Time to Confirmed Objective Response, per Inv using RECIST 1.1 ",float,,Derived,"A record is created for subjects who have a confirmed objective response.
+Create a record for subjects with a record in ADEFFSUM where PARAMCD = 'CBORIVR' and CRIT1 = 'Objective Response'.
+Among these subjects, identify the earliest confirmed CR or PR (ADRS.PARAMCD = 'OVRLRIVR' where CONFCRFL = 'Y' or CONFPRFL = 'Y'). 
+If STAGE=""ESCALATION"" then AVAL = (ADT-TRTSDT+1)/30.4375
+If STAGE=""EXPANSION"" then AVAL = (ADT-RANDDT+1)/30.4375",,,
+ADEFFSUM,SRCVAR,PARAMCD = TTRIVR,SRCVAR for TTRIVR,text,,Assigned,"Set to ""ADT""",,,
+ADEFFSUM,SRCDOM,PARAMCD = TTRIVR,SRCDOM for TTRIVR,text,,Assigned,"Set to ""ADRS""",,,
+ADEFFSUM,SRCSEQ,PARAMCD = TTRIVR,SRCSEQ for TTRIVR,integer,,Assigned,Set to ADRS.ASEQ from the record selected for use in AVAL,,,
+ADEFFSUM,AVISIT,PARAMCD = TTRIVR,AVISIT for TTRIVR,text,,Assigned,Set to ADRS.AVISIT from the record selected for use in AVAL,,,
+ADEFFSUM,ADT,PARAMCD = TTRIVR,ADT for TTRIVR,integer,,Assigned,Set to ADRS.ADT from the record selected for use in AVAL,,,
+ADEFFINT,AVALC,PARAMCD = PSAR,AVAL for PSA Response,float,,Derived,"A record is created for subjects who have a PSA Response:
+Create a record for all subjects with a record in ADLB where PARAMCD = ""PSA"" and COHORT contains 'EXP 3'
+Among these subjects, identify the earliest record with the following criteria: 
+1. ADY of this record - ADY of the baseline record >= 84. 
+2. CRIT1=""PSA Response >=50% Decrease from Baseline"" 
+3. The next chronological record also has CRIT1=""PSA Response >=50% Decrease from Baseline"" and ADY of this record minus the first record is >= 21
+If such a record exists then set AVALC=""Y"", otherwise set AVALC=""N""",,,
+ADEFFINT,SRCVAR,PARAMCD = PSAR,SRCVAR for PSAR,text,,Assigned,"Set to ""ADT""",,,
+ADEFFINT,SRCDOM,PARAMCD = PSAR,SRCDOM for PSAR,text,,Assigned,"Set to ""ADLB""",,,
+ADEFFINT,SRCSEQ,PARAMCD = PSAR,SRCSEQ for PSAR,integer,,Assigned,"Set to ADLB.ASEQ from the record selected for use in AVAL. If AVALC=""N"" then set to Null.",,,
+ADEFFINT,AVISIT,PARAMCD = PSAR,AVISIT for PSAR,text,,Assigned,"Set to ADLB.AVISIT from the record selected for use in AVAL If AVALC=""N"" then set to Null.",,,
+ADEFFINT,ADT,PARAMCD = PSAR,ADT for PSAR,integer,,Assigned,"Set to ADLB.ADT from the record selected for use in AVAL If AVALC=""N"" then set to Null.",,,
+ADEFFINT,AVALC,PARAMCD = PSAP,AVAL for PSA Progression,float,,Derived,"A record is created for subjects who have a PSA Response:
+Create a record for all subjects with a record in ADLB where PARAMCD = ""PSA"" and COHORT contains 'EXP 3'
+Among these subjects, identify the earliest record with the following criteria: 
+1. ADY of this record - ADY of the baseline record >= 84. 
+2. CRIT2=""PSA Response >=25% Increase from NADIR"" 
+3. The next chronological record also has CRIT2=""PSA Response >=25% Increase from NADIR"" and ADY of this record minus the first record is >= 21
+If such a record exists then set AVALC=""Y"", otherwise set AVALC=""N""",,,
+ADEFFINT,SRCVAR,PARAMCD = PSAP,SRCVAR for PSAP,text,,Assigned,"Set to ""ADT""",,,
+ADEFFINT,SRCDOM,PARAMCD = PSAP,SRCDOM for PSAP,text,,Assigned,"Set to ""ADLB""",,,
+ADEFFINT,SRCSEQ,PARAMCD = PSAP,SRCSEQ for PSAP,integer,,Assigned,"Set to ADLB.ASEQ from the record selected for use in AVAL. If AVALC=""N"" then set to Null.",,,
+ADEFFINT,AVISIT,PARAMCD = PSAP,AVISIT for PSAP,text,,Assigned,"Set to ADLB.AVISIT from the record selected for use in AVAL If AVALC=""N"" then set to Null.",,,
+ADEFFINT,ADT,PARAMCD = PSAP,ADT for PSAP,integer,,Assigned,"Set to ADLB.ADT from the record selected for use in AVAL If AVALC=""N"" then set to Null.",,,
+ADEFFINT,ADT,PARAMCD EQ NBLPBPSA,Analysis Date for No Baseline and No Post-Baseline PSA,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who are in COHORT 3 but do not have any records in ADLB for PARAMCD=PSA with ABLFL=""Y"" or PSBFL=""Y"". 
+AVALC is set to ""No baseline and no post-baseline assessments"" and ADT=RANDDT",,,
+ADEFFINT,ADT,PARAMCD EQ NBLPSA,Analysis Date  for No Baseline PSA,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline PSA Data
+If a subject has a record in ADLB with PARAMCD=PSA but no record with ABLFL=""Y"" then create a record in ADEFFINT with AVALC=""No baseline assessments"" and ADT=RANDDT
+",,,
+ADEFFINT,ADT,PARAMCD EQ NPBLPSA,Analysis Date  for No Post-Baseline PSA,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no post-baseline PSA Data
+If a subject has a record in ADLB with PARAMCD=PSA but no record with PSBLFL=""Y"" then create a record in ADEFFINT with AVALC=""No post-baseline assessments"" and ADT=RANDDT
+",,,
+ADEFFINT,SRCVAR,PARAMCD IN ('NBLPBPSA' 'NBLPSA' 'NPBLPSA'),SRCVAR for Missing Baseline/Post-Baseline PSA,text,,Assigned,Set to RANDDT,,,
+ADEFFINT,SRCDOM,PARAMCD IN ('NBLPBPSA' 'NBLPSA' 'NPBLPSA'),SRCDOM for Missing Baseline/Post-Baseline PSA,text,,Assigned,Set to ADSL,,,
+ADEFFINT,SRCSEQ,PARAMCD IN ('NBLPBPSA' 'NBLPSA' 'NPBLPSA'),SRCSEQ for Missing Baseline/Post-Baseline PSA,text,,Assigned,Set to Null,,,
+ADEFFINT,ADT,PARAMCD EQ TCONPSA,Analysis Date for Two Consecutive Missing PSA,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3':
+A record is created if there exisists a record in ADEFFINT with PARAMCD=PSAP and AVALC=""Y"" with the following criteria: If there are two consecutive records with AVAL=. directly before the record chosen for PSA Progression then create a record with PARAM=""Two Consecutive Missing Records before PSA Progression"" and set ADT to the assessment before the missing records. ",,,
+ADEFFINT,SRCVAR,PARAMCD EQ TCONPSA,SRCDOM for TCONPSA,text,,Assigned,Set to ADT,,,
+ADEFFINT,SRCDOM,PARAMCD EQ TCONPSA,SRCVAR for TCONPSA,text,,Assigned,Set to ADLB,,,
+ADEFFINT,SRCSEQ,PARAMCD EQ TCONPSA,SRCSEQ for TCONPSA,text,,Assigned,Set to ASEQ of the record chosen for ADT,,,
+ADEFFINT,ADT,PARAMCD EQ SYSACTDT,Date of First Systemic Non-Radiation Therapy,integer,,Assigned,Set to ADSL.SYSACTDT; ADTF is populated with the value of ADSL.SYSACDTF.,,,
+ADEFFINT,SRCVAR,PARAMCD EQ SYSACTDT,SRCVAR for SYSACTDT,text,,Assigned,"Set to ""SYSACTDT""",,,
+ADEFFINT,ADT,PARAMCD EQ DTHDT,Date of Death,integer,,Assigned,Set to ADSL.DTHDT; ADTF is populated with the value of ADSL.DTHDTF.,,,
+ADEFFINT,SRCVAR,PARAMCD EQ DTHDT,SRCVAR for DTHDT,text,,Assigned,"Set to ""DTHDT""",,,
+ADEFFINT,ADT,PARAMCD EQ LSTALVDT,Date Last Known Alive,integer,,Assigned,"Set to max(ADSL.DTHDT, ADSL.LSTALVDT); ADTF is populated with the value of ADSL.LSALVDTF or DTHDTF, depending on the source of ADT.",,,
+ADEFFINT,SRCVAR,PARAMCD EQ LSTALVDT,SRCVAR for LSTALVDT,text,,Assigned,"Set to ""LSTALVDT"" or ""DTHDT"", depending on the source of ADT.",,,
+ADEFFINT,ADT,PARAMCD EQ WDCFDT,Date of Withdrawal of Full Consent,integer,,Assigned,"A record is created if ADSL.WDCFDT is non-missing.
+Set to ADSL.LSTALVDT; Alert ST if date differs from ADSL.WDCFDT.",,,
+ADEFFINT,SRCVAR,PARAMCD EQ WDCFDT,SRCVAR for WDCFDT,text,,Assigned,"Set to ""WDCFDT""",,,
+ADEFFINT,ADT,PARAMCD EQ LSTFUP,Analysis Date of Lost to Follow-Up,integer,,Derived,"A record is created if ADSL.DCSREAS = 'Lost to follow-up'.
+Set to  ADSL.LSTALVDT; ADTF is populated with the value of ADSL.LSALVDTF
+
+Include a check for if date(DS.DSSTDTC where DSTERM=""LOST TO FOLLOW-UP"") differs from ADSL.LSTALVDT and alert ST if this occurs.",,,
+ADEFFINT,SRCVAR,PARAMCD EQ LSTFUP,SRCVAR for LSTFUP,text,,Assigned,"Set to ""LSTALVDT""",,,
+ADEFFINT,ADT,PARAMCD EQ SPNSRDEC,Date of Withdrawal Per Sponsor Decision,integer,,Derived,"A record is created if ADSL.DCSREAS = 'Sponsor decision'.
+Set to  ADSL.LSTALVDT; ADTF is populated with the value of ADSL.LSALVDTF
+
+Include a check for if date(DS.DSSTDTC where DSTERM=""SPONSOR REQUEST"") differs from ADSL.LSTALVDT and alert ST if this occurs.",,,
+ADEFFINT,SRCVAR,PARAMCD EQ SPNSRDEC,SRCVAR for SPNSRDEC,text,,Assigned,"Set to ""LSTALVDT""",,,
+ADEFFINT,SRCDOM,"PARAMCD IN (SYSACTDT, DTHDT, LSTALVDT, WDCFDT, LSTFUP, SPNSRDEC, CUTDT)",SRCDOM for ADSL based parameters,text,,Assigned,"Set to ""ADSL""",,,
+ADEFFINT,SRCSEQ,"PARAMCD IN (SYSACTDT, DTHDT, LSTALVDT, WDCFDT, LSTFUP, SPNSRDEC, CUTDT)",SRCSEQ for ADSL based parameters,integer,,Assigned,Null.,,,
+ADEFFINT,ADT,PARAMCD EQ CUTDT,Analysis Date for Data Cut-Off Date,integer,,Assigned,Set to ADSL.CUTDT,,,
+ADEFFINT,SRCVAR,PARAMCD EQ CUTDT,SRCVAR for CUTDT,text,,Assigned,"Set to ""CUTDT""",,,
+ADEFFINT,ADT,PARAMCD EQ NBLPBIVR,"Analysis Date for No Baseline and no Post-Baseline ATA , per Inv using RECIST 1.1",integer,,Derived,"A record is created for subjects who have no baseline or post-baseline adequate tumor assessments per Investigator, using RECIST 1.1.
+If a subject has a record in ADEFFSUM where PARAMCD = 'BNEIVR2' and AVALC =  'No baseline assessments'  and a record where PARAMCD = 'BNEIVR3' and AVALC = ' No post-baseline assessments' then a record is created.
+
+ADT is set to min(RANDDT + 127, LSTALVDT).","ADT is set to RANDDT + 127 in alignment with derivations on other XL studies. On other studies, PFS allows death as an event, if it occurred within 2 tumor scans of Randomization, even if the subject has missing baseline. Similarly, derivations on other studies give priority to other censoring reasons (subsequent ACT, radiation, etc.) if those occurred within the 2-scan censoring period relative to randomization.
+Because derivations in ADTTE rely on ordering by ADT, ADT for this (and the other missing scan parameters) is set to RANDDT+127 to ensure that it is sorted after any other event or censoring reason that would otherwise be prioritized first. 126 days is the threshold for missing 2x tumor assessments.",,
+ADEFFINT,ADT,PARAMCD EQ NBLIVR,"Analysis Date for No Baseline ATA , per Inv using RECIST 1.1 ",integer,,Derived,"A record is created for subjects who have no baseline adequate tumor assessment per Investigator, using RECIST 1.1.
+If a subject has a record in ADEFFSUM where PARAMCD = 'BNEIVR2' and AVALC =  'No baseline assessments' and the subject doesn't have a record  where  PARAMCD = 'BNEIVR3' and AVALC = 'No post-baseline assessments' then a record is created.
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,ADT,PARAMCD EQ NPBIVR,"Analysis Date for No Post-Baseline ATA , per Inv using RECIST 1.1 ",integer,,Derived,"A record is created for subjects who have no post-baseline adequate tumor assessment per Investigator, using RECIST 1.1.
+If a subject has a record in ADEFFSUM where PARAMCD = 'BNEIVR3' and AVALC =  'No post-baseline assessments' and the subject doesn't have a record  where PARAMCD = 'BNEIVR2' and AVALC = No baseline assessments' then a record is created.
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,SRCVAR,"PARAMCD IN (NBLPBIVR, NBLIVR, NPBIVR)",SRCVAR for Missing Baseline/Post-Baseline Scans,text,,Assigned,"If ADT is equivalent to RANDDT+127, set to ""RANDDT"".
+If ADT is equivalent to LSTALVDT, set to ""LSTALVDT"".",,,
+ADEFFINT,SRCDOM,"PARAMCD IN (NBLPBIVR, NBLIVR, NPBIVR)",SRCDOM for Missing Baseline/Post-Baseline Scans,text,,Assigned,"Set to ""ADEFFSUM""",,,
+ADEFFINT,SRCSEQ,PARAMCD EQ NBLIVR,SRCSEQ for Missing Baseline Scans,integer,,Assigned,Set to ADEFFSUM.ASEQ from the BNEIVR2 record which meets the criteria specified in the derivation of ADEFFINT.ADT.,,,
+ADEFFINT,SRCSEQ,PARAMCD EQ NPBIVR,SRCSEQ for Missing Post-Baseline Scans,integer,,Assigned,Set to ADEFFSUM.ASEQ from the BNEIVR3 record which meets the criteria specified in the derivation of ADEFFINT.ADT.,,,
+ADEFFINT,SRCSEQ,PARAMCD EQ NBLPBIVR,SRCSEQ for Missing Baseline/Post-Baseline Scans,integer,,Assigned,Null,,,
+ADEFFINT,ADT,PARAMCD EQ NBLPBPC,Analysis Date for No Baseline and no Post-Baseline ATA PCWG3,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline or post-baseline adequate tumor assessments PCWG3
+
+No Baseline Condition:
+
+If a record does not exist for a subject in RS where RS.RSDTC<=ADSL..RANDDT and RSEVAL='INDEPENDENT ASSESSOR' and RSCAT=""PCWG3""  and RSTESTCD='METSIND' and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then check for RSEVALID='READER 1' record) 
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= PCWG3 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to randomization (where ADT <= RANDDT) 
+
+AND
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPC' and ACEPTFL='Y') 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).","ADT is set to RANDDT + 127 in alignment with derivations on other XL studies. On other studies, PFS allows death as an event, if it occurred within 2 tumor scans of Randomization, even if the subject has missing baseline. Similarly, derivations on other studies give priority to other censoring reasons (subsequent ACT, radiation, etc.) if those occurred within the 2-scan censoring period relative to randomization.
+Because derivations in ADTTE rely on ordering by ADT, ADT for this (and the other missing scan parameters) is set to RANDDT+127 to ensure that it is sorted after any other event or censoring reason that would otherwise be prioritized first. 126 days is the threshold for missing 2x tumor assessments.",,
+ADEFFINT,ADT,PARAMCD EQ NBLPC,Analysis Date for No Baseline ATA PCWG3,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline adequate tumor assessment PCWG3
+
+No Baseline Condition:
+
+If a record does not exist for a subject in RS where RS.RSDTC<=ADSL..RANDDT and RSEVAL='INDEPENDENT ASSESSOR' and RSCAT=""PCWG3""  and RSTESTCD='METSIND' and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then check for RSEVALID='READER 1' record) 
+
+AND DOES NOT MEET THE BELOW CRITERIA FOR NO POST-BASELINE
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPC' and ACEPTFL='Y') 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,ADT,PARAMCD EQ NPBPC,Analysis Date for No Post-Baseline ATA PCWG3,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no post-baseline adequate tumor assessment PCWG3
+
+DOES NOT MEET THE BELOW CRITERIA FOR NO BASELINE
+No Baseline Condition:
+
+If a record does not exist for a subject in RS where RS.RSDTC<=ADSL..RANDDT and RSEVAL='INDEPENDENT ASSESSOR' and RSCAT=""PCWG3""  and RSTESTCD='METSIND' and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then check for RSEVALID='READER 1' record) 
+
+AND DOES MEET THE BELOW CRITERIA FOR NO POST-BASELINE
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPC' and ACEPTFL='Y') 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,ADT,PARAMCD EQ NBLPBPV,Analysis Date for No Baseline and no Post-Baseline ATA PCWG3 per INV,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline or post-baseline adequate tumor assessments PCWG3 per INV
+
+No Baseline Condition:
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR(where TRCAT= PCWG3 and TREVAL = 'INVESTIGATOR' ) prior to randomization (where ADT <= RANDDT) 
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR(where TRCAT= PCWG3 and TREVAL = 'INVESTIGATOR' ) prior to treatment start (where ADT <= TRTSDT)
+
+AND
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPV' ) 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).","ADT is set to RANDDT + 127 in alignment with derivations on other XL studies. On other studies, PFS allows death as an event, if it occurred within 2 tumor scans of Randomization, even if the subject has missing baseline. Similarly, derivations on other studies give priority to other censoring reasons (subsequent ACT, radiation, etc.) if those occurred within the 2-scan censoring period relative to randomization.
+Because derivations in ADTTE rely on ordering by ADT, ADT for this (and the other missing scan parameters) is set to RANDDT+127 to ensure that it is sorted after any other event or censoring reason that would otherwise be prioritized first. 126 days is the threshold for missing 2x tumor assessments.",,
+ADEFFINT,ADT,PARAMCD EQ NBLPV,Analysis Date for No Baseline ATA PCWG3 per INV,integer,,Derived,"
+Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline adequate tumor assessment PCWG3 per INV
+
+No Baseline Condition:
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR(where TRCAT= PCWG3 and TREVAL = 'INVESTIGATOR' ) prior to randomization (where ADT <= RANDDT) 
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR(where TRCAT= PCWG3 and TREVAL = 'INVESTIGATOR' ) prior to treatment start (where ADT <= TRTSDT)
+
+AND DOES NOT MEET THE BELOW CRITERIA FOR NO POST-BASELINE
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPV') 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,ADT,PARAMCD EQ NPBPV,Analysis Date for No Post-Baseline ATA PCWG3 per INV,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no post-baseline adequate tumor assessment PCWG3 per INV
+
+DOES NOT MEET THE BELOW CRITERIA FOR NO BASELINE
+No Baseline Condition:
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR(where TRCAT= PCWG3 and TREVAL ='INVESTIGATOR' ) prior to randomization (where ADT <= RANDDT) 
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR(where TRCAT= PCWG3 and TREVAL = 'INVESTIGATOR' ) prior to treatment start (where ADT <= TRTSDT)
+
+AND DOES MEET THE BELOW CRITERIA FOR NO POST-BASELINE
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPV' ) 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,SRCVAR,"PARAMCD IN (NBLPBPC, NBLPC, NPBPC, NBLPBPV, NBLPV, NPBPV)",SRCVAR for Missing Baseline/Post-Baseline Scans,text,,Assigned,"If ADT is equivalent to RANDDT+127, set to ""RANDDT"".
+If ADT is equivalent to LSTALVDT, set to ""LSTALVDT"".",,,
+ADEFFINT,SRCDOM,"PARAMCD IN (NBLPBPC, NBLPC, NPBPC, NBLPBPV, NBLPV, NPBPV)",SRCDOM for Missing Baseline/Post-Baseline Scans,text,,Assigned,"Set to ""ADSL""",,,
+ADEFFINT,SRCSEQ,"PARAMCD IN (NBLPBPC, NBLPC, NPBPC, NBLPBPV, NBLPV, NPBPV)",SRCSEQ for Missing Baseline/Post-Baseline Scans,integer,,Assigned,Null,,,
+ADEFFINT,ADT,PARAMCD EQ NBLPBBI,Analysis Date for No Baseline and no Post-Baseline ATA BIRC,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline or post-baseline adequate tumor assessments BIRC
+
+
+No Baseline Condition:
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= RECIST 1.1 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to randomization (where ADT <= RANDDT) 
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= RECIST 1.1 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to treatment start (where ADT <= TRTSDT)
+
+AND
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRBI' and ACEPTFL='Y') 
+
+
+ADT is set to min(RANDDT + 127, LSTALVDT).","ADT is set to RANDDT + 127 in alignment with derivations on other XL studies. On other studies, PFS allows death as an event, if it occurred within 2 tumor scans of Randomization, even if the subject has missing baseline. Similarly, derivations on other studies give priority to other censoring reasons (subsequent ACT, radiation, etc.) if those occurred within the 2-scan censoring period relative to randomization.
+Because derivations in ADTTE rely on ordering by ADT, ADT for this (and the other missing scan parameters) is set to RANDDT+127 to ensure that it is sorted after any other event or censoring reason that would otherwise be prioritized first. 126 days is the threshold for missing 2x tumor assessments.",,
+ADEFFINT,ADT,PARAMCD EQ NBLBI,Analysis Date for No Baseline ATA BIRC,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no baseline adequate tumor assessment BIRC
+No Baseline Condition:
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= RECIST 1.1 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to randomization (where ADT <= RANDDT) 
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= RECIST 1.1 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to treatment start (where ADT <= TRTSDT)
+
+AND DOES NOT MEET THE BELOW CRITERIA FOR NO POST-BASELINE
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRBI' and ACEPTFL='Y') 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,ADT,PARAMCD EQ NPBBI,Analysis Date for No Post-Baseline ATA BIRC,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3'
+A record is created for subjects who have no post-baseline adequate tumor assessment BIRC
+
+DOES NOT MEET THE BELOW CRITERIA FOR NO BASELINE
+No Baseline Condition:
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= RECIST 1.1 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to randomization (where ADT <= RANDDT) 
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR(where ACEPTFL='Y' and TRCAT= RECIST 1.1 and TREVAL = 'INDEPENDENT ASSESSOR' ) prior to treatment start (where ADT <= TRTSDT)
+
+AND DOES MEET THE BELOW CRITERIA FOR NO POST-BASELINE
+
+No Post-Baseline Condition:
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRBI' and ACEPTFL='Y') 
+
+ADT is set to min(RANDDT + 127, LSTALVDT).",,,
+ADEFFINT,SRCVAR,"PARAMCD IN (NBLPBBI, NBLBI, NPBBI)",SRCVAR for Missing Baseline/Post-Baseline Scans,text,,Assigned,"If ADT is equivalent to RANDDT+127, set to ""RANDDT"".
+If ADT is equivalent to LSTALVDT, set to ""LSTALVDT"".",,,
+ADEFFINT,SRCDOM,"PARAMCD IN (NBLPBBI, NBLBI, NPBBI)",SRCDOM for Missing Baseline/Post-Baseline Scans,text,,Assigned,"Set to ""ADSL""",,,
+ADEFFINT,SRCSEQ,"PARAMCD IN (NBLPBBI, NBLBI, NPBBI)",SRCSEQ for Missing Baseline/Post-Baseline Scans,integer,,Assigned,Null,,,
+ADEFFINT,ADT,PARAMCD EQ CRESPIVR,"Date of Confirmed Objective Response, per Inv using RECIST 1.1 ",integer,,Derived,"A record is created for subjects who have a confirmed objective response.
+Create a record for subjects with a record in ADEFFSUM where PARAMCD = 'CBORIVR' and CRIT1 = 'Objective Response'.
+Set ADT = ADRS.ADT from the earliest confirmed CR or PR (ADRS.PARAMCD = 'OVRLRIVR' where CONFCRFL = 'Y' or CONFPRFL = 'Y'). ",,,
+ADEFFINT,SRCVAR,PARAMCD EQ CRESPIVR,SRCVAR for CRESPIVR,text,,Assigned,"Set to ""ADT""",,,
+ADEFFINT,SRCDOM,PARAMCD EQ CRESPIVR,SRCDOM for CRESPIVR,text,,Assigned,"Set to ""ADRS""",,,
+ADEFFINT,SRCSEQ,PARAMCD EQ CRESPIVR,SRCSEQ for CRESPIVR,integer,,Assigned,ADRS.ASEQ from the record selected for populating ADT,,,
+ADEFFINT,ADT,PARAMCD EQ INVPDDT,"Date of Radiographic PD, per Inv using RECIST 1.1 ",integer,,Derived,"A record is created for subjects who have a PD per investigator. Date is the date of the earliest such scan. 
+Set to ADRS.ADT where PARAMCD = 'OVRLRIVR' and AVALC = 'PD' and PREPDFL = 'Y'.",,,
+ADEFFINT,ADT,PARAMCD EQ IRCPDDT,"Date of Radiographic PD, per BIRC using RECIST 1.1 ",integer,,Derived,"A record is created for subjects who have a PD per investigator. Date is the date of the earliest such scan. 
+Set to ADRS.ADT where PARAMCD = 'OVRLRBI' and AVALC = 'PD' and PREPDFL = 'Y' and ACEPTFL='Y'",,,
+ADEFFINT,ADT,PARAMCD EQ PCWPDDT,"Date of Radiographic PD, per PCWG3",integer,,Derived,"A record is created for subjects who have a PD per investigator. Date is the date of the earliest such scan. 
+Set to ADRS.ADT where PARAMCD = 'OVRLRPC' and AVALC = 'PD' and PREPDFL = 'Y' and ACEPTFL='Y'",,,
+ADEFFINT,ADT,PARAMCD EQ PCVPDDT,"Date of Radiographic PD, per PCWG3 per INV",integer,,Derived,"A record is created for subjects who have a PD per investigator. Date is the date of the earliest such scan. 
+Set to ADRS.ADT where PARAMCD = 'OVRLRPV' and AVALC = 'PDc' and PREPDFL = 'Y' ",,,
+ADEFFINT,SRCVAR,"PARAMCD in (INVPDDT, IRCPDDT, PCWPDDT, PCVPDDT)","SRCVAR for INVPDDT, IRCPDDT, PCWPDDT, PCVPDDT",text,,Assigned,"Set to ""ADT""",,,
+ADEFFINT,SRCDOM,"PARAMCD in (INVPDDT, IRCPDDT, PCWPDDT, PCVPDDT)","SRCDOM for INVPDDT, IRCPDDT, PCWPDDT, PCVPDDT",text,,Assigned,"Set to ""ADRS""",,,
+ADEFFINT,SRCSEQ,"PARAMCD in (INVPDDT, IRCPDDT, PCWPDDT, PCVPDDT)","SRCSEQ for INVPDDT, IRCPDDT, PCWPDDT, PCVPDDT",integer,,Assigned,ADRS.ASEQ from the record selected for populating ADT,,,
+ADEFFINT,ADT,PARAMCD EQ SURGTLDT,Date of Surgical Resection of Target Lesion(s),integer,,Derived,"A record is created if there is a record in ADPR where PRCAT = 'CONCOMITANT/SUBSEQUENT SURGERY AND PROCS' and PRSGRTL = 'Y' and ( (ASTDT > RANDDT and ADPR.STAGE=EXPANSION) or (ASTDT > TRTSDT and ADPR.STAGE= ESCALATION) ).
+Set ADEFFINT.ADT = ADPR.ASTDT of the earliest such record.
+ADTF is populated with the value of ADPR.ASTDTF.",,,
+ADEFFINT,ADT,PARAMCD EQ RADDZDT,Date of Local Radiation to Soft Tissue for Disease Under Study,integer,,Derived,"A record is created if there is a record in ADPR where PRCAT = 'CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY' and RTSITEPRSITE = 'SOFT TISSUE' and PRINDC = 'DISEASE UNDER STUDY' and ( (ASTDT > RANDDT and ADPR.STAGE=EXPANSION) or (ASTDT > TRTSDT and ADPR.STAGE= ESCALATION) ).
+Set ADEFFINT.ADT = ADPR.ASTDT of the earliest such record.
+ADTF is populated with the value of ADPR.ASTDTF.",,,
+ADEFFINT,ADT,PARAMCD EQ RADDBDT,Date of Local Radiation to Bone for Disease Under Study,integer,,Derived,"A record is created if there is a record in ADPR where PRCAT = 'CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY' and RTSITE = 'BONE' and PRINDC = 'DISEASE UNDER STUDY' and ( (ASTDT > RANDDT and ADPR.STAGE=EXPANSION) or (ASTDT > TRTSDT and ADPR.STAGE= ESCALATION) ).
+Set ADEFFINT.ADT = ADPR.ASTDT of the earliest such record.
+ADTF is populated with the value of ADPR.ASTDTF.",,,
+ADEFFINT,SRCVAR,"PARAMCD IN (SURGTLDT, RADDZDT, RADDBDT)","SRCVAR for SURGTLDT, RADDZDT, RADDBDT",text,,Assigned,"Set to ""ASTDT""",,,
+ADEFFINT,SRCDOM,"PARAMCD IN (SURGTLDT, RADDZDT, RADDBDT)","SRCDOM for SURGTLDT, RADDZDT, RADDBDT",text,,Assigned,"Set to ""ADPR""",,,
+ADEFFINT,SRCSEQ,"PARAMCD IN (SURGTLDT, RADDZDT, RADDBDT)","SRCSEQ for SURGTLDT, RADDZDT, RADDBDT",integer,,Assigned,ADPR.ASEQ from the record selected for populating ADT.,,,
+ADTTE,STARTDT,"PARAMCD IN (OS, PFSIVR, PFSPC, PFSBI, PFSPV)","Start Date for OS, PFS",integer,,Assigned,"If ADSL.STAGE='EXPANSION' then set to ADSL.RANDDT
+else if ADSL.STAGE='ESCALATION' then set to ADSL.TRTSDT",,,
+ADTTE,ADT,"PARAMCD IN (OS, OSLSFU)",ADT for OS,integer,,Derived,"Records from ADEFFINT are considered where PARAMCD is among the following:
+'DTHDT' (Date of Death), 'LSTFUP' (Lost to Follow-up), 'WDCFDT' (Date of Withdrawal of Full Consent), 'SPNSRDEC' (Date of Withdrawal Per Sponsor Decision), 'CUTDT' where DTHUNFDT > CUTDT (Data Cut-off Date, considered for subjects with unfiltered death date after cut-off), 'LSTALVDT' (Date Last Known Alive)
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+ADTTE.ADT = ADEFFINT.ADT of the selected record.",,ML 12/23/2024: Please add PFS by BICR and PFS by PCWG3 to ADTTE,
+ADTTE,CNSR,PARAMCD EQ OS,CNSR for OS,integer,TTECNSOS,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then CNSR =0.
+If ADEFFINT.PARAMCD = 'LSTFUP' then CNSR =1.
+If ADEFFINT.PARAMCD = 'WDCFDT' then CNSR =2.
+If ADEFFINT.PARAMCD = 'SPNSRDEC' then CNSR=3.
+If ADEFFINT.PARAMCD = 'CUTDT' then CNSR=4.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then CNSR =5.",,,
+ADTTE,EVNTDESC,"PARAMCD IN (OS, OSLSFU)",EVNTDESC for OS,text,TTEEVOS,Assigned,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then EVNTDESC = 'DEATH'.
+If ADEFFINT.PARAMCD = 'LSTFUP' then EVNTDESC = 'LOST TO FOLLOW-UP'.
+If ADEFFINT.PARAMCD = 'WDCFDT' then EVNTDESC = 'WITHDRAWAL OF CONSENT'.
+If ADEFFINT.PARAMCD = 'SPNSRDEC' then EVNTDESC = 'DISCONTINUATION BY SPONSOR'.
+If ADEFFINT.PARAMCD = 'CUTDT' then EVNTDESC = 'DEATH AFTER DATA CUTOFF DATE'.
+If ADEFFINT.PARAMCD  = 'LSTALVDT'  then EVNTDESC = 'ALIVE'.",,,
+ADTTE,CNSDTDSC,PARAMCD EQ OS,CNSDTDSC for OS,text,TTECNSDOS,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'CUTDT' then CNSDTDSC = 'ANALYSIS CUT-OFF DATE'.
+Otherwise, CNSDTDSC = 'DATE LAST KNOWN ALIVE'.",,,
+ADTTE,CNSR,PARAMCD EQ OSLSFU,CNSR for OSLSFU,integer,TTECNSOSFU,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then CNSR =0.
+If ADEFFINT.PARAMCD = 'LSTFUP' then CNSR =0.
+If ADEFFINT.PARAMCD = 'WDCFDT' then CNSR =1.
+If ADEFFINT.PARAMCD = 'SPNSRDEC' then CNSR=2.
+If ADEFFINT.PARAMCD  = 'CUTDT' then CNSR =3.
+If ADEFFINT.PARAMCD  = 'LSTALVDT' then CNSR =4.",,,
+ADTTE,CNSDTDSC,PARAMCD EQ OSLSFU,CNSDTDSC for OSLSFU,text,TTECNSDOS,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD in ('DTHDT', 'LSTFUP') then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'CUTDT' then CNSDTDSC = 'ANALYSIS CUT-OFF DATE'.
+Otherwise, CNSDTDSC = 'DATE LAST KNOWN ALIVE'.",,,
+ADTTE,ADT,PARAMCD EQ OSSACT,ADT for OSSACT,integer,,Derived,"Records from ADEFFINT are considered where PARAMCD is among the following:
+'DTHDT' (Date of Death), 'SYSACTDT' (Date of First Systemic Non-Radiation Therapy), 'LSTFUP' (Lost to Follow-up), 'WDCFDT' (Date of Withdrawal of Full Consent), 'SPNSRDEC' (Date of Withdrawal Per Sponsor Decision), 'CUTDT' where DTHUNFDT > CUTDT (Data Cut-off Date, considered for subjects with unfiltered death date after cut-off), 'LSTALVDT' (Date Last Known Alive)
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+ADTTE.ADT = ADEFFINT.ADT of the selected record.",,,
+ADTTE,CNSR,PARAMCD EQ OSSACT,CNSR for OSSACT,integer,TTECNSOSACT,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then CNSR =0.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then CNSR =1.
+If ADEFFINT.PARAMCD = 'LSTFUP' then CNSR =2.
+If ADEFFINT.PARAMCD = 'WDCFDT' then CNSR =3.
+If ADEFFINT.PARAMCD = 'SPNSRDEC' then CNSR=4.
+If ADEFFINT.PARAMCD = 'CUTDT' then CNSR=5.
+If ADEFFINT.PARAMCD  = 'LSTALVDT'  then CNSR =6.",,,
+ADTTE,EVNTDESC,PARAMCD EQ OSSACT,EVNTDESC for OSSACT,text,TTEEVOSACT,Assigned,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then EVNTDESC = 'DEATH'.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then EVNTDESC = 'SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY '.
+If ADEFFINT.PARAMCD = 'LSTFUP' then EVNTDESC = 'LOST TO FOLLOW-UP'.
+If ADEFFINT.PARAMCD = 'WDCFDT' then EVNTDESC = 'WITHDRAWAL OF CONSENT'.
+If ADEFFINT.PARAMCD = 'SPNSRDEC' then EVNTDESC = 'DISCONTINUATION BY SPONSOR'.
+If ADEFFINT.PARAMCD = 'CUTDT' then EVNTDESC = 'DEATH AFTER DATA CUTOFF DATE'.
+If ADEFFINT.PARAMCD  = 'LSTALVDT'  then EVNTDESC = 'ALIVE'.",,,
+ADTTE,CNSDTDSC,PARAMCD EQ OSSACT,CNSDTDSC for OSSACT,text,TTECNSDOSACT,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then CNSDTDSC  = 'START DATE OF SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY'
+If ADEFFINT.PARAMCD = 'CUTDT' then CNSDTDSC = 'ANALYSIS CUT-OFF DATE'.
+Otherwise, CNSDTDSC = 'DATE LAST KNOWN ALIVE'.",,,
+ADTTE,ADT,PARAMCD EQ PFSIVR,ADT for PFSIVR,integer,,Derived,"Records from ADEFFINT are considered where PARAMCD is among the following:
+ 'INVPDDT' (Date of PD), 'DTHDT' (Date of Death), 'NBLIVR' (No Baseline ATA), 'NPBIVR' (No Post-Baseline ATA), 'NBLPBIVR' (No Baseline or Post-Baseline ATA), 'SYSACTDT' (Date of First Systemic Non-Radiation Therapy), 'SURGTLDT' (Date of Surgical Resection of Target Lesion), 'RADDZDT' (Date of Local Radiation to Soft Tissue), 'LSTALVDT' (Date Last Known Alive)
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+
+On the record selected:
+If ADEFFINT.PARAMCD in ('INVPDDT', 'DTHDT') and ADEFFINT.CRIT1FL is null then set to ADT from the selected record.
+If ADEFFINT.PARAMCD in ('INVPDDT', 'DTHDT') and CRIT1FL = 'Y' then set to PIVATADT on the selected record.
+If ADEFFINT.PARAMCD in ('NBLIVR', 'NPBIVR', 'NBLPBIVR') then set to RANDDT.
+Otherwise, set to PIVATADT.
+","LSTALVDT is included in the list of dates to consider for subjects who have at least one scan, but no PD or death, or other censoring reasons. Serves to capture the ""none of the above"" group.",,
+ADTTE,CNSR,PARAMCD EQ PFSIVR,CNSR for PFSIVR,integer,TTECNSPFS,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'INVPDDT' and CRIT1FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then CNSR =1.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then CNSR =2.
+If ADEFFINT.PARAMCD = 'RADDZDT' then CNSR =3.
+If ADEFFINT.PARAMCD = 'NBLIVR' then CNSR=4.
+If ADEFFINT.PARAMCD = 'NPBIVR' then CNSR=5.
+If ADEFFINT.PARAMCD = 'NBLPBIVR' then CNSR=6.
+If ADEFFINT.PARAMCD in ('DTHDT', 'INVPDDT') and CRIT1FL = 'Y' then CNSR = 7.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then CNSR= 8.",,,
+ADTTE,EVNTDESC,PARAMCD EQ PFSIVR,EVNTDESC for PFSIVR,text,TTEEVPFS,Assigned,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL is missing then EVNTDESC = 'DEATH'.
+If ADEFFINT.PARAMCD = 'INVPDDT' and CRIT1FL is missing then EVNTDESC = 'DOCUMENTED PROGRESSION'.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then EVNTDESC = 'SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY '.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then EVNTDESC = 'SURGICAL RESECTION OF TARGET TUMOR LESION'.
+If ADEFFINT.PARAMCD = 'RADDZDT' then EVNTDESC = 'LOCAL RADIATION TO SOFT TISSUE FOR DISEASE UNDER STUDY'.
+If ADEFFINT.PARAMCD = 'NBLIVR' then EVNTDESC = 'NO BASELINE ATA'.
+If ADEFFINT.PARAMCD = 'NPBIVR' then EVNTDESC = 'NO POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD = 'NBLPBIVR' then EVNTDESC = 'NO BASELINE OR POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD in ('DTHDT', 'INVPDDT') and CRIT1FL = 'Y' then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then EVNTDESC = 'NO EVENT BY LAST ATA'",,,
+ADTTE,CNSDTDSC,PARAMCD EQ PFSIVR,CNSDTDSC for PFSIVR,text,TTECNSDPFS,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL is missing then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'INVPDDT' and CRIT1FL is missing then CNSDTDSC is left null.
+If ADTTE.ADT = RANDDT then CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'.
+Note: PIVATADT may be assigned to RANDDT. In this case, CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'  -- i.e, ADT is compared to RANDDT to assign CNSDTDSC, rather than assigning based on the source variable.
+Otherwise, if ADTTE.ADT = ADEFFINT.PIVATADT then CNSDTDSC = 'LAST ATA SHOWING NO PROGRESSION'.",,,
+ADTTE,ADT,PARAMCD EQ PFSBI,ADT for PFSBI,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3'
+Records from ADEFFINT are considered where PARAMCD is among the following:
+ 'IRCPDDT' (Date of PD), 'DTHDT' (Date of Death), 'NBLBI' (No Baseline ATA), 'NPBBI' (No Post-Baseline ATA), 'NBLPBBI' (No Baseline or Post-Baseline ATA), 'SYSACTDT' (Date of First Systemic Non-Radiation Therapy), 'SURGTLDT' (Date of Surgical Resection of Target Lesion), 'RADDZDT' (Date of Local Radiation to Soft Tissue), 'LSTALVDT' (Date Last Known Alive)
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+
+On the record selected:
+If ADEFFINT.PARAMCD in ('IRCPDDT', 'DTHDT') and ADEFFINT.CRIT2FL is null then set to ADT from the selected record.
+If ADEFFINT.PARAMCD in ('IRCPDDT', 'DTHDT') and CRIT2FL = 'Y' then set to PBIATADT on the selected record.
+If ADEFFINT.PARAMCD in ('NBLBI', 'NPBBI', 'NBLPBBI') then set to RANDDT.
+Otherwise, set to PBIATADT.
+","LSTALVDT is included in the list of dates to consider for subjects who have at least one scan, but no PD or death, or other censoring reasons. Serves to capture the ""none of the above"" group.",,
+ADTTE,CNSR,PARAMCD EQ PFSBI,CNSR for PFSBI,integer,TTECNSPFS,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT1FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then CNSR =1.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then CNSR =2.
+If ADEFFINT.PARAMCD = 'RADDZDT' then CNSR =3.
+If ADEFFINT.PARAMCD = 'NBLBI' then CNSR=4.
+If ADEFFINT.PARAMCD = 'NPBBI' then CNSR=5.
+If ADEFFINT.PARAMCD = 'NBLPBBI' then CNSR=6.
+If ADEFFINT.PARAMCD in ('DTHDT', 'IRCPDDT') and CRIT1FL = 'Y' then CNSR = 7.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then CNSR= 8.",,,
+ADTTE,EVNTDESC,PARAMCD EQ PFSBI,EVNTDESC for PFSBI,text,TTEEVPFS,Assigned,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT2FL is missing then EVNTDESC = 'DEATH'.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT2FL is missing then EVNTDESC = 'DOCUMENTED PROGRESSION'.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then EVNTDESC = 'SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY '.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then EVNTDESC = 'SURGICAL RESECTION OF TARGET TUMOR LESION'.
+If ADEFFINT.PARAMCD = 'RADDZDT' then EVNTDESC = 'LOCAL RADIATION TO SOFT TISSUE FOR DISEASE UNDER STUDY'.
+If ADEFFINT.PARAMCD = 'NBLBI' then EVNTDESC = 'NO BASELINE ATA'.
+If ADEFFINT.PARAMCD = 'NPBBI' then EVNTDESC = 'NO POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD = 'NBLPBBI' then EVNTDESC = 'NO BASELINE OR POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD in ('DTHDT', 'IRCPDDT') and CRIT2FL = 'Y' then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then EVNTDESC = 'NO EVENT BY LAST ATA'",,,
+ADTTE,CNSDTDSC,PARAMCD EQ PFSBI,CNSDTDSC for PFSBI,text,TTECNSDPFS,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT2FL is missing then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT2FL is missing then CNSDTDSC is left null.
+If ADTTE.ADT = RANDDT then CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'.
+Note: PIVATADT may be assigned to RANDDT. In this case, CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'  -- i.e, ADT is compared to RANDDT to assign CNSDTDSC, rather than assigning based on the source variable.
+Otherwise, if ADTTE.ADT = ADEFFINT.PBIATADT then CNSDTDSC = 'LAST ATA SHOWING NO PROGRESSION'.",,,
+ADTTE,ADT,PARAMCD EQ PFSPC,ADT for PFSPC,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3':
+Records from ADEFFINT are considered where PARAMCD is among the following:
+IRCPDDT(Date of CT/MRI), 'PCWPDDT' (Date of Bone PD),  'DTHDT' (Date of Death),
+'NBLPBPC' (No Baseline and Post-Baseline ATA), 'NBLPBBI' (No Baseline and Post-Baseline ATA),
+‘NBLPC’ (No Baseline ATA), ‘NBLBI’ (No Baseline ATA),
+'NPBPC' (No Post-Baseline ATA), 'NPBBI' (No Post-Baseline ATA), 
+'SYSACTDT' (Date of First Systemic Non-Radiation Therapy), 'SURGTLDT' (Date of Surgical Resection of Target Lesion), 'RADDZDT' (Date of Local Radiation to Soft Tissue), 'RADDBDT' (Date of Local Radiation to Bone), 'LSTALVDT' (Date Last Known Alive)
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+
+On the record selected:
+If ADEFFINT.PARAMCD in ('PCWPDDT') and ADEFFINT.CRIT4FL is null then set to ADT from the selected record.
+If ADEFFINT.PARAMCD in ('IRCPDDT') and ADEFFINT.CRIT2FL is null then set to ADT from the selected record.
+If ADEFFINT.PARAMCD in ('DTHDT ) and ADEFFINT.CRIT2FL is null and ADEFFINT.CRIT4FL is null then set to ADT from the selected record.
+
+If ADEFFINT.PARAMCD in ('PCWPDDT') and ADEFFINT.CRIT4FL = 'Y' then set to PPCATADT on the selected record.
+If ADEFFINT.PARAMCD in ('IRCPDDT') and ADEFFINT.CRIT2FL = 'Y'  then set to PBIATADT from the selected record.
+If ADEFFINT.PARAMCD in ('DTHDT ) and ADEFFINT.CRIT2FL  = 'Y'  or ADEFFINT.CRIT4FL  = 'Y' then set to min of non-missing(PPCATADT, PBIATADT ) from the selected record.
+If ADEFFINT.PARAMCD in ('NBLPC', 'NPBPC', 'NBLPBPC', 'NBLBI', 'NPBBI', 'NBLPBBI') then set to RANDDT.
+Otherwise, set to minimum of non-missing(PPCATADT, PBIATADT ).",,,
+ADTTE,CNSR,PARAMCD EQ PFSPC,CNSR for PFSPC,integer,TTECNSPFS,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT2FL and CRIT4FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT2FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'PCWPDDT' and CRIT4FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then CNSR =1.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then CNSR =2.
+If ADEFFINT.PARAMCD in ( 'RADDZDT',  'RADDBDT') then CNSR =3.
+If ADEFFINT.PARAMCD in ('NBLPC', 'NBLBI') then CNSR=4.
+If ADEFFINT.PARAMCD  in ('NPBPC', 'NPBBI') then CNSR=5.
+If ADEFFINT.PARAMCD in ('NBLPBPC',  'NBLPBBI') then CNSR=6.
+If ADEFFINT.PARAMCD in ( 'IRCPDDT') and CRIT2FL = 'Y' then CNSR = 7.
+If ADEFFINT.PARAMCD in ( 'PCWPDDT') and CRIT4FL = 'Y' then CNSR = 7.
+If ADEFFINT.PARAMCD in ('DTHDT', 'PCWPDDT', 'IRCPDDT') and CRIT2FL = 'Y' or CRIT4FL = 'Y then CNSR = 7.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then CNSR= 8.",,,
+ADTTE,EVNTDESC,PARAMCD EQ PFSPC,EVNTDESC for PFSPC,text,TTEEVPFS,Assigned,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT2FL and CRIT4FL is missing then EVNTDESC = 'DEATH'.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT2FL is missing then EVNTDESC = 'DOCUMENTED RADIOGRAPHIC PROGRESSION'.
+If ADEFFINT.PARAMCD = 'PCWPDDT' and CRIT4FL is missing then EVNTDESC = 'DOCUMENTED BONE PROGRESSION'.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then EVNTDESC = 'SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY '.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then EVNTDESC = 'SURGICAL RESECTION OF TARGET TUMOR LESION'.
+If ADEFFINT.PARAMCD = 'RADDZDT' then EVNTDESC = 'LOCAL RADIATION TO SOFT TISSUE OR BONE FOR DISEASE UNDER STUDY'.
+If ADEFFINT.PARAMCD = 'RADDBDT' then EVNTDESC = 'LOCAL RADIATION TO SOFT TISSUE OR BONE FOR DISEASE UNDER STUDY'.
+If ADEFFINT.PARAMCD IN  ('NBLPC', 'NBLBI') then EVNTDESC = 'NO BASELINE ATA'.
+If ADEFFINT.PARAMCD in ('NPBPC', 'NPBBI') then EVNTDESC = 'NO POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD in ('NBLPBPC',  'NBLPBBI') then EVNTDESC = 'NO BASELINE OR POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD in ( 'IRCPDDT') and CRIT2FL = 'Y' then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD in ('PCWPDDT') and CRIT4FL = 'Y' then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD in ('DTHDT', 'PCWPDDT') and CRIT2FL = 'Y' or CRIT4FL = 'Y  then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then EVNTDESC = 'NO EVENT BY LAST ATA'",,,
+ADTTE,CNSDTDSC,PARAMCD EQ PFSPC,CNSDTDSC for PFSPC,text,TTECNSDPFS,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT2FL and CRIT4FL is missing then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'PCWPDDT' and CRIT4FL is missing then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT2FL is missing then CNSDTDSC is left null.
+If ADTTE.ADT = RANDDT then CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'.
+Note: PPCATADT, PBIATADT  may be assigned to RANDDT. In this case, CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'  -- i.e, ADT is compared to RANDDT to assign CNSDTDSC, rather than assigning based on the source variable.
+Otherwise, if ADTTE.ADT = ADEFFINT.PPCATADT or ADEFFINT.PBIATADT  then CNSDTDSC = 'LAST ATA SHOWING NO PROGRESSION'.",,,
+ADTTE,ADT,PARAMCD EQ PFSPV,ADT for PFSPV,integer,,Derived,"Only create this PARAMCD where COHORT contains 'EXP 3':
+Records from ADEFFINT are considered where PARAMCD is among the following:
+INVPDDT(Date of CT/MRI), 'PCVPDDT' (Date of Bone PD),  'DTHDT' (Date of Death),
+'NBLPBPV' (No Baseline and Post-Baseline ATA), 'NBLPBIVR' (No Baseline and Post-Baseline ATA),
+‘NBLIVR’ (No Baseline ATA), ‘NBLPV’ (No Baseline ATA),
+'NPBPV' (No Post-Baseline ATA), 'NPBIVR' (No Post-Baseline ATA), 
+'SYSACTDT' (Date of First Systemic Non-Radiation Therapy), 'SURGTLDT' (Date of Surgical Resection of Target Lesion), 'RADDZDT' (Date of Local Radiation to Soft Tissue), 'RADDBDT' (Date of Local Radiation to Bone), 'LSTALVDT' (Date Last Known Alive)
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+
+On the record selected:
+If ADEFFINT.PARAMCD in ('PCVPDDT') and ADEFFINT.CRIT3FL is null then set to ADT from the selected record.
+If ADEFFINT.PARAMCD in ('INVPDDT') and ADEFFINT.CRIT1FL is null then set to ADT from the selected record.
+If ADEFFINT.PARAMCD in ('DTHDT ) and ADEFFINT.CRIT1FL is null and ADEFFINT.CRIT4FL is null then set to ADT from the selected record.
+
+If ADEFFINT.PARAMCD in ('PCVPDDT') and ADEFFINT.CRIT3FL = 'Y' then set to PPVATADT on the selected record.
+If ADEFFINT.PARAMCD in ('INVPDDT') and ADEFFINT.CRIT1FL = 'Y'  then set to PIVATADT from the selected record.
+If ADEFFINT.PARAMCD in ('DTHDT ) and ADEFFINT.CRIT1FL  = 'Y'  or ADEFFINT.CRIT3FL  = 'Y' then set to min of non-missing(PPCATADT, PIVATADT ) from the selected record.
+If ADEFFINT.PARAMCD in ('NBLPV', 'NPBPV', 'NBLPBPV', 'NBLIVR', 'NPBIVR', 'NBLPBIVR') then set to RANDDT.
+Otherwise, set to minimum of non-missing(PPVATADT, PIVATADT ).",,,
+ADTTE,CNSR,PARAMCD EQ PFSPV,CNSR for PFSPV,integer,TTECNSPFS,Assigned,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL and CRIT3FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'IRCPDDT' and CRIT1FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'PCWPDDT' and CRIT3FL is missing then CNSR =0.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then CNSR =1.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then CNSR =2.
+If ADEFFINT.PARAMCD in ( 'RADDZDT',  'RADDBDT') then CNSR =3.
+If ADEFFINT.PARAMCD in ('NBLPV, 'NBLIVR') then CNSR=4.
+If ADEFFINT.PARAMCD  in ('NPBPV', 'NPBIVR') then CNSR=5.
+If ADEFFINT.PARAMCD in ('NBLPBPV',  'NBLPBIVR') then CNSR=6.
+If ADEFFINT.PARAMCD in ( 'INVPDDT') and CRIT1FL = 'Y' then CNSR = 7.
+If ADEFFINT.PARAMCD in ( 'PCVPDDT') and CRIT3FL = 'Y' then CNSR = 7.
+If ADEFFINT.PARAMCD in ('DTHDT') and CRIT1FL = 'Y' or CRIT3FL = 'Y then CNSR = 7.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then CNSR= 8.",,,
+ADTTE,EVNTDESC,PARAMCD EQ PFSPV,EVNTDESC for PFSPV,text,TTEEVPFS,Assigned,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL and CRIT3FL is missing then EVNTDESC = 'DEATH'.
+If ADEFFINT.PARAMCD = 'INVPDDT' and CRIT1FL is missing then EVNTDESC = 'DOCUMENTED RADIOGRAPHIC PROGRESSION'.
+If ADEFFINT.PARAMCD = 'PCVPDDT' and CRIT3FL is missing then EVNTDESC = 'DOCUMENTED BONE PROGRESSION'.
+If ADEFFINT.PARAMCD = 'SYSACTDT' then EVNTDESC = 'SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY '.
+If ADEFFINT.PARAMCD = 'SURGTLDT' then EVNTDESC = 'SURGICAL RESECTION OF TARGET TUMOR LESION'.
+If ADEFFINT.PARAMCD = 'RADDZDT' then EVNTDESC = 'LOCAL RADIATION TO SOFT TISSUE OR BONE FOR DISEASE UNDER STUDY'.
+If ADEFFINT.PARAMCD = 'RADDBDT' then EVNTDESC = 'LOCAL RADIATION TO SOFT TISSUE OR BONE FOR DISEASE UNDER STUDY'.
+If ADEFFINT.PARAMCD IN  ('NBLPV', 'NBLIVR') then EVNTDESC = 'NO BASELINE ATA'.
+If ADEFFINT.PARAMCD in ('NPBPV', 'NPBIVR') then EVNTDESC = 'NO POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD in ('NBLPBPV',  'NBLPBIVR') then EVNTDESC = 'NO BASELINE OR POST-BASELINE ATA'.
+If ADEFFINT.PARAMCD in ( 'INVPDDT') and CRIT1FL = 'Y' then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD in ('PCVPDDT') and CRIT3FL = 'Y' then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD in ('DTHDT') and CRIT1FL = 'Y' or CRIT3FL = 'Y  then EVNTDESC = '2 OR MORE MISSING ATA PRIOR TO EVENT'.
+If ADEFFINT.PARAMCD = 'LSTALVDT' then EVNTDESC = 'NO EVENT BY LAST ATA'",,,
+ADTTE,CNSDTDSC,PARAMCD EQ PFSPV,CNSDTDSC for PFSPV,text,TTECNSDPFS,Assigned,"Refer to derivation of ADT. CNSDTDSC is assigned according to the record selected for populating ADT.
+If ADEFFINT.PARAMCD = 'DTHDT' and CRIT1FL and CRIT3FL is missing then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'PCVPDDT' and CRIT3FL is missing then CNSDTDSC is left null.
+If ADEFFINT.PARAMCD = 'INVPDDT' and CRIT1FL is missing then CNSDTDSC is left null.
+If ADTTE.ADT = RANDDT then CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'.
+Note: PPVATADT, PVIATADT  may be assigned to RANDDT. In this case, CNSDTDSC = 'TIME TO EVENT ORIGIN DATE FOR SUBJECT'  -- i.e, ADT is compared to RANDDT to assign CNSDTDSC, rather than assigning based on the source variable.
+Otherwise, if ADTTE.ADT = ADEFFINT.PPVATADT or ADEFFINT.PVIATADT  then CNSDTDSC = 'LAST ATA SHOWING NO PROGRESSION'.",,,
+ADTTE,STARTDT,PARAMCD EQ DORIVR,"Start Date for DOR, per INV using RECIST 1.1",integer,,Assigned,"PARAMCD = 'DORIVR' is only created for subjects with an overall response (record in ADEFFINT.ADT where PARAMCD = 'CRESPIVR').
+Set to ADEFFINT.ADT from the record with PARAMCD = 'CRESPIVR'.",,,
+ADTTE,ADT,PARAMCD EQ DORIVR,ADT for DORIVR,integer,,Assigned,Set to ADTTE.ADT from the record with PARAMCD = 'PFSIVR'.,,,
+ADTTE,CNSR,PARAMCD EQ DORIVR,CNSR for DORIVR,integer,TTECNSPFS,Assigned,Set to ADTTE.CNSR from the record with PARAMCD = 'PFSIVR'.,,,
+ADTTE,EVNTDESC,PARAMCD EQ DORIVR,EVNTDESC for DORIVR,text,TTEEVPFS,Assigned,Set to ADTTE.EVNTDESC from the record with PARAMCD = 'PFSIVR'.,,,
+ADTTE,CNSDTDSC,PARAMCD EQ DORIVR,CNSDTDSC for DORIVR,text,TTECNSDPFS,Assigned,Set to ADTTE.CNSDTDSC from the record with PARAMCD = 'PFSIVR'.,,,
+ADTTE,ADT,PARAMCD EQ PSAPTTE,Analysis Date for Time to PSA Progression,,,,"Only create this PARAMCD where COHORT contains 'EXP 3'
+Records from ADEFFINT are considered where PARAMCD is among the following:
+'PSAP' (PSA Progression)
+'SYSACTDT' (Date of First Systemic Non-Radiation Therapy), 
+'SURGTLDT' (Date of Surgical Resection of Target Lesion), 
+'RADDZDT' (Date of Local Radiation to Soft Tissue), 
+'TCONPSA' (2 consecutive missing PSA immediately prior to PSA Progression)
+ 'DTHDT' (Date of Death),
+'WDCFDT' (Withdrawal of Consent)
+'LSTALVDT' (Date Last Known Alive) 
+'NBLPSA' (No baseline PSA)
+'NPBLPSA' (No post-baseline PSA)
+'NBLPBPSA' (No baseline and no post-baseline PSA)
+None of the above
+
+Records are sorted by ADT and then in the order listed above, in case of multiple records with the same date. The first/earliest such record is selected. 
+
+If PSA Progression is selected, then ADT=ADT of PSA Progression
+If No baseline PSA variables is selected, then ADT=randomization date
+If none of the above, then ADT=date of last PSA assessment
+Otherwise, ADT=date of last PSA assessment before the event",,,
+ADTTE,STARTDT,PARAMCD EQ PSAPTTE,STARTDT for PSAPTTE,,,,Set to RANDDT,,,
+ADTTE,CNSR,PARAMCD EQ PSAPTTE,CNSR for PSAPTTE,,,,"Refer to derivation of ADT. CNSR is assigned according to the record selected for populating ADT.
+IF ADEFFINT.PARAMCD=""PSAP"" then CNSR=0
+IF ADEFFINT.PARAMCD=SYSACTDT then CNSR=1
+IF ADEFFINT.PARAMCD=SURGTLDT then CNSR=2
+IF ADEFFINT.PARAMCD=RADDZDT then CNSR=3
+IF ADEFFINT.PARAMCD=TCONPSA then CNSR=4
+IF ADEFFINT.PARAMCD=DTHDT then CNSR=5
+IF ADEFFINT.PARAMCD=WDCFDT then CNSR=6
+IF ADEFFINT.PARAMCD=LSTALVDT then CNSR=7
+IF ADEFFINT.PARAMCD=NBLPSA then CNSR=8
+IF ADEFFINT.PARAMCD=NPBLPSA then CNSR=9
+IF ADEFFINT.PARAMCD=NBLPBPSA then CNSR=10
+If no record is selected then CNSR=11",,,
+ADTTE,EVNTDESC,PARAMCD EQ PSAPTTE,EVNTDESC for PSAPTTE,,,,"Refer to derivation of ADT. EVNTDESC is assigned according to the record selected for populating ADT.
+IF ADEFFINT.PARAMCD=""PSAP"" then EVNTDESC=""PSA PROGRESSION""
+IF ADEFFINT.PARAMCD=SYSACTDT then EVNTDESC=""SYSTEMIC NON-PROTOCOL ANTI-CANCER THERAPY""
+IF ADEFFINT.PARAMCD=SURGTLDT then EVNTDESC=""SURGICAL RESECTION OF TARGET TUMOR LESION""
+IF ADEFFINT.PARAMCD=RADDZDT then EVNTDESC=""LOCAL RADIATION TO SOFT TISSUE FOR DISEASE UNDER STUDY""
+IF ADEFFINT.PARAMCD=TCONPSA then EVNTDESC=""TWO CONSECUTIVE MISSING RECORDS BEFORE PSA PROGRESSION""
+IF ADEFFINT.PARAMCD=DTHDT then EVNTDESC=""DEATH""
+IF ADEFFINT.PARAMCD=WDCFDT then EVNTDESC=""WITHDRAWAL OF CONSENT""
+IF ADEFFINT.PARAMCD=LSTALVDT then EVNTDESC=""LOST TO FOLLOW-UP""
+IF ADEFFINT.PARAMCD=NBLPSA then EVNTDESC=""NO BASELINE PSA ASSESSMENT""
+IF ADEFFINT.PARAMCD=NPBLPSA then EVNTDESC=""NO POST BASELINE PSA ASSESSMENT""
+IF ADEFFINT.PARAMCD=NBLPBPSA then EVNTDESC=""NO BASELINE OR POST BASELINE ASSESSMENT""
+If no record is selected then EVNTDESC=""NONE OF THE ABOVE""",,,
+ADTTE,CNSDTDSC,PARAMCD EQ PSAPTTE,CNSDTDSC for PSAPTTE,,,,Set to Null,,,
+ADTTE,ADT,PARAMCD EQ PSARTTE,Analysis Date for Time to PSA Response,,,,Set to ADT of ADEFFINT PARAMCD=PSAR,,,
+ADTTE,STARTDT,PARAMCD EQ PSARTTE,STARTDT for PSARTTE,,,,Set to Randomization Date,,,
+ADTTE,CNSR,PARAMCD EQ PSARTTE,CNSR for PSARTTE,,,,Set to 0,,,
+ADTTE,EVNTDESC,PARAMCD EQ PSARTTE,EVNTDESC for PSARTTE,,,,"Set to ""PSA RESPONSE""",,,
+ADTTE,CNSDTDSC,PARAMCD EQ PSARTTE,CNSDTDSC for PSARTTE,,,,Set to Null,,,
+ADIS,AVALC,PARAMCD EQ ADA,Anti-drug Antibodies,text,,Assigned,"Consider records where IS.ISBDAGNT = ""Nivolumab"" and (ANL01FL='Y' or ABLFL = ""Y""):
+Set to 'POSITIVE' if ADIS.AVALC='POSITIVE' and (ADIS.PARAMCD='ADA_BABC' or ADIS.PARAMCD = 'ADA_BABS') or where ADIS.AVALC is not missing and ADIS.PARAMCD = 'ADA_BABT, else
+set to 'NEGATIVE' if (ADIS.AVALC='NEGATIVE' and ADIS.PARAMCD='ADA_BABS' or (ADIS.AVALC='NEGATIVE' where ADIS.PARAMCD='ADA_BABC'). or if ADIS.AVALC is missing and ADIS.PARAMCD = 'ADA_BABT'. Create 1 record per subject and visit. Retain variables STUDYID USUBJID, ADT, ATM, ADTM, ADY, AVISIT, AVISITN, ABLFL, ANL01FL, ANL02FL plus core/common variables from ADSL.",EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ EVALPTS1,Evaluable Pts - Any ADA Result,text,,Assigned,"Set to 'Y' if AVALC ne missing and ADIS.PARAMCD = ""ADASTATS""
+ANY of the following conditions is true:
+(1)  A record exists where ADIS.AVALC ne missing and ADIS.PARAMCD='ADA_BABS' and ADIS.ABLFL='Y'.
+(2) A record exists where ADIS.AVALC ne missing and ADIS.PARAMCD='ADA_BABS' and ADIS.ANL01FL='Y'.",,,
+ADIS,AVALC,PARAMCD EQ ADPREV,ADA Prevalence,text,,Assigned,Set to 'Y' if ADIS.AVALC='POSITIVE' on at least 1 record where ADIS.PARAMCD='ADASTATS'_BABC' and ((ADIS.ABLFL='Y') or (ADIS.PSBLFL='Y' and ADIS.ANL01FL='Y')). Create 1 record per subject.,EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ EVALPTS2,Evaluable Pts - Baseline ADA Result,text,,Assigned,Set to 'Y' if a record exists where ADIS.AVALC ne missing and ADIS.PARAMCD='ADASTATS'_BABS' and ADIS.ABLFL='Y'.,EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ EVALPTS3,Evaluable Pts - Post-BL ADA Result,text,,Assigned,Set to 'Y' if a record exists where ADIS.AVALC ne missing and ADIS.PARAMCD='ADASTATS_BABS' and ADIS.ANL01FL='Y'.,EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADPOSNEG,Conf Pos Any Post-BL vs Neg All Post-BL,text,,Assigned,"Set to 'POSITIVE' if ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' on at least 1 record where ADIS.ANL01FL='Y', else set to 'NEGATIVE' if ADIS.AVALC='NEGATIVE' where ADIS.PARAMCD='ADASTATS' on all records where ADIS.ANL01FL='Y'. Create 1 record per subject.",EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADPSOPBL,Conf Pos ADA only Post-BL,text,,Assigned,Set to 'Y' if [(ADIS.AVALC='NEGATIVE' where ADIS.PARAMCD='ADASTATS' and ADIS.ABLFL='Y') or (a record does not exist where ADIS.PARAMCD='ADASTATS' and ADIS.ABLFL='Y')] and (ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' on at least 1 record where ADIS.ANL01FL='Y').  Create 1 record per subject.,EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADPPOS,Persistent Positive ADA Post-BL,text,,Assigned,"Set to 'Y' if ANY of the following conditions is true:
+(1) The difference in ADY values is >=112 between the first and last records where ADIS.PARAMCD='ADASTATS'  and ADIS.ANL01FL='Y' and ADIS.AVALC='POSITIVE' 
+(2) ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' where ADIS.ANL02FL='Y'
+Create 1 record per subject.",EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADTPOS,Transient Positive ADA Post-BL,text,,Assigned,"Set to 'Y' if BOTH of the following conditions are true:
+(1) At least 1 record exists where ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' and ADIS.ANL01FL='Y'
+(2) A record does not exist where ADIS.AVALC='Y' where ADIS.PARAMCD=""ADPPOS""
+Create 1 record per subject.",EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ EVALPTS4,Evaluable Pts - BL and Post-BL Result,text,,Assigned,"Set to 'Y' if BOTH of the following conditions is true:
+(1)  A record exists where ADIS.AVALC ne missing and ADIS.PARAMCD='ADASTATS_BABS' and ADIS.ABLFL='Y'.
+(2) A record exists where ADIS.AVALC ne missing and ADIS.PARAMCD='ADASTATS_BABS' and ADIS.ANL01FL='Y'.",EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADPBLPBL,Conf Pos ADA at BL and Post-BL,text,,Assigned,Set to 'Y' if (ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' and ADIS.ABLFL='Y') and (ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' on at least 1 record where ADIS.ANL01FL='Y').  Create 1 record per subject.,EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADTRIND,Treatment-induced ADA,text,,Assigned,Set to 'Y' if (ADIS.AVALC='NEGATIVE' where ADIS.PARAMCD='ADASTATS' and ADIS.ABLFL='Y') and (ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' on at least 1 record where ADIS.ANL01FL='Y').  Create 1 record per subject.,EG 3/5: Updated,,
+ADIS,AVALC,PARAMCD EQ ADTRBST,Treatment-boosted ADA,text,,Assigned,Set to 'Y' if at least 1 record exists where ADIS.CHG>=0.6 where ADIS.PARAMCD='ADA_BABT' and ADIS.ANL01FL='Y'.  Create 1 record per subject.,,,
+ADIS,AVALC,PARAMCD EQ ADAINC,ADA Incidence,text,,Assigned,Set to 'Y' if subject has a record where (ADIS.PARAMCD='ADTRIND' and ADIS.AVALC='Y') or a record where (ADIS.PARAMCD='ADTRBST' and ADIS.AVALC='Y'). Create 1 record per subject.,,,
+ADVS,CRIT2,PARAMCD EQ SYSBP,CRIT2 for SBP,text,,Assigned,"If BASE and AVAL are non-missing and BASE > 90 and AVAL <= 90 then set to ""Low (<=90 mmHg)""",,,
+ADVS,CRIT2,PARAMCD EQ DIABP,CRIT2 for DIABP,text,,Assigned,"If BASE and AVAL are non-missing and BASE > 60 and AVAL <= 60 then set to ""Low (<=60 mmHg)""",,,
+ADVS,CRIT2,PARAMCD EQ PULSE,CRIT2 for PULSE,text,,Assigned,"If BASE and AVAL are non-missing and BASE >= 60 and AVAL < 60 then set to ""Low (<60 bpm)""",,,
+ADVS,CRIT3,PARAMCD EQ SYSBP,CRIT3 for SBP,text,,Assigned,"If BASE and AVAL are non-missing and BASE < 140 and AVAL >= 140 then set to ""High (>=140 mmHg)""",,,
+ADVS,CRIT3,PARAMCD EQ DIABP,CRIT3 for DIABP,text,,Assigned,"If BASE and AVAL are non-missing and BASE < 90 and AVAL >= 90 then set to ""High (>=90 mmHg)""",,,
+ADVS,CRIT3,PARAMCD EQ PULSE,CRIT3 for PULSE,text,,Assigned,"If BASE and AVAL are non-missing and BASE <= 100 and AVAL > 100 then set to ""High (>100 bpm)""",,,
+ADRS,AVALC,PARAMCD EQ OVRLRBI,AVALC for Overall Response BICR Overall Response by CT/MRI Scan per BICR,text,TURESPO,Assigned,"Only create this PARAMCD where COHORT contains 'EXP 3'
+Set to RS.RSSTRESC where RSTESTCD = 'OVRLRESP' and RSCAT= RECIST 1.1 and RSEVAL = 'INDEPENDENT ASSESSOR' and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then use RSEVALID='READER 1' record) ",,,72
+ADRS,AVALC,PARAMCD EQ OVRLRPC,AVALC for Overall Response PCWG3 Overall Response by Bone Scan per BICR ,text,TURESPO,Assigned,"Only create this PARAMCD where COHORT contains 'EXP 3'
+Set to RS.RSSTRESC where RSTESTCD = 'OVRLRESP' and RSCAT= PCWG3 and RSEVAL = 'INDEPENDENT ASSESSOR' and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then use RSEVALID='READER 1' record) ",,,
+ADRS,AVALC,PARAMCD EQ OVRLRPV,AVALC for Overall Response by Bone Scan per Investigator,text,TURESPO,Assigned,"Only create this PARAMCD where COHORT contains 'EXP 3'
+Set to RS.RSSTRESC where RSTESTCD = 'OVRLRESP' and RSCAT= PCWG3 and RSEVAL = 'INVESTIGATOR' ",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEBI1,AVALC for Reason 1 For BOR of NE BICR,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORBI' and AVALC = 'NE' at least one PARAMCD in ('BNEBI1', 'BNEBI2', 'BNEBI3', 'BNEBI4', 'BNEBI5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRBI') that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y' ), but all such records are not evaluable (have AVALC = 'NE'), then a record for PARAMCD = 'BNEBI1' is created and AVALC set to ""All Tumor Assessments are NE""",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEBI2,AVALC for Reason 2 For BOR of NE BICR,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORBI' and AVALC = 'NE' at least one PARAMCD in ('BNEBI1', 'BNEBI2', 'BNEBI3', 'BNEBI4', 'BNEBI5') is created.
+
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR prior to randomization (where ADT <= RANDDT) then a record is created for PARAMCD = 'BNEBI2' with AVALC = 'No baseline assessments'.
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR prior to treatment start (where ADT <= TRTSDT) then a record is created for PARAMCD = 'BNEBI2' with AVALC = 'No baseline assessments'.",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEBI3,AVALC for Reason 3 For BOR of NE BICR,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORBI' and AVALC = 'NE' at least one PARAMCD in ('BNEBI1', 'BNEBI2', 'BNEBI3', 'BNEBI4', 'BNEBI5') is created.
+
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRBI') then a record is created for PARAMCD = 'BNEBI3' with AVALC = 'No post-baseline assessments'",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEBI4,AVALC for Reason 4 For BOR of NE BICR,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORBI' and AVALC = 'NE' at least one PARAMCD in ('BNEBI1', 'BNEBI2', 'BNEBI3', 'BNEBI4', 'BNEBI5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRIVR'), but all such records are after first anti-cancer therapy date (PREACTFL = '') or the only available scan is PD after 2 ore more missing scans (AVALC = 'PD' and CRIT1FL = 'Y') then a record for PARAMCD = 'BNEIVR4' is created with AVALC = 'No qualifying post-baseline assessments on or before PFS censoring or event date'",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEBI5,AVALC for Reason 5 For BOR of NE BICR,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORBI' and AVALC = 'NE' at least one PARAMCD in ('BNEBI1', 'BNEBI2', 'BNEBI3', 'BNEBI4', 'BNEBI5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRBI') that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y' ), but all such records are SD or better and occur prior to Day 49 (ADRS.AVALC in ('CR', 'PR', 'SD', 'NON-CR/NON-PD') and SDDYFL = '') then a record for PARAMCD = 'BNEBI5' is created with AVALC = 'SD not meeting minimum criteria from randomization'",,,
+ADEFFSUM,AVALC,PARAMCD EQ CBORBI,AVALC for Confirmed Best Overall Response BICR,text,TURESPBC_C,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+A record is created for each subject in the ITT population (where ADSL.ITTFL = 'Y').
+
+Overall Response records from ADRS (ADRS.PARAMCD = 'OVRLRBI' where AVALC not missing) that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y') are considered. For PD that occur after 2 or more missing scans (AVALC = 'PD' and CRIT1FL = 'Y'), those scans are not considered in the derivation.
+
+Set ADEFFSUM.AVALC to the best response from among ADRS.AVALC observed according to this heirarchy:
+Confirmed Complete Response (CR) {best}
+Confirmed Partial Response (PR)
+Stable Disease (SD)
+Non-CR / Non-PD (NON-CR/NON-PD)
+Progressive Disease (PD) 
+Non-Evaluable (NE)  {worst} 
+
+Confirmed CR records are those with ADRS.AVALC = 'CR' and CONFCRFL = 'Y'.
+Confirmed PR records are those with ADRS.AVALC = 'PR' and CONFPRFL = 'Y'.
+
+Non-confirmed CR (UCRFL ='Y') or PR (UPRFL='Y') at least 49 days after randomization (ADRS.SDDYFL='Y') are treated as ""SD"" in the derivation of confirmed BOR.
+
+SD, Non-CR/Non-PD, or non-confirmed CR or PR less than 49 days after randomization  (ADRS.SDDYFL ^= 'Y') are treated as ""NE"" in the derivation of confirmed BOR.
+
+If multiple records with the same AVALC, select the earliest such record for populating ADT and SRC variables.
+
+If the subject has no Overall Response records meeting the requirements above, set ADEFFSUM.AVALC = 'NE'.",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEPC1,AVALC for Reason 1 For BOR of NE PCWG3,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORPC' and AVALC = 'NE' at least one PARAMCD in ('BNEPC1', 'BNEPC2', 'BNEPC3', 'BNEPC4', 'BNEPC5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRPC') that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y' ), but all such records are not evaluable (have AVALC = 'NE'), then a record for PARAMCD = 'BNEPC1' is created and AVALC set to ""All Tumor Assessments are NE""",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEPC2,AVALC for Reason 2 For BOR of NE PCWG3,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORPC' and AVALC = 'NE' at least one PARAMCD in ('BNEPC1', 'BNEPC2', 'BNEPC3', 'BNEPC4', 'BNEPC5') is created.
+
+Where STAGE=EXPANSION:
+If the subject has no tumor records in ADTR prior to randomization (where ADT <= RANDDT) then a record is created for PARAMCD = 'BNEPC2' with AVALC = 'No baseline assessments'.
+
+Where STAGE=ESCALATION:
+If the subject has no tumor records in ADTR prior to treatment start (where ADT <= TRTSDT) then a record is created for PARAMCD = 'BNEPC2' with AVALC = 'No baseline assessments'.",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEPC3,AVALC for Reason 3 For BOR of NE PCWG3,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORPC' and AVALC = 'NE' at least one PARAMCD in ('BNEPC1', 'BNEPC2', 'BNEPC3', 'BNEPC4', 'BNEPC5') is created.
+
+If the subject has no tumor response assessments in ADRS (where PARAMCD = 'OVRLRPC') then a record is created for PARAMCD = 'BNEPC3' with AVALC = 'No post-baseline assessments'",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEPC4,AVALC for Reason 4 For BOR of NE PCWG3,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORPC' and AVALC = 'NE' at least one PARAMCD in ('BNEPC1', 'BNEPC2', 'BNEPC3', 'BNEPC4', 'BNEPC5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRPC'), but all such records are after first anti-cancer therapy date (PREACTFL = '') or the only available scan is PD after 2 ore more missing scans (AVALC = 'PD' and CRIT1FL = 'Y') then a record for PARAMCD = 'BNEPC4' is created with AVALC = 'No qualifying post-baseline assessments on or before PFS censoring or event date'",,,
+ADEFFSUM,AVALC,PARAMCD EQ BNEPC5,AVALC for Reason 5 For BOR of NE PCWG3,text,,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+For each subject with a record where PARAMCD = 'CBORPC' and AVALC = 'NE' at least one PARAMCD in ('BNEPC1', 'BNEPC2', 'BNEPC3', 'BNEPC4', 'BNEPC5') is created.
+
+If the subject has tumor response assessments in ADRS (PARAMCD = 'OVRLRPC') that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y' ), but all such records are SD or better and occur prior to Day 49 (ADRS.AVALC in ('CR', 'PR', 'SD', 'NON-CR/NON-PD') and SDDYFL = '') then a record for PARAMCD = 'BNEPC5' is created with AVALC = 'SD not meeting minimum criteria from randomization'",,,
+ADEFFSUM,AVALC,PARAMCD EQ CBORPC,AVALC for Confirmed Best Overall Response PCWG3,text,TURESPBC_C,Derived,"Only create this PARAMCD where COHORT=EXP 3: mCRPC XL092 100 mg
+A record is created for each subject in the ITT population (where ADSL.ITTFL = 'Y').
+
+Overall Response records from ADRS (ADRS.PARAMCD = 'OVRLRPC' where AVALC not missing) that occur prior to 1st subsequent anti-cancer therapy (where PREACTFL = 'Y') and on or prior to first PD (where PREPDFL = 'Y') are considered. For PD that occur after 2 or more missing scans (AVALC = 'PD' and CRIT1FL = 'Y'), those scans are not considered in the derivation.
+
+Set ADEFFSUM.AVALC to the best response from among ADRS.AVALC observed according to this heirarchy:
+Confirmed Complete Response (CR) {best}
+Confirmed Partial Response (PR)
+Stable Disease (SD)
+Non-CR / Non-PD (NON-CR/NON-PD)
+Progressive Disease (PD) 
+Non-Evaluable (NE)  {worst} 
+
+Confirmed CR records are those with ADRS.AVALC = 'CR' and CONFCRFL = 'Y'.
+Confirmed PR records are those with ADRS.AVALC = 'PR' and CONFPRFL = 'Y'.
+
+Non-confirmed CR (UCRFL ='Y') or PR (UPRFL='Y') at least 49 days after randomization (ADRS.SDDYFL='Y') are treated as ""SD"" in the derivation of confirmed BOR.
+
+SD, Non-CR/Non-PD, or non-confirmed CR or PR less than 49 days after randomization  (ADRS.SDDYFL ^= 'Y') are treated as ""NE"" in the derivation of confirmed BOR.
+
+If multiple records with the same AVALC, select the earliest such record for populating ADT and SRC variables.
+
+If the subject has no Overall Response records meeting the requirements above, set ADEFFSUM.AVALC = 'NE'.",,,
+ADBASE,AVAL,PARAMCD EQ RGNUM,Number of Prior Anti-Cancer Regimens,integer,,Derived,"Number of prior anti-cancer regimens.
+A record is created for every subject in ADSL where ADSL.SAFFL = 'Y'.
+Set to the count of unique ADCM.REGNUM where ADCM.ACAT1 = 'Prior ACT'.
+If no such records in CM, then set AVAL to 0.",,,
+ADBASE,AVAL,PARAMCD EQ TSITEBL,Num of Tumor Sites at BL,integer,,Derived,"For each subject, count unique TU.TULOC values where VISIT=SCREENING. 
+
+Keep non-zero records for subjects where ADSL.SAFFL = 'Y'.",,,
+ADBASE,AVAL,PARAMCD EQ NTSITEBL,Num Target Tumor Sites at BL,integer,,Derived,"For each subject, count unique TU.TULOC values where VISIT=SCREENING and TU.TUORRES=TARGET. 
+
+Keep non-zero records for subjects where ADSL.SAFFL = 'Y'.",,,
+ADBASE,AVAL,PARAMCD EQ NSITEBL,Num Non-Target Tumor Sites at BL,integer,,Derived,"For each subject, count unique TU.TULOC values where VISIT=SCREENING and TU.TUORRES=NON-TARGET. 
+
+Keep non-zero records for subjects where ADSL.SAFFL = 'Y'.",,,
+ADBASE,AVALCAT1,"PARAMCD IN (RGNUM, TSITEBL, NTSITEBL, NSITEBL)",,text,REGNUM,Assigned,"Assign to the following categories, based on AVAL:
+1, 2, >= 3",,,
+ADBASE,AVALC,PARAMCD EQ PACTLINE,Prior Lines of Therapy,integer,,Derived,"A record is created for each subject in the SAF population (where ADSL.SAFFL = 'Y').
+Considering records in ADCM where ACAT1 = 'Prior ACT', the highest line of therapy number (CMLINE) is identified. AVALC is assigned as follows:
+If upcase(CMLINE) = 'FIRST' then AVALC = '1'
+If upcase(CMLINE) = 'SECOND' then AVALC = '2'
+If upcase(CMLINE) = 'THIRD' then AVALC = '3'
+If upcase(CMLINE) = 'FOURTH' then AVALC = '4'
+If upcase(CMLINE) = 'FIFTH AND HIGHER' then AVALC = '>= 5'
+If no such records in ADCM, then set AVALC = '0'.",,,
+ADAETTE,PARAM,PARCAT1 EQ Time to Onset,AESI Time to Onset PARAM,text,,Assigned,"For each unique AESI term included in the Sponsor-provided AESI look-up tables (see ADAESI.CQ01NAM for details), a record is created for each subject in the SAF population (ADSL.SAFFL = 'Y').
+One record per subject per AESI term is created.
+PARAM is set to ""Time to Onset of <AESI term> (weeks)"".",,,
+ADAETTE,AVAL,PARCAT1 IN (Time to Onset),AESI Time to Onset,float,,Derived,(ADAETTE.ADT - ADAETTE.STARTDT + 1)/7,,,
+ADAETTE,ADT,PARCAT1 EQ Time to Onset,AESI Time to Onset Date,integer,,Derived,"For each record created (see PARAM for details), if the subject has a record in ADAESI where CQ01NAM matches the AESI term for the given PARAM where TRTEMFL = 'Y' and ADAESI.AOCC01FL = 'Y', then ADT is set to ADAESI.ASTDT from that record.
+If the subject has no such record in ADAESI, then set to min(ADSL.INVPDDT, ADSL.DTHDT, ADSL.EOECCEDT, ADSL.WDCFDT, ADSL.CUTDT)",,,
+ADAETTE,SRCVAR,PARCAT1 IN (Time to Onset),AESI Time to Onset Source,,SRCVAETT1,Assigned,"If ADT comes from ADAESI, then set to ""ASTDT"".
+Otherwise, if ADT = ADSL.INVPDDT, then set to ""INVPDDT"";
+Otherwise, if ADT = ADSL.DTHDT, then set to ""DTHDT"";
+Otherwise, if ADT = ADSL.WDCFDT, then set to ""WDCFDT"";
+Otherwise, if ADT = ADSL.CUTDT, then set to ""CUTDT"".
+Otherwise, if ADT = ADSL.EOECCEDT, then set to ""EOECCEDT"";",,,
+ADAETTE,STARTDT,PARCAT1 IN (Time to Onset),AESI Time to Onset Start Date,integer,,Assigned,Set to ADSL.TRTSDT,,,
+ADAETTE,CNSR,PARCAT1 IN (Time to Onset),AESI AESI Time to Onset Censoring,integer,TTOCNSAE,Assigned,"If SRCVAR = ""ASTDT"" then set to 0.
+Otherwise, if SRCVAR = ""EOECCEDT"" then set to 1.
+Otherwise, if SRCVAR = ""WDCFDT"" then set to 2.
+Otherwise, if SRCVAR = ""CUTDT"" then set to 3.
+Otherwise, if SRCVAR = ""INVPDDT"" then set to 4.
+Otherwise, if SRCVAR = ""DTHDT"" then set to 5.",,,
+ADAETTE,EVNTDESC,PARCAT1 EQ Time to Onset,AESI Time to Onset Event Description,text,TTOEVAE,Assigned,"If CNSR = 0, then set to ""ONSET OF "" concatenated with the AESI term in upper-case.
+if CNSR >= 1, Assign based on the value of SRCVAR:
+If SRCVAR = ""EOECCEDT"" then set to ""NO ONSET BY END OF EXTENDED SAFTEY OBSERVATION PERIOD"".
+If SRCVAR = 'WDCFDT' then set to ""NO ONSET BY WITHDRAWAL OF FULL CONSENT"".
+If SRCVAR = ""CUTDT"" then set to ""NO ONSET BY ANALYSIS CUT-OFF"".
+If SRCVAR = 'INVPDDT' then set to ""COMPETING RISK: DISEASE PROGRESSION"".
+If SRCVAR = 'DTHDT' then set to ""COMPETING RISK: DEATH"".",,,
+ADAETTE,CNSDTDSC,PARCAT1 IN (Time to Onset),AESI Time to Onset Censoring Date,text,TTOCNSD,Assigned,"If CNSR = 0, then null.
+Otherwise, if CNSR >= 1, Assign based on the value of SRCVAR:
+If SRCVAR = ""EOECCEDT"" then set to ""END OF EXTENDED SAFETY OBSERVATION PERIOD DATE"".
+If SRCVAR = 'WDCFDT' then set to ""WITHDRAWAL OF FULL CONSENT DATE"".
+If SRCVAR = ""CUTDT"" then set to ""ANALYSIS CUT-OFF DATE"".
+If SRCVAR = 'INVPDDT' then set to ""DISEASE PROGRESSION DATE"".
+If SRCVAR = 'DTHDT' then set to ""DEATH DATE"".",,,
+ADAETTE,PARAM,PARCAT1 EQ Time to Resolution,AESI Time to Resolution PARAM,text,,Assigned,"A single record is created for each CQ01NAM in ADAESI carrying AOCC01FL = 'Y' and TRTEMFL = 'Y'.
+PARAM is set to ""Time to Resolution of <ADAESI.CQ01NAM> (weeks)"".
+Note: if no subjects have AESIs for a given AESI term within the extended safety observation period (where ADAESI.TRTEMFL = 'Y'), then no records for the corresponding Time to Resolution parameter are created.",,,
+ADAETTE,AVAL,PARCAT1 IN (Time to Resolution),AESI Time to Resolution AVAL,text,,Derived,(ADAETTE.ADT - ADAETTE.STARTDT + 1)/7,,,
+ADAETTE,ADT,PARCAT1 EQ Time to Resolution,AESI Time to Resolution Date,text,,Derived,"Set to ADAESI.AENDT where AOCC02FL = 'Y'.
+If {ADAESI.AENDT where ADAESI.AOCC02FL = 'Y'} > ADSL.EOECCEDT, or if AE is ongoing (AEENRTPT = 'ONGOING'), then ADAETTE.ADT is set to ADSL.EOECCEDT.",,,
+ADAETTE,SRCVAR,PARCAT1 IN (Time to Resolution),AESI Time to Resolution Source,text,SRCVAETT2,Assigned,"If ADT is assigned to ADAESI.AENDT, then set to ""AENDT"".
+If ADT is assigned to ADSL.EOECCEDT, then set to ""EOECCEDT"".",,,
+ADAETTE,STARTDT,PARCAT1 EQ Time to Resolution,AESI Time to Resolution Start Date,text,,Assigned,Set to ADAESI.ASTDT where AOCC01FL = 'Y' for the given CQ01NAM.,,,
+ADAETTE,CNSR,PARCAT1 IN (Time to Resolution),AESI Time to Resolution Censoring,text,TTRCNSAE,Assigned,"If AE is not ongoing (AEENRTPT ^= 'ONGOING') and AENDT < ADSL.DTHUNFDT (when DTHUNFDT is non-missing), then set to 0.
+If ADT is assigned to ADSL.EOECCEDT, then set to 1.
+If ADT is assigned to ADAESI.AENDT and AENDT = ADSL.DTHUNFDT, then set to 2.",,,
+ADAETTE,EVNTDESC,PARCAT1 IN (Time to Resolution),AESI Time to Resolution Event Description,text,TTREVAE,Assigned,"If CNSR = 0, then set to ""RESOLUTION OF AESI""
+If CNSR = 1, then set to ""NO RESOLUTION OF AESI BY END OF EXTENDED SAFETY OBSERVATION PERIOD"".
+If CNSR = 2, then set to ""NO RESOLUTION OF AESI PRIOR TO DEATH DEATH DATE"".",,,
+ADAETTE,CNSDTDSC,PARCAT1 IN (Time to Resolution),AESI Time to Resolution Censoring Date,text,TTRCNSD,Assigned,"If CNSR = 0, then null.
+Otherwise, if CNSR = 1, then set to ""END OF EXTENDED SAFETY OBSERVATION PERIOD DATE"".
+Otherwise, if CNSR = 2, then set to ""DEATH DATE"".",,,
+ADAETTE,AVAL,PARAMCD EQ TTODCTRT,AE Time to TRT DC AVAL,text,,Derived,(ADAETTE.ADT - ADAETTE.STARTDT + 1)/7,,,
+ADAETTE,ADT,PARAMCD EQ TTODCTRT,AE Time to TRT DC Date,text,,Derived,"One record per subject is created.
+If the subject has a record in ADAE where TRTEMFL = 'Y' and AOCC01FL = 'Y', then ADT is set to ADAE.ASTDT from that record.
+If the subject has no such record in ADAE, then set to min(ADSL.INVPDDT, ADSL.DTHDT, ADSL.EOTDCDT, ADSL.WDCFDT, ADSL.CUTDT)",,,
+ADAETTE,AVAL,PARAMCD EQ TTODCTRT,AE Time to TRT DC AVAL,float,,Assigned,(ADAETTE.ADT - ADAETTE.STARTDT + 1)/7,,,
+ADAETTE,STARTDT,PARAMCD EQ TTODCTRT,AE Time to TRT DC Start Date,text,,Assigned,Set to ADSL.TRTSDT,,,
+ADAETTE,CNSR,PARAMCD EQ TTODCTRT,AE Time to TRT DC Censoring,text,,Assigned,"If SRCVAR = ""ASTDT"" then set to 0.
+Otherwise, if SRCVAR = ""EOTDCDT"" then set to 1.
+Otherwise, if SRCVAR = ""WDCFDT"" then set to 2.
+Otherwise, if SRCVAR = ""CUTDT"" then set to 3.
+Otherwise, if SRCVAR = ""INVPDDT"" then set to 4.
+Otherwise, if SRCVAR = ""DTHDT"" then set to 5.",,,
+ADAETTE,SRCVAR,PARAMCD EQ TTODCTRT,AE Time to TRT DC Source,text,,Assigned,"If ADT comes from ADAE, then set to ""ASTDT"".
+Otherwise, if ADT = ADSL.INVPDDT, then set to ""INVPDDT"";
+Otherwise, if ADT = ADSL.DTHDT, then set to ""DTHDT"";
+Otherwise, if ADT = ADSL.EOTDCDT, then set to ""EOTDCDT"";
+Otherwise, if ADT = ADSL.WDCFDT, then set to ""WDCFDT"";
+Otherwise, if ADT = ADSL.CUTDT, then set to ""CUTDT"".",,,
+ADAETTE,EVNTDESC,PARAMCD EQ TTODCTRT,AE Time to TRT DC Event Description,text,,Assigned,"If CNSR = 0, then set to ""AE LEADING TO TRT D/C"".
+if CNSR >= 1, Assign based on the value of SRCVAR:
+If SRCVAR = ""EOTDCDT"" then set to ""NO AE BY TREATMENT DISCONTINUATION"".
+If SRCVAR = 'WDCFDT' then set to ""NO AE BY WITHDRAWAL OF FULL CONSENT"".
+If SRCVAR = ""CUTDT"" then set to ""NO AE BY ANALYSIS CUT-OFF"".
+If SRCVAR = 'INVPDDT' then set to ""COMPETING RISK: DISEASE PROGRESSION"".
+If SRCVAR = 'DTHDT' then set to ""COMPETING RISK: DEATH"".",,,
+ADAETTE,CNSDTDSC,PARAMCD EQ TTODCTRT,AE Time to TRT DC Censoring Date,text,,Assigned,"If CNSR = 0, then null.
+Otherwise, if CNSR >= 1, Assign based on the value of SRCVAR:
+If SRCVAR = ""EOTDCDT"" then set to ""DATE OF DECISION TO END STUDY TREATMENT"".
+If SRCVAR = 'WDCFDT' then set to ""WITHDRAWAL OF FULL CONSENT DATE"".
+If SRCVAR = ""CUTDT"" then set to ""ANALYSIS CUT-OFF DATE"".
+If SRCVAR = 'INVPDDT' then set to ""DISEASE PROGRESSION DATE"".
+If SRCVAR = 'DTHDT' then set to ""DEATH DATE"".",,,
+ADBASE,AVAL,PARAMCD EQ PCTTOTRT,Time From End PACT to Treatment Start,float,,Derived,"The latest prior non-radiation anti-cancer therapy is identified in ADCM (where ACAT1 = 'Prior ACT' and AOCC01FL = 'Y').
+AVAL = (TRTSDT-ADCM.AENDT)/7. Round to 1 decimal.
+Records are only created for subjects with such a record in ADCM and if subject has non-missing TRTSDT.
+
+In case of missing AENDT due to partial CMENDTC, impute as last day of the month (missing day), or December 31st (missing month) for the calculations. If CMENDTC and AENDT are both completely missing, the record is created and AVAL is left null.",D,,
+ADBASE,AVAL,PARAMCD EQ PDTOTRT,Time from PD on PACT to Treatment Start,float,,Derived,"The latest prior non-radiation anti-cancer therapy is identified in ADCM (where ACAT1 = 'Prior ACT' and AOCC01FL = 'Y').
+AVAL = (TRTSDT-AHFPDT)/7. Round to 1 decimal.
+Records are only created for subjects with such a record in ADCM and if subject has non-missing TRTSDT and non-missing AHFPDT.",,,
+ADBASE,SRCDOM,PARAMCD EQ PACTLINE,,text,,Assigned,"If AVALC is derived from ADCM.APECPLOT, then set to ""ADCM"".
+If AVALC is set to 0 because the subject is in ADSL but has no qualifying records in ADCM, then set to ""ADSL"".",,,
+ADBASE,SRCDOM,"PARAMCD IN (RGNUM, PCTTOTRT, PDTOTRT)",,text,,Assigned,"Set to ""ADCM""",,,
+ADBASE,SRCVAR,PARAMCD IN (RGNUM),,text,,Assigned,"Set to ""REGNUM""",,,
+ADBASE,SRCSEQ,PARAMCD IN (RGNUM),,integer,,Assigned,Null,,,
+ADBASE,SRCVAR,PARAMCD EQ PCTTOTRT,,text,,Assigned,"Set to ""AENDT""",,,
+ADBASE,SRCVAR,PARAMCD EQ PDTOTRT,,text,,Assigned,"Set to ""AHFPDT""",,,
+ADBASE,SRCSEQ,PARAMCD IN (PCTTOTRT PDTOTRT),,integer,,Assigned,Set equal to ADCM.ASEQ from the record selected for caculating AVAL (with AOCC01FL = 'Y').,,,
+ADBASE,SRCVAR,PARAMCD EQ PACTLINE,,text,,Assigned,"If SRCDOM = 'ADCM' then set to ""CMLINE"".
+Otherwise, null.",,,
+ADBASE,SRCSEQ,PARAMCD EQ PACTLINE,,integer,,Assigned,"If SRCDOM = 'ADCM' then set to ADCM.ASEQ from the record in ADCM that is used to derive AVALC.  If more than one record with the same value of ADCM.CMLINE, then the record with the lowest ASEQ value is selected for popualting SRCSEQ.
+If SRCDOM = 'ADSL', then null.",,,
+ADIS,AVALC,PARAMCD EQ ADPBLNPB,Pos ADA at BL and Neg ADA Post-BL,text,,Assigned,"Set to 'Y' if (ADIS.AVALC='POSITIVE' where ADIS.PARAMCD='ADASTATS' and ADIS.ABLFL='Y') and (ADIS.AVALC='NEGATIVE' for all records where ADIS.PARAMCD='ADASTATS' and ADIS.ANL01FL = ""Y"")",EG 3/5: New,,
+ADLB,AVALC,PARAMCD EQ DILISCRN,DILI Screening Criteria,text,,Derived,"Hepatocellular Drug-Induced Liver Injury Screening criteria is defined as:
+Any postbaseline total bilirubin equal to or exceeding 2 x ULN within 30 days after a postbaseline ALT or AST equal to or exceeding 3 x ULN. 
+
+One record per subject in the SAF population (where SAFFL = 'Y') and who has a non-missing post-baseline (ALT or AST) and Bilirubin result during the extended safety observation period (where ADLB.PSBLFL = 'Y' and ADT <= EOECCEDT) is created.
+
+If the subject has an AST or ALT record at least 3x above ULN (AVAL >=3xANRHI) during the extended safety observation period (where ADLB.PSBLFL = 'Y' and ADT <= EOECCEDT) and has a Bilirubin record (PARAMCD = 'BILI') at least 2x above ULN (AVAL >=2xANRHI) also within the extended safety observation period and within 30 days of the identified AST or ALT record (0 <= ADT{BILI} - ADT{AST/ALT record} <= 30), then AVALC = 'Y'.
+
+Otherwise, AVALC = 'N'.
+
+SDTM predecessor variables from the BILI record (the one within 30 days of the elevated ALT or AST record) are retained on this record. AVISIT/N,PSBLFL, ADT, ADY are retained as well. Other ADaM variables (BASE, CHG, PCHG, ANRLO, ANRHI, ANRIND, ATOX:, ...) are set to missing. In case multiple BILI records meet the criteria, the earliest such record is picked. If AVALC = 'N', then SDTM predecessor/other source ADaM variables are not populated.
+",,,
+ADLB,AVALC,PARAMCD EQ HYSLAW,Potential Hy's Law Case,text,,Derived,"Potential Hy’s Law Case is defined as: Any postbaseline total bilirubin equal to or exceeding 2 x ULN within 30 days after a postbaseline ALT or AST equal to or exceeding 3 x ULN, and ALP <2 x ULN (all ALP values during the period of elevation; missing ALPs are included).
+
+The logic of PARAMCD = 'DILISCRN' is followed, adding the requirement that ALP is either missing (AVAL is null or no record at all) or <2xULN at the time of / during the time frame between the ALT/AST and BILI elevations.",,,
+ADLB,AVAL,PARAMCD EQ ALTAST,DILI ALT or AST (U/L),integer,,Derived,"Considering AST and ALT records (PARAMCD in (ALT, AST)) from the Extended Safety Observation Period (where ADLB.PSBLFL = 'Y' and ADT <= EOECCEDT), a second copy of the record with the highest ADLB.R2A1HI is output. In case multiple records with the same R2A1HI value, the chronologically earliest record by date, time, visit, and LBSEQ, if necessary is selected for duplication.
+ATOX: and BTOX:, SHIFT:, CRIT: variables, analysis flags (ANLzzFL), BASE, CHG, PCHG and R2A1HI are set to missing on this copied record. All other variables, including CRIT flags are retained from the original ALT or AST record.",,,

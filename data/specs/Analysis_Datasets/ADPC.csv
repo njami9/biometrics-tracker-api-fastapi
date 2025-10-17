@@ -1,0 +1,203 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments,,,
+ADPC,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,,,,
+ADPC,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,,,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,,,,
+ADPC,PCSEQ,Sequence Number,Num,8,best20.,,Predecessor,PC.PCSEQ,,,,,
+ADPC,PCREFID,Reference ID,Char,50,$50.,,Predecessor,PC.PCREFID,,,,,
+ADPC,PCSTRESC,Character Result / Finding in Std. Format,Char,200,$200.,,Predecessor,PC.PCSTRESC,,,,,
+ADPC,PCSTRESN,Numeric Result/Finding in Std. Units,Num,8,best20.,,Predecessor,PC.PCSTRESN,,,,,
+ADPC,PCSTRESU,Standard Units,Char,25,$25.,PKUNIT,Predecessor,PC.PCSTRESU,,,,,
+ADPC,PCNAM,Vendor Name,Char,50,$50.,,Predecessor,PC.PCNAM,,,,,
+ADPC,PCSTAT,Completion Status,Char,50,$50.,ND,Predecessor,PC.PCSTAT,,,,,
+ADPC,PCSPEC,Specimen Material Type,Char,50,$50.,SPECTYPE,Predecessor,PC.PCSPEC,,,,,
+ADPC,PCSPCCND,Specimen Condition,Char,200,$200.,SPECCOND,Predecessor,PC.PCSPCCND,,,,,
+ADPC,PCLLOQ,Lower Limit of Quantitation,Num,8,best20.,,Predecessor,PC.PCLLOQ,,,,,
+ADPC,PCDTC,Date/Time of Specimen Collection,Char,19,$19.,ISO 8601,Predecessor,PC.PCDTC,,,,,
+ADPC,PCDY,Actual Study Day of Specimen Collection,Num,8,best20.,DY,Predecessor,PC.PCDY,,,,,
+ADPC,PCXLPDTC,Date/Time of Prior Dose of XL092,Char,19,$19.,,Predecessor,"if PARAMCD=XLCONC:
+then set to numeric datetime of the most recent non-zero XL092 dose date (based on date part of EX.EXSTDTC where EXTRT=XL092) prior to ADPC.ADT",,,,,
+ADPC,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,PC.VISITNUM,,,,,
+ADPC,VISIT,Visit Name,Char,200,$200.,,Predecessor,PC.VISIT,,,,,
+ADPC,AVISIT,Analysis Visit,Char,200,$200.,AVISC,Predecessor,Set to propcase(PC.VISIT),,,,,
+ADPC,AVISITN,Analysis Visit (N),Num,8,best20.,,Predecessor,PC.VISITNUM,,,,,
+ADPC,ARELTM,Analysis Relative Time,Num,8,best20.,,Derived,"ARELTM = (ADTM - XLDOSDTM)/3600  for PARAMCD = XLCONC, and (ADTM - NINFSDTM)/3600 for PARAMCD = NIVOCONC, and (ADTM - RINFSDTM)/3600 for PARAMCD = RELACONC, and (ADTM - IINFSDTM)/3600 for PARAMCD = IPICONC, and retain 4 digits after decimal.  (The calculation assumes the difference is in seconds and is divided by 3600 to convert to  hours.  Adjust accordingly to how your software calcluates the difference.)  NOTE:  This is the time (in hours) of the specimen collection relative to the dose that day.",,,,,
+ADPC,ARELTMU,Analysis Relative Time Unit,Char,6,$6.,,Assigned,"Set to ""HOURS"" (Only if ARELTM exists).",,,,,
+ADPC,TRTP,Planned Treatment,Char,52,$52.,TRTP,Assigned," ADSL.TRT01P
+",,,,,
+ADPC,TRTPN,Planned Treatment (N),Num,8,best20.,TRTPN,Assigned," ADSL.TRT01PN
+",,,,,
+ADPC,TRTA ,Actual Treatment,Char,52,$52.,TRTA ,Assigned,ADSL.TRT01A,,,,,
+ADPC,TRTAN,Actual Treatment (N),Num,8,best20.,TRTAN,Assigned,"ADSL.TRT01AN
+",,,,,
+ADPC,ADT,Analysis Date,Num,8,date9.,,Predecessor,Date Portion of PC.PCDTC.  If the date portion is not a proper date then set to missing.  Do not impute.,,,,,
+ADPC,ATM,Analysis Time,Num,8,Time5.,,Predecessor,Set to time part of PC.PCDTC,,,,,
+ADPC,ADTM,Analysis Datetime,Num,8,Datetime19.,,Predecessor,"Numeric Date/Time version of PCDTC.  If the date or time portion is not a proper date/time, then set to missing.  Do not impute.
+(e.g.,  Set 'XX:XX' to missing).",,,,,
+ADPC,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"ADT - ADSL.TRTSDT +1 if ADT >=TRTSDT
+ADT - ADSL.TRTSDT if ADT < TRTSDT",,,,,
+ADPC,PARAM,Parameter ,Char,50,$50.,PCPARM,Assigned,"Set based on PC.PCTESTCD:
+
+XL092='XL092 Conc (ng/mL)'
+NIVO='Nivolumab Conc (ug/mL)'
+RELA='Nivo/Rela FDC Conc (ng/mL)'
+IPI=""Ipilimumab Conc (ng/mL)'
+
+Note to Programming: Confirm PC.PCORRESU='ng/mL' and inform the lead ST if not.",,,,,
+ADPC,PARAMCD,Parameter Code,Char,10,$10.,PCPARMCD,Assigned,"Set based on PC.PCTESTCD:
+XL092=XLCONC
+NIVO=NIVOCONC
+RELA=RELACONC
+IPI=IPICONC",,,,,
+ADPC,AVAL,Analysis Value,Num,8,best20.,,Derived,If PCSTRESC contains '<' or is equal to 'LLOQ' then set to 0.  Otherwise set to PC.PCSTRESN,,,,,
+ADPC,XTRTADOS,XL092 Dose Level Assigned (mg),Num,8,best20.,,Assigned,"if PARAMCD=XLCONC:
+Set based on ADSL.TRT01P:
+if TRT01P contains 'XL092 40 MG' then set to 40
+else if TRT01P contains 'XL092 60 MG' then set to 60
+else if TRT01P contains 'XL092 100 MG' then set to 100
+else set to Null",,,,,
+ADPC,NTRTADOS,Nivo Dose Level Assigned (mg),Num,8,best20.,,Assigned,"If PARAMCD = NIVOCONC:
+Set based on ADSL.TRT01P:
+if TRT01P contains 'NIVOLUMAB 360 MG' then set to 360
+else if TRT01P contains 'NIVOLUMAB 480 MG' then set to 480
+else if TRT01P contains 'NIVOLUMAB 3 MG/KG' then set to 3*ADSL.WTBL
+else set to Null",,,,,
+ADPC,RTRTADOS,Nivo/Rela FDC Dose Level Assigned (mg),Num,8,best20.,,Assigned,"If PARAMCD = RELACONC:
+Set based on ADSL.TRT01P:
+if TRT01P contains 'RELATLIMAB' then set to 480
+else set to Null",,,,,
+ADPC,ITRTADOS,Ipilimumab Dose Level Assigned (mg),Num,8,best20.,,Assigned,"If PARAMCD = IPICONC:
+Set based on ADSL.TRT01P:
+if TRT01P contains 'IPILIMUMAB' then set to ADSL.WTBL
+else set to Null",,,,,
+ADPC,XLMODFL,Prior Dose Modification Flag for XL092,Char,1,$1.,NY,Derived,"If PARAMCD = XLCONC:
+Apply the following criteria in order:
+If (ADT > numeric XLMDDT) then XLMODFL='Y'
+If (ADT is missing or XLTRTSDT is missing or numeric XLMDDT is missing) then XLMODFL = ""Y""",,,,,
+ADPC,NVMODFL,Prior Dose Modification Flag for Nivo,Char,1,$1.,NY,Derived,"If PARAMCD = NIVOCONC:
+Apply the following criteria in order:
+If (ADT > numeric NVMDDT then NVMODFL='Y'
+If (ADT is missing or NVTRTSDT is missing or numeric NVMDDT is missing) then NVMODFL = ""Y""",,,,,
+ADPC,RLMODFL,Prior Dose Modification Flag for Nivo/Rela FDC,Char,1,$1.,NY,Derived,"If PARAMCD = RELACONC:
+Apply the following criteria in order:
+If (ADT > numeric RLMDDT then RLMODFL='Y'
+If (ADT is missing or RLTRTSDT is missing or numeric RLMDDT is missing) then RLMODFL = ""Y""",,,,,
+ADPC,IPMODFL,Prior Dose Modification Flag for Ipi,Char,1,$1.,NY,Derived,"If PARAMCD = IPICONC:
+Apply the following criteria in order:
+If (ADT > numeric IPMDDT then IPMODFL='Y'
+If (ADT is missing or IPTRTSDT is missing or numeric IPMDDT is missing) then IPMODFL = ""Y""",,,,,
+ADPC,POPPKFL,PK Population Flag,Char,1,$1.,,Derived,"If PARAMCD = XLCONC or NIVOCONC or RELACONC:
+Subject/Treatment level flag:  For each subject and PARAMCD, if any record exists with a non-missing value of PCSTRESC, set to ""Y"" for all records for that subject and PARAMCD.  Otherwise, set to ""N"" for all records for that subject and PARAMCD.",,,,,
+ADPC,XLMDDT,Date of First XL092 Dose Change,Char,20,$20.,,Derived,"If PARAMCD = XLCONC:
+
+
+Apply CRITERION 1 as follows:
+
+CRITERION 1:  if  (ADEX.EXTRT=""XL092"")    and    (ADEX.AVAL where PARAMCD='TDDOSE' does not equal XTRTADOS) set XLMDDT equal to ADEX.EXSTDTC for earliest record meeting this criterion.
+
+
+If there is no record with a valid EXSTDTC or EXENDTC, then set XLMDDT to missing. ",,,,,
+ADPC,NVMDDT,Date of First Nivo Dose Change,Char,20,$20.,,Derived,"If PARAMCD = NIVOCONC:
+
+Apply CRITERION 1 as follows:
+
+CRITERION 1:  if (ADEX.EXTRT=""Nivolumab"")    and  (ADEX.AVAL where PARAMCD='TDDOSE' does not equal NTRTADOS) set NVMDDT equal to ADEX.EXSTDTC for earliest record meeting this criterion.
+
+If there is no record with a valid EXSTDTC or EXENDTC, then set NVMDDT to missing. ",,,,,
+ADPC,RLMDDT,Date of First Nivo/Rela FDC Dose Change,Char,20,$20.,,Derived,"If PARAMCD = RELACONC:
+
+Apply CRITERION 1 as follows:
+
+CRITERION 1:  if (ADEX.EXTRT=""Relatlimab/Nivolumab FDC"")    and  (ADEX.AVAL where PARAMCD='TDDOSE' does not equal RTRTADOS) set RLMDDT equal to ADEX.EXSTDTC for earliest record meeting this criterion.
+
+If there is no record with a valid EXSTDTC or EXENDTC, then set RLMDDT to missing. ",,,,,
+ADPC,IPMDDT,Date of First Ipi Dose Change,Char,20,$20.,,Derived,"If PARAMCD = IPICONC:
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX.  If EX.EXENDTC is missing  for the last record after sorting by EX.EXSTDTC, set EX.EXENDTC equal to ADSL.RLTRTEDT for the purposes of the subsequent derivations below. 
+
+Apply CRITERION 1 as follows:
+
+CRITERION 1:  if (ADEX.EXTRT=""Ipilimumab"")    and  (ADEX.AVAL where PARAMCD='TDDOSE' does not equal ITRTADOS) set IPMDDT equal to ADEX.EXSTDTC for earliest record meeting this criterion.
+
+If there is no record with a valid EXSTDTC or EXENDTC, then set IPMDDT to missing. ",,,,,
+ADPC,MDDY,Relative Day of First Dose Change,Num,8,best20.,,Derived,"If PARAMCD = XLCONC:
+MDDY = MDDTC - XLTRTSDT + 1, where only the date portion of XLMDDT and XLTRTSDT are used for the calculation and the difference between XLMDDT and XLTRTSDT is in days.
+If there is no record with a valid EXSTDTC or EXENDTC, then set XLMDDT to missing. 
+
+If PARAMCD = NIVOCONC:
+MDDY = NVMDDT - NVTRTSDT + 1, where only the date portion of NVMDDT and NVTRTSDT are used for the calculation and the difference between NVMDDT and NVTRTSDT is in days.
+If there is no record with a valid EXSTDTC or EXENDTC, then set NVMDDT to missing. 
+
+If PARAMCD = RELACONC:
+MDDY = RLMDDT - RLTRTSDT + 1, where only the date portion of RLMDDT and RLTRTSDT are used for the calculation and the difference between RLMDDT and RLTRTSDT is in days.
+If there is no record with a valid EXSTDTC or EXENDTC, then set MDDTC to missing. ",,,,,
+ADPC,PKTRT,Name of Actual Treatment PK,Char,200,$200.,,Derived,"if PARAMCD=XLCONC:
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, then set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in EX, set to the latest EX. EXTRT where EXSTDTC is prior to ADT and EXTRT=XL092. If (ADT is on or before the earliest EXSTDTC)  or (ADT is missing) , then set to missing.
+If [ (ADT-1) is greater than the latest non-missing value of EXSTDTC/EXENDTC ], then reset to missing (ie, PK sample taken after the latest recorded dose).
+
+''if PARAMCD= NIVOCONC :
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, then set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in EX, set to the latest EX. EXTRT where EXSTDTC is prior to ADT and EXTRT=Nivolumab.  If (ADT is on or before the earliest EXSTDTC)  or (ADT is missing) , then set to missing.
+If [ (ADT-1) is greater than the latest non-missing value of EXSTDTC/EXENDTC ], then reset to missing (ie, PK sample taken after the latest recorded dose).
+
+''if PARAMCD= RELACONC :
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, then set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in EX, set to the latest EX. EXTRT where EXSTDTC is prior to ADT and EXTRT=Relatlimab/Nivolumab FDC.  If (ADT is on or before the earliest EXSTDTC)  or (ADT is missing) , then set to missing.
+If [ (ADT-1) is greater than the latest non-missing value of EXSTDTC/EXENDTC ], then reset to missing (ie, PK sample taken after the latest recorded dose).",,,,,
+ADPC,PKDOSTOT,Total Daily Dose PK,Num,8,best20.,,Derived,"if PARAMCD=XLCONC:
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in ADEX, set to the latest ADEX.AVAL where PARAMCD='TDDOSE' where ADEX.EXSTDTC is prior to ADPC.ADT and EXTRT contains ""XL092"" .  If (ADPC.ADT is on or before the earliest ADEX.EXSTDTC) or (ADPC.ADT is missing) then set to missing.
+
+If [(ADPC.ADT-1) is greater than the latest non-missing value of ADEX.EXSTDTC/EXENDTC], then reset to missing (ie, PK sample taken after the lastest recorded dose).
+
+'if PARAMCD=NIVOCONC:
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in ADEX, set to the latest ADEX.AVAL where PARAMCD='TDDOSE' where ADEX.EXSTDTC is prior to ADPC.ADT and EXTRT contains ""Nivolumab"" .  If (ADPC.ADT is on or before the earliest ADEX.EXSTDTC) or (ADPC.ADT is missing) then set to missing.
+
+If [(ADPC.ADT-1) is greater than the latest non-missing value of ADEX.EXSTDTC/EXENDTC], then reset to missing (ie, PK sample taken after the lastest recorded dose).
+
+'if PARAMCD=RELACONC:
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in ADEX, set to the latest ADEX.AVAL where PARAMCD='TDDOSE' where ADEX.EXSTDTC is prior to ADPC.ADT and EXTRT contains ""Relatlimab"" .  If (ADPC.ADT is on or before the earliest ADEX.EXSTDTC) or (ADPC.ADT is missing) then set to missing.
+
+If [(ADPC.ADT-1) is greater than the latest non-missing value of ADEX.EXSTDTC/EXENDTC], then reset to missing (ie, PK sample taken after the lastest recorded dose).
+'if PARAMCD=IPICONC:
+For each ADPC record, examine EX  for the corresponding SUBJID. For the corresponding SUBJID in EX, if EX.EXENDTC is missing for the last record after sorting by EX.EXSTDTC, set EX.EXENDTC equal to TRTEDT for the purposes of the subsequent derivations below.
+
+For the corresponding SUBJID in ADEX, set to the latest ADEX.AVAL where PARAMCD='TDDOSE' where ADEX.EXSTDTC is prior to ADPC.ADT and EXTRT contains ""Ipilimumab"" .  If (ADPC.ADT is on or before the earliest ADEX.EXSTDTC) or (ADPC.ADT is missing) then set to missing.
+
+If [(ADPC.ADT-1) is greater than the latest non-missing value of ADEX.EXSTDTC/EXENDTC], then reset to missing (ie, PK sample taken after the lastest recorded dose).",,,,,
+ADPC,XLPKTOT,Total XL092 Dose PK,Num,8,best20.,,Assigned,"if PARAMCD=XLCONC:
+Set equal to ADPC.PKDOSTOT",,,,,
+ADPC,XLDOSDT,Date of Prior Dose of XL092,Num,8,date9.,,Assigned,"if PARAMCD=XLCONC:
+Numeric date portion of ADPC.PCXLPDTC",,,,,
+ADPC,XLDOSTM,Time of Prior Dose of XL092,Num,8,Time5.,,Assigned,"if PARAMCD=XLCONC:
+Numeric time portion of ADPC.PCXLPDTC",,,,,
+ADPC,XLDOSDTM,Datetime of Prior Dose of XL092,Num,8,Datetime19.,,Assigned,"if PARAMCD=XLCONC:
+then set to numeric datetime of ADPC.XLDOSDT and ADPC.XLDOSTM. If the date or time portion is not a proper time, then set XLDOSDTM to missing.  Do not impute.",,,,,
+ADPC,NVINFSDT,Date of Start of Prior Inf of Nivo,Num,8,date9.,,Assigned,if PARAMCD=NIVOCONC then set to the most recent non-zero Nivolumab infusion date (based on date part of EX.EXSTDTC where EXTRT=Nivolumab) prior to ADPC.ADT,,,,,
+ADPC,NVINFSTM,Time of Start of Prior Inf of Nivo,Num,8,Time5.,,Assigned,if PARAMCD=NIVOCONC then set to the most recent non-zero Nivolumab infusion time corresponding to the EX.EXSTDTC chosen in ADPC.NVINFSDT derivation,,,,,
+ADPC,NINFSDTM,Datetime of Start of Prior Inf of Nivo,Num,8,Datetime19.,,Assigned,"if PARAMCD=NIVOCONC then set to numeric datetime of ADPC.NVINFSDT and ADPC.NVINFSTM. If the date or time portion is not a proper time, then set NINFSDTM to missing.  Do not impute.",,,,,
+ADPC,NVINFEDT,Date of End of Prior Inf of Nivo,Num,8,date9.,,Assigned,if PARAMCD=NIVOCONC then set to date part of EX.EXENDTC corresponding to the EX.EXSTDTC chosen in ADPC.NVINFSDT derivation,,,,,
+ADPC,NVINFETM,Time of End of Prior Inf of Nivo,Num,8,Time5.,,Assigned,if PARAMCD=NIVOCONC then set to time part of EX.EXENDTC corresponding to the EX.EXENDTC chosen in ADPC.NVINFEDT derivation,,,,,
+ADPC,NINFEDTM,Datetime of End of Prior Inf of Nivo,Num,8,Datetime19.,,Assigned,"if PARAMCD=NIVOCONC then set to numeric datetime of ADPC.NVINFEDT and ADPC.NVINFETM.  If the date or time portion is not a proper time, then set NINFEDTM to missing.  Do not impute.",,,,,
+ADPC,NINFDURH,Nivo Infusion Duration (Hours),Num,8,best20.,,Derived,if PARAMCD=NIVOCONC then set to (NINFEDTM-NINFSDTM)/3600 if both dates are non-missing,,,,,
+ADPC,RLINFSDT,Date of Start of Prior Inf of Nivo/Rela FDC,Num,8,date9.,,Assigned,if PARAMCD=RELACONC then set to the most recent non-zero Relatlimab infusion date (based on date part of EX.EXSTDTC where EXTRT=Relatlimab/Nivolumab FDC) prior to ADPC.ADT,,,,,
+ADPC,RLINFSTM,Time of Start of Prior Inf of Nivo/Rela FDC,Num,8,Time5.,,Assigned,if PARAMCD=RELACONC then set to the most recent non-zero Relatlimab infusion time corresponding to the EX.EXSTDTC chosen in ADPC.RLINFSDT derivation,,,,,
+ADPC,RINFSDTM,Datetime of Start of Prior Inf of Nivo/Rela FDC,Num,8,Datetime19.,,Assigned,"if PARAMCD=RELACONC then set to numeric datetime of ADPC.RLINFSDT and ADPC.RLINFSTM. If the date or time portion is not a proper time, then set RINFSDTM to missing.  Do not impute.",,,,,
+ADPC,RLINFEDT,Date of End of Prior Inf of Nivo/Rela FDC,Num,8,date9.,,Assigned,if PARAMCD=RELACONC then set to date part of EX.EXENDTC corresponding to the EX.EXSTDTC chosen in ADPC.RLINFSDT derivation,,,,,
+ADPC,RLINFETM,Time of End of Prior Inf of Nivo/Rela FDC,Num,8,Time5.,,Assigned,if PARAMCD=RELACONC then set to time part of EX.EXENDTC corresponding to the EX.EXENDTC chosen in ADPC.RLINFEDT derivation,,,,,
+ADPC,RINFEDTM,Datetime of End of Prior Inf of Nivo/Rela FDC,Num,8,Datetime19.,,Assigned,"if PARAMCD=RELACONC then set to numeric datetime of ADPC.RLINFEDT and ADPC.RLINFETM.  If the date or time portion is not a proper time, then set RINFEDTM to missing.  Do not impute.",,,,,
+ADPC,RINFDURH,Nivo/Rela FDC Infusion Duration (Hours),Num,8,best20.,,Derived,if PARAMCD=RELACONC then set to (RINFEDTM-RINFSDTM)/3600 if both dates are non-missing,,,,,
+ADPC,IPINFSDT,Date of Start of Prior Inf of Ipi,Num,8,date9.,,Assigned,if PARAMCD=IPICONC then set to the most recent non-zero Ipilimumab infusion date (based on date part of EX.EXSTDTC where EXTRT=Ipilimumab) prior to ADPC.ADT,,,,,
+ADPC,IPINFSTM,Time of Start of Prior Inf of Ipi,Num,8,Time5.,,Assigned,if PARAMCD=IPICONC then set to the most recent non-zero Ipilimumab infusion time corresponding to the EX.EXSTDTC chosen in ADPC.IPINFSDT derivation,,,,,
+ADPC,IINFSDTM,Datetime of Start of Prior Inf of Ipi,Num,8,Datetime19.,,Assigned,"if PARAMCD=IPICONC then set to numeric datetime of ADPC.IPINFSDT and ADPC.IPINFSTM. If the date or time portion is not a proper time, then set IINFSDTM to missing.  Do not impute.",,,,,
+ADPC,IPINFEDT,Date of End of Prior Inf of Ipi,Num,8,date9.,,Assigned,if PARAMCD=IPICONC then set to date part of EX.EXENDTC corresponding to the EX.EXSTDTC chosen in ADPC.IPINFSDT derivation,,,,,
+ADPC,IPINFETM,Time of End of Prior Inf of Ipi,Num,8,Time5.,,Assigned,if PARAMCD=IPICONC then set to time part of EX.EXENDTC corresponding to the EX.EXENDTC chosen in ADPC.IPINFEDT derivation,,,,,
+ADPC,IINFEDTM,Datetime of End of Prior Inf of Ipi,Num,8,Datetime19.,,Assigned,"if PARAMCD=IPICONC then set to numeric datetime of ADPC.IPINFEDT and ADPC.IPINFETM.  If the date or time portion is not a proper time, then set IINFEDTM to missing.  Do not impute.",,,,,
+ADPC,IINFDURH,Ipi Infusion Duration (Hours),Num,8,best20.,,Derived,if PARAMCD=IPICONC then set to (IINFEDTM-IINFSDTM)/3600 if both dates are non-missing,,,,,

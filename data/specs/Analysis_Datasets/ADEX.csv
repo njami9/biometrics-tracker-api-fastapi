@@ -1,0 +1,262 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADEX,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADEX,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADEX,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADEX,ECSEQ,Sequence Number,Num,8,best20.,,Predecessor,"From EC domain where ECMOOD = 'PERFORMED', set to EC.ECSEQ from the selected records.",,
+ADEX,ECLNKID,Link ID,Char,20,$20.,,Predecessor,EC.ECLNKID,,
+ADEX,ECTRT,Name of Treatment,Char,200,$200.,ECTRT,Predecessor,EC.ECTRT,,
+ADEX,PARAM,Parameter ,Char,40,$40.,PAREX_C,Assigned,Set to 'Total Daily Dose (mg)'.,,
+ADEX,PARAMCD,Parameter Code,Char,8,$8.,PAREX,Assigned,Set to 'TDDOSE'.,,
+ADEX,ECSTDTC,Start Date/Time of Treatment,Char,19,$19.,,Predecessor,EC.ECSTDTC,,
+ADEX,ASTDT,Analysis Start Date,Num,8,date9.,,Derived,"If EC.ECSTDTC is a complete date, set to date-part of EC.ECSTDTC as a SAS date variable. Note: Dates for ECTRT in  ('Nivolumab', 'Ipilimumab', 'Relatlimab/Nivolumab FDC') are expected to  be complete dates, since infusions are given in the hospital. Do not impute partial dates where ECTRT in  ('Nivolumab', 'Ipilimumab', 'Relatlimab/Nivolumab FDC'). Instead, file a data issue.
+
+In the event of partial dates for oral medications (ECTRT = ""XL092""), sort records in EC domain by: year(ECSTDTC), year(ECENDTC), month(ECSTDTC), month(ECENDTC), day(ECSTDTC), day(ECENDTC). For the purposes of sorting, if month and/or year is missing from ECSTDTC and is non-missing from ECENDTC, or vice versa, use the opposite date component in the sort (e.g. if month of ECENDTC is missing and month of ECSTDTC is non-missing, use month of ECSTDTC in place of month(ECENDTC) for sorting). If day-part of either date is missing and is non-missing from the other, and the month-parts of the dates are the same, then use the opposite day-part in the sort. If the month-parts differ, set day-part of ECSTDTC (for sort only) to the 1st of the month if missing. Set day-part of ECENDTC (for sort only) to the last day of the month if missing. 
+
+After sorting, impute partial ECSTDTC values as follows:
+(1) Define ""previous dosing milestone” as the latest of (a) the chronologically previous end date (ADEX.AENDT) or (b) the date of first dose (ADSL.TRTSDT).
+Note: only perform the below imputation (steps 2-4) if (a) this is the chronologically first record in EC domain or if the previous end date is a complete date. Otherwise, proceed to step 5.
+(2) If date is completely missing: set to date of ""previous dosing milestone” (as defined in 1) + 1 day
+(3) If ECSTDTC has only year: set to the later of: (January 1st,""previous dosing milestone” + 1 day)
+(4) If ECSTDTC is missing only day: set to the later of: (1st day of the month, ""previous dosing milestone” + 1 day)
+(5) If the start date of the current record is partial and the end date of the previous record is partial, then follow imputation rules as laid out in AENDT derivation.",,
+ADEX,ASTTM,Analysis Start Time,Num,8,time5.,,Derived,"Time-part of EC.ECSTDTC, if available.
+
+If SUPPEC.QVAL where QNAM = 'ECSTTX' is non-missing, and the given record is the chronologically first record, and ECSTDTC is missing time-part, then set ADEX.ASTTM to (SUPPEC.QVAL where QNAM = 'ECSTTX') as a SAS numeric time variable.",,
+ADEX,ASTDTF,Analysis Start Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Assigned based on level of imputation.
+""D"" = day was imputed.
+""M"" = imputed month and day.
+""Y"" = imputed full date.",,
+ADEX,ASTDY,Analysis Start Relative Day,Num,8,best20.,,Derived,Calculated as (ASTDT - TRTSDT) + 1.,,
+ADEX,ECENDTC,End Date/Time of Treatment ,Char,16,$16.,,Predecessor,EC.ECENDTC,,
+ADEX,AENDT,Analysis End Date,Num,8,date9.,,Derived,"Date part of EC.ECENDTC as a SAS numeric date. Note: Dates for ECTRT in  ('Nivolumab', 'Ipilimumab', 'Relatlimab/Nivolumab FDC') are expected to  be complete dates. Do not impute partial dates where ECTRT in  ('Nivolumab', 'Ipilimumab', 'Relatlimab/Nivolumab FDC'). Instead, file a data issue.
+
+In the event of partial dates, sort records in EC domain as described in ASTDT derivation. 
+After sorting, impute partial ECENDTC values as follows:
+(1) Define the ""next sequential dosing milestone"" as the chronologically next ECSTDTC date in EC domain for the given treatment, date of decision to stop treatment from EOT CRF (ADSL.EOXDCDT or ADSL.EORDCDT, based on ECTRT value) or the cutoff date (ADSL.CUTDT). Note: only proceed with the below imputation steps (2-4) if this is the chronologically last record in the EC domain or the chronologically next ECSTDTC is a complete date. If the next ECSTDTC is partial, skip to step (5).
+(2) If ECENDTC is completely missing: set to date of ""next sequential dosing milestone” - 1.
+(3) If year is present but month/day are missing: set to the earlier of (December 31st, {""next sequential dosing milestone"" - 1}).
+(4) If only day is missing: set to the earlier of (last day of the month, {""next sequential dosing milestone"" - 1}).
+(5) If the end date of the current record is partial and the start date of the subsequent record is partial, then imputation of AENDT and ASTDT will proceed together. See Complex Algorithms tab for details.",,
+ADEX,AENTM,Analysis End Time,Num,8,time5.,,Derived,"Time-part of EC.ECENDTC, if available.",,
+ADEX,AENDTF,Analysis End Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Assigned based on level of imputation.
+""D"" = day was imputed.
+""M"" = imputed month and day.
+""Y"" = imputed full date.",,
+ADEX,AENDY,Analysis End Relative Day,Num ,8 ,best20.,,Derived,Calculate as (AENDT - TRTSDT) + 1.,,
+ADEX,ECOCCUR,Occurrence,Char,1,$1.,NY,Predecessor,EC.ECOCCUR,,
+ADEX,ECDOSE,Dose,Num,8,best20.,,Predecessor,EC.ECDOSE,,
+ADEX,ECDOSU,Dose Units,Char,20,$20.,ECDOSU,Predecessor,EC.ECDOSU,,
+ADEX,ECDOSFRM,Dose Form,Char,50,$50.,ECDOSFRM,Predecessor,EC.ECDOSFRM,,
+ADEX,ECDOSFRQ,Dosing Frequency per Interval,Char,3,$3.,ECDOSFRQ,Predecessor,EC.ECDOSFRQ,,
+ADEX,ECROUTE,Route of Administration,Char,50,$50.,,Predecessor,EC.ECROUTE,,
+ADEX,ECADJ,Reason for Dose Adjustment,Char,200,$200.,ECADJ,Predecessor,EC.ECADJ ,,
+ADEX,AVAL,Analysis Value,Num,8,best20.,,Derived,"Set to EC.ECDOSE.
+If ECDOSE is null and EC.ECOCCUR = 'N' then set to 0.
+",,
+ADEX,DOSEA,Actual Treatment Dose,Num ,8 ,best20.,,Derived,"Set to EC.ECDOSE.
+If ECDOSE is null and EC.ECOCCUR = 'N' then set to 0.",,
+ADEX,DOSEP,Planned Treatment Dose,Num ,8 ,best20.,,Assigned,"Set to the per-protocol dose level.
+if ECTRT='XL092': Set to the number after ""XL092_"" and before ""_NIVO"" in ADSL:ARMCD.  For example, if ARMCD=XL092_100_NIVO3 then set to 100
+
+If ECTRT='Ipilimumab' then set to 1*WTBL
+
+Where ECTRT='Nivolumab':
+If ARMCD='XL092_100+NIVO3' set to 360
+If ARMCD in ('XL092_100+NIVO4', 'XL092_60_NIVO_RELA', 'XL092_100_NIVO_RELA') set to 480
+If ARMCD in ('XL092_40_NIVO_IPI', 'XL092_60_NIVO_IPI', 'XL092_80_NIVO_IPI') set to 3*ADSL.WTBL
+If ARMCD does not contain 'NIVO' set to 0
+
+Where ECTRT='Relatlimab/Nivolumab FDC':
+If ARMCD in ('XL092_60_NIVO_RELA', 'XL092_100_NIVO_RELA') set to 480",,
+ADEX,DOSEU,Treatment Dose Units,Char ,20,$20.,ECDOSU,Predecessor,EC.ECDOSU,,
+ADEX,ADURN,Analysis Duration (N),Num ,8 ,best20.,,Derived,"Calculated as (ADEX.AENDT - ADEX.ASTDT) + 1.
+
+Note: If ADURN<=0 then set to missing",,
+ADEX,ADURU,Analysis Duration Units,Char ,4,$4.,ADURU,Assigned,"If not missing ADURN then set to ""DAYS""",,
+ADEX,TOTDOSE,Total Dose for Dosing Period,Num ,8,best20.,,Derived,"If ECDOSFRQ = 'QD' then (ADEX.DOSEA * ADEX.ADURN);
+If ECDOSFRQ = 'QOD' then AVAL = ECDOSE*(1/2)*(ADEX.ADURN)
+If ECDOSFRQ in ('Q3W', 'Q4W') then set to ECDOSE.",,
+ADEX,ECREASOC,Reason for Occur Value,Char ,200,$200.,,Predecessor,EC.ECREASOC,,
+ADEX,DELAYFL,Delay from Prior Infusion,Char,1,$1.,,Predecessor,SUPPEC.QVAL where QNAM='ECPDELYN',,
+ADEX,ECPDEL,Reason for Dose Delay,Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECPDEL',,
+ADEX,ECPDELSP,"Dose Delay Reason, Other Specify",Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECPDELSP',,
+ADEX,INTRRPFL,Exposure Interrupted,Char,1,$1.,,Predecessor,SUPPEC.QVAL where QNAM='ECITRPYN',,
+ADEX,ECITRP,Reason for Dose Interruption,Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECITRP',,
+ADEX,ECITRPSP,"Dose Interruption Reason, Other Specify",Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECITRPSP',,
+ADEX,INCMPFL,Exposure Incompletion Status,Char,1,$1.,,Predecessor,SUPPEC.QVAL where QNAM='ECCMPYN',,
+ADEX,ECPRDOSE,Prescribed Dose,Char,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECPRDOSE',,
+ADEX,ECSTTX ,Time of First Dose,Char,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECSTTX ',,
+ADEX,ECYNSP,Reason Treatment Not Administered,Char,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECYNSP',,"ML 12/26/24: ECYNSP is currently missing in all ODS datasets EC1CDB-EC5CDB.
+
+ML 2/11/25: Can we drop this variable from ADEX? We don't have any records in SDTM.SUPPEC with QNAM='ECYNSP'."
+ADEX,ECDOSESP,"If Prescribed Other, Specify Dose Level",Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECDOSESP',,
+ADEX,ECDOSES,Dose Prepared,Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECDOSES',,
+ADEX,ECDOSESU,Dose Prepared Units,Char ,200,$200.,,Predecessor,SUPPEC.QVAL where QNAM = 'ECDOSESU',,
+ADEX,POSTRTFL,Post Treatment Flag,Char,1,$1.,Y,Assigned,"Set to 'Y' on any record which occurs after the last non-zero dose. 
+If ECOCCUR = 'N' and the record is chronologically after the last non-zero record, then set to 'Y'.",,
+ADEX,DURDH,Duration of Dose Hold (Days),Num ,8 ,best20.,,Derived,"if ADEX.EXTRT=XL092:
+if AVAL=0 and ADEX:CRIT18FL=Y then set to ADEX.AENDT-ADEX.ASTDT+1.
+
+if AVAL=0 and ADEX:CRIT19FL=Y then set to ADEX.AENDT-ADEX.ASTDT+1-7.",,
+ADEX,DURDHAE,Duration of Dose Hold Due to AE (Days),Num ,8 ,best20.,,Derived,"if ADEX.EXTRT=XL092:
+if AVAL=0 and ADEX:CRIT3FL=Y then set to ADEX.AENDT-ADEX.ASTDT+1.",,
+ADEX,CRIT1,Analysis Criterion 1 (Initial Dose),Char,30,$30.,,Derived,"if PARAMCD=TDDOSE:
+Set to 'Initial Dose' for the first non-zero dose record within each extrt
+",CL 1/17: Updated all flags to match 001. ,
+ADEX,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT1 populated,,
+ADEX,CRIT2,"Analysis Criterion 2 (Reduced, AE)",Char,40,$40.,,Derived,"If PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Populate with 'Reduced Dose Due to AE' if one of the following criteria is met:
+1) AVAL between (0, 120) and AVAL is smaller than AVAL from the record right above, which has a non missing AENDT and EX.EXADJ is 'ADVERSE EVENT'.  Or,  
+2) AVAL between (0, 120) and the record right above the record has AVAL= 0, and the record right before 0 AVAL has a non missing AENDT and AVAL is greater than the AVAL of the compared record, and EX.EXADJ is 'ADVERSE EVENT'. 
+
+Some examples: for the following ADEX.AVAL records: 
+a) Example: 60, 0, 40, 40, 60, 0, 40, only the highlighted 40 should be flagged.
+b) Example: 60, 0, 40, 40, 60, 40:  there should be two flagged records as highlighted.
+c) Example: 60, 40, 0, 20: there are two reduction identified.
+d) Example: 60, 40, 0, 40, only first 40 should be flagged
+e) Example: 60, 0, 0, 40, the 40 should be flagged",,"ML 2/10/25: Is there a reason specs is looking for AVAL between (0, 160) ? MTD for XL092 is 120 mg. Please update specs to avoid confusion.                                                                        Can you highlight the doses in the example? Currently none of the doses are highlighted."
+ADEX,CRIT2FL,Criterion 2 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT2 populated,,
+ADEX,CRIT3,"Analysis Criterion 3 (Dose Hold, AE)",Char,45,$45.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Dose Hold Due to AE' for records where the following criteria is met on the record before the record with AVAL=0:
+(1) EC.ECADJ right before the record with (AVAL=0 ) is ADVERSE EVENT 
+(2) The record right before the record with (AVAL=0) has non-missing EC.ECENDTC.
+Note: The record with AVAL=0 should be flagged (not the prior record)",,ML 2/11/25: Update all CRIT1-CRIT19FL to use AVAL instead of EC.ECDOSE to determine dose holds etc.
+ADEX,CRIT3FL,Criterion 3 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT3 populated,,
+ADEX,CRIT4,Analysis Criterion 4 (Min Dose Exc 0 AE),Char,50,$50.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Select records with CRIT3FL^=Y and CRIT2FL=Y. Set to 'Lowest Dose Due to AE Exc Holds (mg)' for the record that satisfies the condition: Smallest AVAL
+note: multiple records could be flagged.",,
+ADEX,CRIT4FL,Criterion 4 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT4 populated,,
+ADEX,CRIT5,Analysis Criterion 5 (Lst Dose Exc 0 AE),Char,80,$80.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Select records with CRIT3FL^=Y and CRIT2FL=Y. Set to 'Last Reduced Dose Level Due to AE Excluding Hold (mg)' to the record with latest ASTDT",,
+ADEX,CRIT5FL,Criterion 5 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT5 populated,,
+ADEX,CRIT6,Analysis Criterion 6 (Lst Inc 0 AE Hold),Char,80,$80.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Select records with CRIT2FL=Y or CRIT3FL=Y.  Set to 'Last Reduced Dose Level Due to AE Including Hold (mg)' to the record with latest ASTDT
+",,
+ADEX,CRIT6FL,Criterion 6 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT6 populated,,
+ADEX,CRIT7,Analysis Criterion 7 (Hold Non-Comp),Char,80,$80.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Dose Hold Due to Subject Non-compliance' for the records where the following criteria is met on the record before the record with AVAL=0:
+(1) EC.ECADJ right before the record with (AVAL=0) is SUBJECT NON-COMPLIANCE OTHER THAN AE
+(2) The record right before the record with (AVAL=0) has non-missing EX.EXENDTC.
+Note: The record with AVAL=0 should be flagged (not the prior record)",,
+ADEX,CRIT7FL,Criterion 7 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT7 populated,,
+ADEX,CRIT8,Analysis Criterion 8 (Hold Site Err),Char,45,$45.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Dose Hold Due to Site Error' for the records where the following criteria is met on the record before the record with AVAL=0:
+(1) EC.ECADJ right before the record with (AVAL=0) is SITE/LOGISTICAL ERROR
+(2) The record right before the record with (AVAL=0) has non-missing EC.ECENDTC.
+Note: The record with AVAL=0 should be flagged (not the prior record)",,
+ADEX,CRIT8FL,Criterion 8 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT8 populated,,
+ADEX,CRIT9,Analysis Criterion 9 (Hold Other),Char,30,$30.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Dose Hold Due to Other Reason' for the records where the following criteria is met on the record before the record with AVAL=0:
+(1) EC.ECADJ right before the record with (AVAL=0) is OTHER
+(2) The record right before the record with (AVAL=0) has non-missing EC.ECENDTC.
+Note: The record with AVAL=0 should be flagged (not the prior record)",,
+ADEX,CRIT9FL,Criterion 9 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT9 populated,,
+ADEX,CRIT10,Analysis Criterion 10 (OD Non-Comp),Char,45,$45.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Overdose Due to Subject Non-compliance' for the record that meets the following condition: AVAL > ADEX:DOSEP, and EC.ECADJ is 'SUBJECT NON-COMPLIANCE OTHER THAN AE'
+
+Note: if the first AVAL > ADEX:DOSEP, and ECADJ is not in (SUBJECT NON-COMPLIANCE OTHER THAN AE,SITE/LOGISTICAL ERROR, OTHER), still populate the value.",,
+ADEX,CRIT10FL,Criterion 10 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT10 populated,,
+ADEX,CRIT11,Analysis Criterion 11 (OD Site Err),Char,30,$30.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Overdose Due to Site Error' for the record that meets the following condition:AVAL > ADEX:DOSEP, and EC.ECADJ is SITE/LOGISTICAL ERROR, ",,"ML 2/14/25: Do we need this flag? Why is this needed?
+
+MS 2/19/25: Included for CSR table T_DOSEERR"
+ADEX,CRIT11FL,Criterion 11 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT11 populated,,
+ADEX,CRIT12,Analysis Criterion 12 (OD Other),Char,35,$35.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Overdose Due to Other Reason' for the record that meets the following condition:AVAL > ADEX:DOSEP, and EC.ECADJ is OTHER
+",,"ML 2/14/25: Do we need this flag? Why is this needed?
+
+MS 2/19/25: Included for CSR table T_DOSEERR"
+ADEX,CRIT12FL,Criterion 12 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT12 populated,,
+ADEX,CRIT13,Analysis Criterion 13 (Wrong Non-Comp),Char,45,$45.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Wrong Dose Due to Subject Non-compliance' for the record that meets the following condition:AVAL not in  (0, 10, 20, 40, …, 140, 160) mg and AVAL < ADEX:DOSEP and EC.ECADJ is 'SUBJECT NON-COMPLIANCE OTHER THAN AE'
+",,
+ADEX,CRIT13FL,Criterion 13 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT13 populated,,
+ADEX,CRIT14,"Analysis Criterion 14 (Wrong, Site)",Char,30,$30.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Wrong Dose Due to Site Error' for the record the meets the following condition:AVAL not in  (0, 10, 20, 40, …, 140, 160) mg and AVAL < ADEX:DOSEP, and EX.EXADJ is SITE/LOGISTICAL ERROR, ",,
+ADEX,CRIT14FL,Criterion 14 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT14 populated,,
+ADEX,CRIT15,"Analysis Criterion 15 (Wrong, Other)",Char,35,$35.,,Derived,"if PARAMCD=TDDOSE:
+For ECTRT=""XL092"" records
+Set to 'Wrong Dose Due to Other Reason' for the record that meets the following condition:AVAL not in (0, 10, 20, 40, …, 140, 160) and AVAL < ADEX:DOSEP and EC.ECADJ is OTHER, ",,"ML 2/14/25: Do we need this flag? Why is this needed?
+
+MS 2/19/25: Included for CSR table T_DOSEERR"
+ADEX,CRIT15FL,Criterion 15 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT15 populated,,
+ADEX,CRIT16,Analysis Criterion 16 (Dose not Prot),Char,35,$35.,,Derived,"if PARAMCD=TDDOSE:
+For EXTRT=""XL092"" records
+Set to 'Dose Not Protocol Defined' for the record that meets the following condition: AVAL not in (0, 10, 20, 40, …, 140, 160)",,"ML 2/14/25: Do we need this flag? Why is this needed?
+
+MS 2/19/25: Included for CSR table T_DOSEERR"
+ADEX,CRIT16FL,Criterion 16 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT16 populated,,
+ADEX,CRIT17,Analysis Criterion 17 (Reduced),Char,40,$40.,,Derived,"If PARAMCD=TDDOSE:
+For All Treatment records For EXTRT=""XL092"" records
+Populate with 'Reduced Dose' if one of the following criteria is met:
+1) AVAL between (0, 120) and AVAL is smaller than AVAL from the record right above, which has a non missing AENDT.  Or,  
+2) AVAL between (0, 120) and the record right above the record has AVAL= 0, and the record right before 0 AVAL has a non missing AENDT and AVAL is greater than the AVAL of the compared record. 
+
+Some examples: for the following ADEX.AVAL records: 
+a) Example: 60, 0, 40, 40, 60, 0, 40, only the highlighted 40 should be flagged.
+b) Example: 60, 0, 40, 40, 60, 40:  there should be two flagged records as highlighted.
+c) Example: 60, 40, 0, 20: there are two reduction identified.
+d) Example: 60, 40, 0, 40, only first 40 should be flagged
+e) Example: 60, 0, 0, 40, the 40 should be flagged",,"ML 2/10/25:                                                                    1. Is there a reason specs is looking for AVAL between (0, 160) ? MTD for XL092 is 120 mg. Please update specs to avoid confusion.                                                                          2. Should this be derived only for XL092 records? Can you add condition for records with ECTRT= 'XL092' ?"
+ADEX,CRIT17FL,Criterion 17 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT17 populated,,
+ADEX,CRIT18,"Analysis Criterion 18 (Dose Hold, Any)",Char,45,$45.,,Derived,"if PARAMCD=TDDOSE:
+For all treatment records:
+Set to 'Any Dose Hold' for records where AVAL=0 and POSTRTFL ne 'Y'",,
+ADEX,CRIT18FL,Criterion 18 Evaluation Result Flag,Char,1,$1.,Y,Assigned,Set to Y for the records with CRIT18 populated,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

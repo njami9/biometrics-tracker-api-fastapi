@@ -1,0 +1,153 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADEXSUM,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADEXSUM,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADEXSUM,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADEXSUM,SRCDOM,Source Data,Char,8,$8.,,Assigned,"For PARAMCD in ('XLTRDURD', 'XLTRDURM', 'NVTRDURD', 'NVTRDURM', 'IPTRDURD', 'IPTRDURM', 'RLTRDURD', 'RLTRDURM'), set to 'ADSL'.
+Otherwise, if SRCVAR is populated with a variable from ADEX (XLCUMDOS, DURTDH, NVCUMDOS, NVNUMINF, RLNUMINF, RLCUMDOS, IPCUMDOS, IPNUMINF, XAEREDS, XNDOSRED, XAEHLDS, XNDOSHLD, LOWDOSE, HLDAEDUR, NAEREDS, NNDOSRED, NAEHLDS, NNDOSHLD, RAEREDS, RNDOSRED, RAEHLDS, RNDOSHLD, IAEREDS, INDOSRED, IAEHLDS, INDOSHLD), set to ""ADEX"". 
+Otherwise, null.",,
+ADEXSUM,SRCVAR,Source Variable,Char,8,$8.,,Assigned,See VLM for assigments.,,
+ADEXSUM,SRCSEQ,Source Sequence Number,Num,8,best20.,,Assigned,"Null, as all parameters in ADEXSUM summarize results from multiple records from ADEX, are derived from other parameters in ADEXSUM, or are derived from variables from ADSL which do not carry SEQ.",,
+ADEXSUM,PARCAT1,Parameter Category 1,Char,12,$12.,ECTRT,Assigned,"Set to ""XL092"" if parameter is derived from ADEX records where ADEX.ECTRT = 'XL092' or from ADSL variables that pertain to XL092.
+
+Set to ""Nivolumab"" if parameter is derived from ADEX records where ADEX.ECTRT = 'Nivolumab' or from ADSL variables that pertain to Nivolumab.
+
+Set to ""Ipilimumab"" if parameter is derived from ADEX records where ADEX.ECTRT = 'Ipilimumab' or from ADSL variables that pertain to Ipilimumab.
+
+Set to ""Relatlimab"" if parameter is derived from ADEX records where ADEX.ECTRT = 'Relatlimab/Nivolumab FDC' or from ADSL variables that pertain to Relatlimab.",,
+ADEXSUM,PARAMN,Parameter (N),Num,8,best20.,PAREXS_N,Assigned,"Assign based on PARAMCD, as per the codelist",,
+ADEXSUM,PARAMCD,Parameter Code,Char,8,$8.,PAREXS,Assigned,Assign as per VLM,,
+ADEXSUM,PARAM,Parameter,Char,100,$100.,PAREXS_C,Assigned,"Assign as the decoded version of PARAMCD, as per the codelist",,
+ADEXSUM,AVAL,Analysis Value,Num,8,best20.,,Derived,See VLM for details,,
+ADEXSUM,CRIT1,Analysis Criterion 1 (Hold 7day),Char,45,$45.,,Derived,"if PARAMCD in (DURTDH,DURTDHAE, TOTHLDAE, HLDAEDUR) then do:
+Set to ""Dose Hold >= 7 days"" if AVAL>=7 
+
+",,
+ADEXSUM,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT1 populated,,
+ADEXSUM,CRIT2,Analysis Criterion 2 (Hold 14day),Char,45,$45.,,Derived,"if PARAMCD in (DURTDH,DURTDHA, TOTHLDAE, HLDAEDUR) then do:
+Set to ""Dose Hold >= 14 days"" if AVAL>=14
+",,
+ADEXSUM,CRIT2FL,Criterion 2 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT2 populated,,
+ADEXSUM,CRIT3,Analysis Criterion 3 (Hold 21day),Char,45,$45.,,Derived,"if PARAMCD in (DURTDH,DURTDHAE, TOTHLDAE, HLDAEDUR) then do:
+Set to ""Dose Hold >= 21 days"" if AVAL>=21
+",,
+ADEXSUM,CRIT3FL,Criterion 3 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT3 populated,,
+ADEXSUM,CRIT4,Analysis Criterion 4 (Duration <1 month),Char,45,$45.,,Derived,"if PARAMCD in (TOTDURN) then do:
+Set to ""<1 month"" if AVAL<1 
+
+",,
+ADEXSUM,CRIT4FL,Criterion 4 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT4 populated,,
+ADEXSUM,CRIT5,Analysis Criterion 5 (Duration >=1 month),Char,45,$45.,,Derived,"if PARAMCD in (TOTDURN, NVTRDURM, RLTRDURM, IPTRDURM) then do:
+Set to "">=1 month"" if AVAL>=1
+ 
+",,
+ADEXSUM,CRIT5FL,Criterion 5 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT5 populated,,
+ADEXSUM,CRIT6,Analysis Criterion 6 (Duration >=3 months),Char,45,$45.,,Derived,"if PARAMCD in (TOTDURN, NVTRDURM, RLTRDURM, IPTRDURM) then do:
+Set to "">=3 months"" if AVAL>=3
+ 
+",,
+ADEXSUM,CRIT6FL,Criterion 6 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT6 populated,,
+ADEXSUM,CRIT7,Analysis Criterion 7 (Duration >=6 months),Char,45,$45.,,Derived,"if PARAMCD in (TOTDURN, NVTRDURM, RLTRDURM, IPTRDURM) then do:
+Set to "">=6 months"" if AVAL>=6
+ 
+",,
+ADEXSUM,CRIT7FL,Criterion 7 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRI7 populated,,
+ADEXSUM,CRIT8,Analysis Criterion 8 (Duration >=9 months),Char,45,$45.,,Derived,"if PARAMCD in (TOTDURN, NVTRDURM, RLTRDURM, IPTRDURM) then do:
+Set to "">=9 months"" if AVAL>=9
+ 
+",,
+ADEXSUM,CRIT8FL,Criterion 8 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT8 populated,,
+ADEXSUM,CRIT9,Analysis Criterion 9 (Duration >=12 months),Char,45,$45.,,Derived,"if PARAMCD in (TOTDURN, NVTRDURM, RLTRDURM, IPTRDURM) then do:
+Set to "">=12 months"" if AVAL>=12
+ 
+",,
+ADEXSUM,CRIT9FL,Criterion 9 Evaluation Result Flag,Char,1,$1.,Y,Assigned,set to Y for the records with CRIT9 populated,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

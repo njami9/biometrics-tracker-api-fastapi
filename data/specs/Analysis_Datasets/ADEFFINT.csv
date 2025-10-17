@@ -1,0 +1,266 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADEFFINT,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADEFFINT,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADEFFINT,DTHUNFDT,"Date of Death, Unfiltered",Num,8,date9.,,Derived,ADSL.DTHUNFDT,,
+ADEFFINT,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADEFFINT,SRCDOM,Source Data,Char,8,$8.,SRCDEFF,Assigned,"Set to the name of the data set that is the source of ADT/AVAL.
+See VLM for details.",,
+ADEFFINT,SRCVAR,Source Variable,Char,8,$8.,SRCVEFF,Assigned,Refer to VLM for assignments,,
+ADEFFINT,SRCSEQ,Source Sequence Number,Num,8,best20.,,Assigned,"If the source of ADT/AVAL comes from SDTM, set to xxSEQ from the source data.
+If the source of ADT/AVAL comes from non-ADSL ADaM, then set to ASEQ from the source dataset.
+Null if SRCDOM = 'ADSL'.",,
+ADEFFINT,ADT,Analysis Date,Num,8,date9.,,Assigned,See VLM for assignments.,,
+ADEFFINT,ADTF,Analysis Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"If the source date for ADT is imputed (carries an imputation flag) then ADTF is set to the value of the source imputation flag.
+See VLM details for ADT for specifics.",,
+ADEFFINT,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"Where ADSL.STAGE=EXPANSION:
+If ADT < ADSL.RANDDT then calculated as (ADT - RANDDT). 
+If ADT >= ADSL.RANDDT then calculated as (ADT - RANDDT + 1).
+Null if ADSL.RANDDT is null.
+
+Where ADSL.STAGE=ESCALATION:
+If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,
+ADEFFINT,PARAMN,Parameter (N),Num,8,best20.,PARINT_N,Assigned,"Assigned based on PARAMCD, as per the codelist",,
+ADEFFINT,PARAMCD,Parameter Code,Char,8,$8.,PARINT,Assigned,"Assigned as per VLM.
+A record for the specified parameter is created if the date exists/conditions specified in the VLM tab are met.",,
+ADEFFINT,PARAM,Parameter,Char,100,$100.,PARINT_C,Assigned,"Assigned as the decoded version of PARAMCD, as per the codelist",,
+ADEFFINT,AVALC,Analysis Value (C),Char,200,$200.,Y,Assigned,"Set to ADT in character format, formatted in DDMMMYYYY format except PARAMCD in ('PSAP' and 'PSAR'). For PARAMCD in ('PSAP' and 'PSAR'), see VLM for assignments.",,
+ADEFFINT,PIVATADT,Prev Adequate Tumor Assess. Date per Inv,Num,8,date9.,,Derived,"Consider adequate tumor assessment records, per Investigator in ADRS (where PARAMCD = 'OVRLRIVR' and AVALC not 'NE'). 
+
+Set to the date (ADRS.ADT) of the chronologically previous (where ADRS.ADT <= ADEFFINT.ADT) adequate tumor assessment.
+
+For records where ADEFFINT.SRCDOM not equal to 'ADRS':
+For records occurring on the same date as an ATA, the ATA is assumed to have occurred first, and therefore, ""previous ATA"" is the one on that same date (PIVATADT will equal ADT).
+
+If there is no previous ATA available and the record is on or after randomization (ADT >= RANDDT/TRTSDT), populate with ADSL.RANDDT/TRTSDT.
+
+For records where ADEFFINT.SRCDOM equals 'ADRS':
+For records occurring on the same date as an ATA, the previous ATA date should be used and therefore, ""previous ATA"" is the ADRS Previous Tumor Assessment Date (PIVATADT will equal ADRS.PVATADT).
+
+If there is (no previous ATA available or ADRS.PVATADT is missing for records occuring on the same date) and the record is on or after randomization (ADT >= RANDDT/TRTSDT), populate with ADSL.RANDDT/TRTSDT.
+
+Note: 
+Where ADSL.STAGE=EXPANSION use ADSL.RANDDT for no previous ATA records
+Where ADSL.STAGE=ESCALATION use ADSL.TRTSDT for no previous ATA records
+
+If PARAMCD in ('NOBLPBIVR', 'NOBLIVR', 'NOPBIVR') and PIVATADT not assigned to RANDDT, alert ST.
+
+Do Not populate for PARAMCD in ('PSAR' 'PSAP' 'NBLPBPSA' 'NBLPSA' 'NPBLPSA')",,
+ADEFFINT,PPVATADT,Prev Bone Scan Date PCWG3 by INV,Num,8,date9.,,Derived,"
+Only populate this variable where COHORT contains 'EXP 3'
+Consider adequate tumor assessment records, per PCWG3 by INV Criteria in ADRS (where PARAMCD = 'OVRLRPV' and AVALC not in ('NE', 'NED') ). 
+
+Set to the date (ADRS.ADT) of the chronologically previous (where ADRS.ADT <= ADEFFINT.ADT) adequate tumor assessment.
+For records where ADEFFINT.SRCDOM not equal to 'ADRS':
+For records occurring on the same date as an ATA, the ATA is assumed to have occurred first, and therefore, ""previous ATA"" is the one on that same date (PPVATADT will equal ADT).
+
+If there is no previous ATA available and the record is on or after randomization (ADT >= RANDDT), populated with ADSL.RANDDT.
+
+For records where ADEFFINT.SRCDOM equals 'ADRS':
+For records occurring on the same date as an ATA, the previous ATA date should be used and therefore, ""previous ATA"" is the ADRS Previous Tumor Assessment Date (PPVATADT will equal ADRS.PVATADT).
+
+If there is (no previous ATA available or ADRS.PVATADT is missing for records occuring on the same date) and the record is on or after randomization (ADT >= RANDDT), populate with ADSL.RANDDT.
+
+If PARAMCD in ('NOBLPBPV', 'NOBLPV', 'NOPBPV') and PPVATADT not assigned to RANDDT, alert ST.
+
+Do Not populate for PARAMCD in ('PSAR' 'PSAP' 'NBLPBPSA' 'NBLPSA' 'NPBLPSA')",,
+ADEFFINT,PPCATADT,Prev Bone Scan Date PCWG3 by IRC,Num,8,date9.,,Derived,"
+Only populate this variable where COHORT contains 'EXP 3'
+Consider adequate tumor assessment records, per PCWG3 by IRC Criteria in ADRS (where PARAMCD = 'OVRLRPC' and AVALC not 'NE'  and ACEPTFL='Y'). 
+
+Set to the date (ADRS.ADT) of the chronologically previous (where ADRS.ADT <= ADEFFINT.ADT) adequate tumor assessment.
+For records where ADEFFINT.SRCDOM not equal to 'ADRS':
+For records occurring on the same date as an ATA, the ATA is assumed to have occurred first, and therefore, ""previous ATA"" is the one on that same date (PPCATADT will equal ADT).
+
+If there is no previous ATA available and the record is on or after randomization (ADT >= RANDDT), populated with ADSL.RANDDT.
+
+For records where ADEFFINT.SRCDOM equals 'ADRS':
+For records occurring on the same date as an ATA, the previous ATA date should be used and therefore, ""previous ATA"" is the ADRS Previous Tumor Assessment Date (PPCATADT will equal ADRS.PVATADT).
+
+If there is (no previous ATA available or ADRS.PVATADT is missing for records occuring on the same date) and the record is on or after randomization (ADT >= RANDDT), populate with ADSL.RANDDT.
+
+If PARAMCD in ('NOBLPBPC', 'NOBLPC', 'NOPBPC') and PPCATADT not assigned to RANDDT, alert ST.
+
+Do Not populate for PARAMCD in ('PSAR' 'PSAP' 'NBLPBPSA' 'NBLPSA' 'NPBLPSA')",,
+ADEFFINT,PBIATADT,Prev Adequate Tumor Assess. Date BICR,Num,8,date9.,,Derived,"
+Only populate this variable where COHORT contains 'EXP 3'
+Consider adequate tumor assessment records, per BICR in ADRS (where PARAMCD = 'OVRLRBI' and AVALC not 'NE' and ACEPTFL='Y'). 
+
+Set to the date (ADRS.ADT) of the chronologically previous (where ADRS.ADT <= ADEFFINT.ADT) adequate tumor assessment.
+For records where ADEFFINT.SRCDOM not equal to 'ADRS':
+For records occurring on the same date as an ATA, the ATA is assumed to have occurred first, and therefore, ""previous ATA"" is the one on that same date (PBIATADT will equal ADT).
+
+If there is no previous ATA available and the record is on or after randomization (ADT >= RANDDT), populated with ADSL.RANDDT.
+
+For records where ADEFFINT.SRCDOM equals 'ADRS':
+For records occurring on the same date as an ATA, the previous ATA date should be used and therefore, ""previous ATA"" is the ADRS Previous Tumor Assessment Date (PBIATADT will equal ADRS.PVATADT).
+
+If there is (no previous ATA available or ADRS.PVATADT is missing for records occuring on the same date) and the record is on or after randomization (ADT >= RANDDT), populate with ADSL.RANDDT.
+
+If PARAMCD in ('NOBLPBI', 'NOBLBI', 'NOPBBI') and PBIATADT not assigned to RANDDT, alert ST.
+
+Do Not populate for PARAMCD in ('PSAR' 'PSAP' 'NBLPBPSA' 'NBLPSA' 'NPBLPSA')",,
+ADEFFINT,ARELTM,Analysis Relative Time,Num,8,best20.,,Derived,"The time from ADT relative to the previous adequate tumor assessment date INV. Only check for the same type of assessment. 
+ARELTM=ADT-PIVATADT
+If RSCAT=""RECIST 1.1"" and RSEVAL=""INVESTIGATOR"" then ARELTM=ADT-PIVATADT
+If RSCAT=""PCWG3"" and RSEVAL=""INVESTIGATOR"" then ARELTM=ADT-PPVATADT
+If RSCAT=""RECIST 1.1"" and RSEVAL=""INDEPENDENT ASSESSOR"" then ARELTM=ADT-PBIATADT
+RSCAT=""PCWG3"" and RSEVAL=""INDEPENDENT ASSESSOR"" then ARELTM=ADT-PPCATADT
+",,
+ADEFFINT,ARELTMU,Analysis Relative Time Unit,Char,4,$4.,,Assigned,"Set to ""DAYS"" when ARELTM is non-missing.",,
+ADEFFINT,ARELTM2,Analysis Relative Time,Num,8,best20.,,Derived,"The time from ADT relative to the previous adequate tumor assessment per IRC. Only check for the same type of assessment. 
+ARELTM=ADT-PBIATADT
+If (RSCAT=""RECIST 1.1"" or RSCAT=""PCWG3"" ) and RSEVAL=""INDEPENDENT ASSESSOR"" then ARELTM=ADT- max(PBIATADT, PPCATADT)
+",BP 20Feb: I confirmed with Alice this should be fine to add!,
+ADEFFINT,ARELTMU2,Analysis Relative Time Unit,Char,4,$4.,,Assigned,"Set to ""DAYS"" when ARELTM2 is non-missing.",,
+ADEFFINT,ARELTM3,Analysis Relative Time,Num,8,best20.,,Derived,"The time from ADT relative to the previous adequate bone scan per INV
+ARELTM=ADT-PPVATADT
+
+",BP 20Feb: I confirmed with Alice this should be fine to add!,
+ADEFFINT,ARELTMU3,Analysis Relative Time Unit,Char,4,$4.,,Assigned,"Set to ""DAYS"" when ARELTM3 is non-missing.",,
+ADEFFINT,ARELTM4,Analysis Relative Time,Num,8,best20.,,Derived,"The time from ADT relative to the previous adequate bone scan per INV
+ARELTM=ADT-PPCATADT
+
+",BP 20Feb: I confirmed with Alice this should be fine to add!,
+ADEFFINT,ARELTMU4,Analysis Relative Time Unit,Char,4,$4.,,Assigned,"Set to ""DAYS"" when ARELTM4 is non-missing.",,
+ADEFFINT,CRIT1,Analysis Criterion 1,Char,94,$94.,CRITEFF1,Assigned,"Populated only when CRIT1FL = 'Y'.
+
+Set to ""Two or more missing adequate tumor assessments INV immediately prior to this event.""",,
+ADEFFINT,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Flags records, if the scan occurred after two or more adequate tumor assessments per INV were missed.
+Only check for the same type of assessment: 
+RSCAT=""RECIST 1.1"" and RSEVAL=""INVESTIGATOR"".
+RSCAT=""PCWG3"" and RSEVAL=""INVESTIGATOR"".
+RSCAT=""RECIST 1.1"" and RSEVAL=""INDEPENDENT ASSESSOR"" 
+RSCAT=""PCWG3"" and RSEVAL=""INDEPENDENT ASSESSOR""
+
+Tumor assessments are every 8 weeks (+/- 5 days) through Week 54, then every 12 weeks thereafter.
+If ADY <= 430, then set to 'Y' if ARELTM > 122
+If 430 < ADY <= 519, then set to 'Y' if ARELTM > 159
+If ADY > 519, then set to 'Y' if ARELTM > 196","Last possible 8-weekly scan would occur on Day 398 ( Week 56 + 5 day window). 
+Earliest anticipated timing of first 12-weekly scan is Day 463 (Week 66 = Week 56 + 12 weeks - 14 day window). 
+Mid-point between 463 and 398 is Day 430, which is what we've chosen for the 1st cut-off threshold.
+Latest expected timing of the 1st 12-weekly assessment is Day 491 (Week 68 + 14 day window)
+Earliest timing of 2nd 12-weekly assessment is Day 547 (Week 80 -14 day window).
+Midpoint between 491 and 547 is 519, which we've chosen as the second threshold.
+
+
+Recall that ""study day"" adds 1 day for post-baseline ADY values, hence 1 must be subtracted/added before/after performing the calculations.",ML 12/23/24: Please update this as per 092-002 protocol. It should be every 8 weeks until Week 56 and then every 12 weeks. 
+ADEFFINT,CRIT2,Analysis Criterion 2,Char,94,$94.,CRITEFF1,Assigned,"Populated only when CRIT2FL = 'Y'.
+
+Set to ""Two or more missing adequate tumor assessments IRC immediately prior to this event.""",,
+ADEFFINT,CRIT2FL,Criterion 2 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Only populate this variable where COHORT contains 'EXP 3'
+Flags records, if the scan occurred after two or more adequate tumor assessments IRC were missed.
+Only check for: 
+RSCAT=""RECIST 1.1"" and RSEVAL=""INDEPENDENT ASSESSOR"" and ADRS.ACEPTFL='Y'
+RSCAT=""PCWG3"" and RSEVAL=""INDEPENDENT ASSESSOR"" and ADRS.ACEPTFL='Y'
+
+Tumor assessments are every 8 weeks (+/- 5 days) through Week 54, then every 12 weeks thereafter.
+If ADY <= 430, then set to 'Y' if ARELTM2 > 122
+If 430 < ADY <= 519, then set to 'Y' if ARELTM2 > 159
+If ADY > 519, then set to 'Y' if ARELTM2 > 196
+
+",,
+ADEFFINT,CRIT3,Analysis Criterion 3,Char,94,$94.,CRITEFF1,Assigned,"Populated only when CRIT3FL = 'Y'.
+
+Set to ""Two or more missing bone scans INV immediately prior to this event.""",,
+ADEFFINT,CRIT3FL,Criterion 3 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Only populate this variable where COHORT contains 'EXP 3'
+Flags records, if the scan occurred after two or more bone scans INV were missed.
+
+Tumor assessments are every 8 weeks (+/- 5 days) through Week 54, then every 12 weeks thereafter.
+If ADY <= 430, then set to 'Y' if ARELTM3 > 122
+If 430 < ADY <= 519, then set to 'Y' if ARELTM3 > 159
+If ADY > 519, then set to 'Y' if ARELTM3 > 196
+
+",,
+ADEFFINT,CRIT4,Analysis Criterion 4,Char,94,$94.,CRITEFF1,Assigned,"Populated only when CRIT4FL = 'Y'.
+
+Set to ""Two or more missing bone scans IRC immediately prior to this event.""",,
+ADEFFINT,CRIT4FL,Criterion 4 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Only populate this variable where COHORT contains 'EXP 3'
+Flags records, if the scan occurred after two or more bone scans IRC were missed.
+
+Tumor assessments are every 8 weeks (+/- 5 days) through Week 54, then every 12 weeks thereafter.
+If ADY <= 430, then set to 'Y' if ARELTM4 > 122
+If 430 < ADY <= 519, then set to 'Y' if ARELTM4 > 159
+If ADY > 519, then set to 'Y' if ARELTM4 > 196
+
+",,
+,,,,,,,,,,"XW 2/14/2025:  Please noted that the critetia of missing 2 consecutive assessments for cohort 3 (PFS by BIRC per PCWG3) is different from others (PFS per RECIST 1.1). You need to identity whether it's PD by CT/MRI scan or PD by Bone scan. If it's PD by CT/MRI, then censor for missing 2 consecutive CT/MRI. If it's PD by Bone scan, then censor for missing 2 consecutive Bone scan. I would suggest create separate variables for this analysis, and also create a variable to determine the type of PD."
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,, ,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

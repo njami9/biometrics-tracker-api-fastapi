@@ -1,0 +1,201 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADPR,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADPR,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADPR,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADPR,PRSEQ,Sequence Number,Num,8,best20.,,Predecessor,PR.PRSEQ,,
+ADPR,PRSPID,Sponsor-Defined Identifier,Char,2,$2.,,Predecessor,PR.PRSPID,,
+ADPR,ACAT1,Analysis Category 1,Char,20,$20.,Assigned,,"Abbreviated form of PRCAT to simplify programming and data checks.
+If PR.PRCAT in ('CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY', 'HISTORY OF LOCAL RADIATION THERAPY') then set to 'Radiation Therapy';
+If PRCAT in ('CONCOMITANT/SUBSEQUENT SURGERY AND PROCS', 'HISTORY OF SURGERIES AND PROCEDURES') then set to 'Surgery/Procedures'
+If PRCAT = 'IMAGING DETAILS' then ACAT1 = 'Imaging Details'; 
+If PRCAT = 'PRIOR AND CONCOMITANT TRANSFUSIONS' then ACAT1= 'Transfusion'.
+
+",,"ML 2/8/25: For ACAT1 specs is not consitent with data. Please update to:                                                                                   if prcat in ('CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY', 'HISTORY OF LOCAL RADIATION THERAPY') then ACAT1= 'Radiation Therapy';                                                                                             if prcat in ('CONCOMITANT/SUBSEQUENT SURGERY AND PROCS', 'HISTORY OF SURGERIES AND PROCEDURES') then ACAT1=  'Surgery/Procedures'.      "
+ADPR,PRCAT,Category,Char,50,$50.,PRCAT,Predecessor,PR.PRCAT,,
+ADPR,PRTRT,Reported Name of Procedure,Char,200,$200.,,Predecessor,PR.PRTRT,,
+ADPR,ATRT,Analysis Name of Procedure,Char,200,$200.,,Derived,"If PRTRT starts with the text 'EBRT', then set to ""EBRT"";
+If PRTRT = 'BRACHYTHERAPY' then set to ""Internal Radiation Therapy (Brachytherapy)"";
+If PRTRT = 'RADIOEMBOLIZATION' then set to ""Radioembolization"";
+If PRTRT starts with the text ""OTHER"" then set to ""Other"";
+Otherwise, set to PRTRT.",,
+ADPR,PRSTDTC,Start Date/Time of Procedure,Char,19,$19.,,Predecessor,PR.PRSTDTC,,
+ADPR,PRSTDY,Study Day of Start of Procedure,Num,8,best20.,,Predecessor,PR.PRSTDY,,
+ADPR,ASTDT,Analysis Start Date,Num,8,date9.,,Derived,"Calculated as PR.PRSTDTC as a SAS numeric date variable.
+If PR.PRSTDTC is a partial date then imputed according to PR.PRCAT.
+
+If PRCAT in ('HISTORY OF LOCAL RADIATION THERAPY', 'HISTORY OF SURGERIES AND PROCEDURES') then imputed as follows:
+• If PRSTDTC is completely missing: not imputed.
+• If PRSTDTC has only year populated (or year and day), then month and day set to January 1st.
+• If PRSTDTC has year and month only, then day set to 1st day of month.
+
+If PRCAT in ('CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY', 'CONCOMITANT/SUBSEQUENT SURGERY AND PROCS', 'PRIOR AND CONCOMITANT TRANSFUSIONS') then imputed as follows:
+• If PRSTDTC is completely missing, set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+• if PRSTDTC has only year populated (or year and day), then:
+-  if year(PRSTDTC) > year(ADSL.EOTDCDT) then set to January 1st.
+-  if year(PRSTDTC) = year(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+• If PRSTDTC has year and month only, then:
+-  if year(PRSTDTC) and month(PRSTDTC) are the same as year(ADSL.EOTDCDT) and month(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+-  Otherwise, set to the first day of the month.","Imputation rules will need review/confirmation/updating based on SAP.
+
+Updates to imputation rules for Subsequent Anti-Cancer radiation/Surgery likely will require updates to ADCM and ADSL imputations as well.",
+ADPR,ASTDTF,Analysis Start Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADPR.ASTDT imputation. Set to:
+Y if entire date is imputed or year is imputed
+M if month and day are imputed
+D if ony day is imputed.
+Null if ASTDT is null or if PR.PRSTDTC is a complete date.",,
+ADPR,ASTDY,Analysis Start Relative Day,Num,8,best20.,,Derived,"If ADPR.ASTDT < ADSL.RANDDT then calculated as: ASTDT-RANDDT
+Otherwise, calculated as: ASTDT-RANDDT+1",,
+ADPR,PRENDTC,End Date/Time of Procedure,Char,19,$19.,,Predecessor,PR.PRENDTC,,
+ADPR,PRENDY,Study Day of End of Procedure,Num,8,best20.,,Predecessor,PR.PRENDY,,
+ADPR,AENDT,Analysis End Date,Num,8,date9.,,Derived,"Calculated as PR.PRENDTC as a SAS numeric date variable.
+In the event of partial dates for records where PRCAT = 'CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY', impute as follows:
+- If PRENDTC is completely missing: do not impute.
+- If PRENDTC has only year populated, then set month and day to December 31st.
+- If PRENDTC has year and month only, then set day to the last day of the month. 
+
+If PRCAT=""CONCOMITANT/SUBSEQUENT SURGERY AND PROCS"" then set AENDT = ASTDT",,
+ADPR,AENDTF,Analysis End Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADPR.AENDT imputation. Set to:
+Y if entire date is imputed or year is imputed
+M if month and day are imputed
+D if ony day is imputed.
+Null if AENDT is null or if PR.PRENDTC is a complete date.",,
+ADPR,AENDY,Analysis End Relative Day,Num,8,best20.,,Derived,"If ADPR.AENDT < ADSL.RANDDT then calculated as: AENDT-RANDDT
+Otherwise, calculated as: AENDT-RANDDT+1.",,
+ADPR,VISIT,Visit Name,Char,100,$100.,,Predecessor,PR.VISIT,,
+ADPR,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,PR.VISITNUM,,
+ADPR,PROCCUR,Occurrence,Char,3,$3.,NY,Predecessor,PR.PROCCUR,,
+ADPR,PRPRESP,Pre-specified,Char,3,$3.,NY,Predecessor,PR.PRPRESP,,
+ADPR,PRINDC,Indication,Char,200,$200.,,Predecessor,PR.PRINDC,,
+ADPR,AINDC,Analysis Indication,Char,200,$200.,,Derived,"If ACAT1 ='Radiation Therapy' then:
+If PRINDC = 'DISEASE UNDER STUDY', then set to ""Disease under study"".
+If PRINDC starts with the text ""OTHER"" then set to ""Other"";
+
+Otherwise, set to PRINDC.
+",,
+ADPR,PRSITE,Surgery Site Type,Char,200,$200.,PRSITE,Predecessor,SUPPPR.QVAL where QNAM = 'PRSITE',,
+ADPR,PRLOC,Location of Procedure,Char,200,$200.,,Predecessor,PR.PRLOC,,
+ADPR,PRLOCSP,"If Anatomic Location Other, Specify",Char,200,$200.,,Predecessor,SUPPPR.QVAL where QNAM = 'PRLOCSP',,
+ADPR,RHSITESP,"Site is Bone/Soft Tissue, Specify",Char,200,$200.,,Predecessor,SUPPPR.QVAL where QNAM = 'RHSITESP',,
+ADPR,SITEOTH,"Site Other, Specify",Char,200,$200.,,Predecessor,SUPPPR.QVAL where QNAM = 'SITEOTH',,
+ADPR,RTSITE,Radiation Site Type,Char,200,$200.,PRSITE,Predecessor,SUPPPR.QVAL where QNAM = 'RTSITE',,"ML 03/27/23: Can we have QNAM='RATRTSP' added as well?
+MS 04/03/23: Please confirm requested variable. Not currently present in SDTM."
+ADPR,RTLOCSP,"If Other Anatomic Site, Specify",Char,200,$200.,,Predecessor,SUPPPR.QVAL where QNAM = 'RTLOCSP',,
+ADPR,PRSGRTL,Was this a Surgical Resection of a TL?,Char,2,$2.,NY,Predecessor,SUPPPR.QVAL where QNAM = 'PRSGRTL',,
+ADPR,WHCOMP,Wound Healing Complications?,Char,2,$2.,NYU,Predecessor,SUPPPR.QVAL where QNAM = 'PRWHC',,
+ADPR,PRWHCSP,Describe Wound Healing Complications,Char,200,$200.,NYU,Predecessor,SUPPPR.QVAL where QNAM = 'PRWHCSP',,
+ADPR,PRDOSE,Dose,Num,8,best20.,,Predecessor,PR.PRDOSE,,
+ADPR,IMARFFL,Images Obtained at Alternate Facility,Char,2,$2.,,Predecessor,SUPPPR.QVAL where QNAM = 'IMARFYN',,
+ADPR,PREFL,Pre-treatment Flag,Char,1,$1.,Y,Derived,"Expansion cohorts:
+Flags procedures prior to randomization, including those that are continued on-study.
+
+Set to ""Y"" if:
+. < ASTDT < RANDDT or
+ . < AENDT < RANDDT
+
+Escalation cohorts:
+Flags procedures prior to treatment start, including those that are continued on-study.
+
+Set to ""Y"" if:
+. < ASTDT < TRTSDT or
+ . < AENDT < TRTSDT
+
+",Definition will need review/updating based on SAP definition.,XW 2/14/2025: Change RANDDT to TRTSDT for escalation cohorts
+ADPR,CONFL,Conconmitant Flag,Char,1,$1.,Y,Derived,"Expansion cohorts:
+Flags procedures after randomization, prior to treatment end.
+Set to ""Y"" if:
+ADSL.RANDDT <= ADPR.ASTDT and ( ASTDT <= ADSL.TRTEDT or TRTEDT missing) or 
+RANDDT <= ADPR.AENDT and ( AENDT <= TRTEDT or TRTEDT missing) or
+ADPR.PREFL = 'Y' and AENDT >= RANDDT
+
+Escalation cohorts:
+Flags procedures after treatment start, prior to treatment end.
+Set to ""Y"" if:
+ADSL.TRTSDT <= ADPR.ASTDT and ( ASTDT <= ADSL.TRTEDT or TRTEDT missing) or 
+TRTSDT <= ADPR.AENDT and ( AENDT <= TRTEDT or TRTEDT missing) or
+ADPR.PREFL = 'Y' and AENDT >= RANDDT","
+",XW 2/14/2025: Change RANDDT to TRTSDT for escalation cohorts
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

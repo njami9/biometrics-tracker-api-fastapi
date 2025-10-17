@@ -1,0 +1,252 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADAE,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADAE,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADAE,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADAE,AESEQ,Sequence Number,Num,8,best20.,,Predecessor,AE.AESEQ,,
+ADAE,AESPID,Sponsor-Defined Identifier,Char,3,$3.,,Predecessor,AE.AESPID,,
+ADAE,AETERM,Reported Term for the Adverse Event,Char,200,$200.,,Predecessor,AE.AETERM,,
+ADAE,AEDECOD,Dictionary-Derived Term,Char,200,$200.,MedDRA,Predecessor,AE.AEDECOD,,
+ADAE,AELLT,Lowest Level Term,Char,200,$200.,MedDRA,Predecessor,AE.AELLT,,
+ADAE,AEBODSYS,Body System or Organ Class,Char,200,$200.,MedDRA,Predecessor,AE.AEBODSYS,,
+ADAE,AESTDTC,Start Date/Time of Adverse Event ,Char,10,$10.,,Predecessor,AE.AESTDTC,,
+ADAE,ASTDT,Analysis Start Date,Num,8,date9.,,Derived,"AE.AESTDTC as a SAS numeric date variable.
+
+If AESTDTC is missing or a partial date, imputed as follows:
+• If AESTDTC is completely missing, set to the date of first dose (ADSL.TRTSDT).
+• If only year is present, then:
+   If year = year of first dose: set to the first dose date (ADSL.TRTSDT).
+   If year < year of first dose: set to December 31st.
+   If year > year of first dose: set to January 1st.
+• If month and year are present and day is missing, then:
+   If year = year of first dose, and:
+      If month = month of first dose: set to day of first dose.
+      If month < month of first dose: set to last day of month.
+      If month > month of first dose: set to 1st day of month.
+   If year < year of first dose: set to last day of month.
+   If year > year of first dose: set to 1st day of month.", Imputation rules will need review/confirmation/updating based on SAP.,
+ADAE,ASTDTF,Analysis Start Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADAE.ASTDT imputation. Set to:
+Y if entire date is imputed or year is imputed
+M if month and day are imputed
+D if ony day is imputed.
+Null if ASTDT is null or if AE.AESTDTC is a complete date.",,
+ADAE,ASTDY,Analysis Start Relative Day,Num,8,best20.,,Derived,"If ADAE.ASTDT < ADSL.TRTSDT then calculated as: ASTDT-TRTSDT
+Otherwise, calculated as: ASTDT-TRTSDT+1.",,
+ADAE,AEENDTC,End Date/Time of Adverse Event,Char,10,$10.,,Predecessor,AE.AEENDTC,,
+ADAE,AENDT,Analysis End Date,Num,8,date9.,,Derived,"AE.AEENDTC as a SAS numeric date variable.
+
+If AEENDTC is missing or a partial date, and AEENRTPT^='ONGOING' then  imputed as follows:
+• If AEENDTC is completely missing, set to the earlier of the data-cut date (ADSL.CUTDT) or last known alive date (ADSL.LSTALVDT).
+• If only year is present, then set to December 31st.
+• If month and year are present and day is missing, then set to last day of month.
+
+If imputed end date is earlier than start date, then set imputed end date equal to start date.",,
+ADAE,AENDTF,Analysis End Date Imputation Flag ,Char,1,$1.,DATEFL,Assigned,"Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if  date was not imputed.",,
+ADAE,AENDY,Analysis End Relative Day,Num,8,best20.,,Derived,"If ADAE.AENDT < ADSL.TRTSDT then calculated as: AENDT-TRTSDT
+Otherwise, calculated as: AENDT-TRTSDT+1.",,
+ADAE,AEENRTPT,End Relative to Reference Time Point,Char,20,$20.,ENTPT,Predecessor,AE.AEENRTPT,,
+ADAE,AEOUT,Outcome of Adverse Event,Char,50,$50.,,Predecessor,AE.AEOUT,,
+ADAE,PREFL,Pre-treatment Flag,Char,1,$1.,Y,Derived,"Flags events that start prior to start of study treatment.
+Set to 'Y' if ADAE.ASTDT < ADSL.TRTSDT.
+Null otherwise.",Old PRANDFL,
+ADAE,TRTEMFL,Treatment Emergent Analysis Flag,Char,1,$1.,Y,Derived,"Flags events that occur during the Standard Safety Observation Period.
+AE start time is not collected, so assume all events occurring on same day as treatment start began after treatment start.
+
+For single agent arms and   .<ADSL.TRTSDT<=ADAE.ASTDT<=ADSL.EOSOBEDT then TRTEMFL= 'Y'.                                                                                                                                                                Else do;                                                                                                                                                if ADAE.AESER ne 'Y' and .<ADSL.TRTSDT<=ADAE.ASTDT<=ADSL.EOSOBEDT  then TRTEMFL= 'Y'.                                                                                                                                          if ADAE.AESER='Y' and .<ADSL.TRTSDT<=ADAE.ASTDT<=ADSL.EOECCEDT  then TRTEMFL= 'Y'.                                                                                                                                        end;        
+Otherwise, null.",Old ANL01FL,ML 12/23/24: This should be updated as per SAP. Safety observation period has been updated for AEs.                                                                        For single agent arms and   .<ADSL.TRTSDT<=ADAE.ASTDT<=ADSL.EOSOBEDT then TEAEFL= 'Y'.                                                                                                                                                                Else do;                                                                                                                                                if ADAE.AESER ne 'Y' and .<ADSL.TRTSDT<=ADAE.ASTDT<=ADSL.EOSOBEDT  then TEAEFL= 'Y'.                                                                                                                                          if ADAE.AESER='Y' and .<ADSL.TRTSDT<=ADAE.ASTDT<=ADSL.EOS1OBEDT  then TEAEFL= 'Y'.                                                                                                                                        end;        
+ADAE,TRTEM2FL,Treatment Emergent Analysis 2 Flag ,Char,1,$1.,Y,Derived,"Flags events that occur during the Extended Safety Observation Period.
+AE start time is not collected, so assume all events occurring on same day as treatment start began after treatment start.
+
+Set to ""Y"" if ADSL.EOSOBEDT < ADAE.ASTDT <= ADSL.EOECCEDT.
+
+Otherwise, null.",Old ANL02FL,XW 2/14/2025: Definition of Extended Safety Observation Period changed.
+ADAE,AEREL,Causality,Char,11,$11.,AEREL,Predecessor,AE.AEREL,,
+ADAE,AREL,Analysis Causality,Char,11,$11.,AREL,Derived,"Relationship to any study drug.
+Set to ""RELATED"" if ADAE.ARELXL or  ADAE.ARELNIV or ADAE.ARELIPI or ADAE.ARELREL = ""RELATED""
+
+Otherwise, if ADAE.ARELXL or  ADAE.ARELNIV or ADAE.ARELIPI or ADAE.ARELREL = ""NOT RELATED"", then set to ""NOT RELATED"".
+
+If all four variables are null, left missing.",,"ML 9/17/24: Update derivation to as below,                                        Set to: 
+'RELATED to XL092' or 'RELATED to Nivo' or 'RELATED to ipi' or 'RELATED to Rela/Nivo FDC' if  any one of  AERELxxx=' RELATED';
+'Related to drug1 and drug2' if the corresponding two of AERELxxx=' RELATED';
+'Related to drug1 and drug2 and drug3' if three of AERELxxx=' RELATED';
+
+According to study drugs including in a particular cohort, Set to 'NOT RELATED' if  all the corresponding  AERELx =' NOT RELATED',  for example for cohort 1 arm 1, if AERELXL (associated to XL092) and AERELNIV  (associated Nivo)= ' NOT RELATED' then set AREL='NOT RELATED'."
+ADAE,ARELXL,Relationship to XL092,Char,200,$200.,AREL,Assigned,Set to SUPPAE.QVAL where QNAM = 'AEREL1',,
+ADAE,ARELNIV,Relationship to Nivolumab,Char,200,$200.,AREL,Assigned,Set to SUPPAE.QVAL where QNAM = 'AEREL2',,
+ADAE,ARELIPI,Relationship to Ipilimumab,Char,200,$200.,AREL,Assigned,Set to SUPPAE.QVAL where QNAM = 'AEREL3',,
+ADAE,ARELREL,Relationship to Relatlimab,Char,200,$200.,AREL,Assigned,Set to SUPPAE.QVAL where QNAM = 'AEREL5',,
+ADAE,AETOXGR,Standard Toxicity Grade,Char,10,$10.,AETOXGR,Predecessor,AE.AETOXGR,,
+ADAE,AETOXGRN,Standard Toxicity Grade (N),Num,8,best20.,AETOXGR_N,Assigned,AE.AETOXGR in numeric form,,
+ADAE,AESI1FL,Was event Symptomatic Fracture?,Char,1,$1.,NY,Predecessor,"if non-missing SUPPAE.QVAL where QNAM = AESI1 then set to Y
+else set to N",,
+ADAE,AESI2FL,Was event Spinal Cord Compression?,Char,1,$1.,NY,Predecessor,"if non-missing SUPPAE.QVAL where QNAM = AESI2 then set to Y
+else set to N",,
+ADAE,AESER,Serious Event,Char,1,$1.,NY,Predecessor,AE.AESER,,
+ADAE,AESCONG,Congenital Anomaly or Birth Defect,Char,1,$1.,NY,Predecessor,AE.AESCONG,,
+ADAE,AESDISAB,Persist or Signif Disability/Incapacity,Char,1,$1.,NY,Predecessor,AE.AESDISAB,,
+ADAE,AESDTH,Results in Death,Char,1,$1.,NY,Predecessor,AE.AESDTH,,
+ADAE,AESHOSP,Requires or Prolongs Hospitalization,Char,1,$1.,NY,Predecessor,AE.AESHOSP,,
+ADAE,AESLIFE,Is Life Threatening,Char,1,$1.,NY,Predecessor,AE.AESLIFE,,
+ADAE,AESMIE,Other Medically Important Serious Event,Char,1,$1.,NY,Predecessor,AE.AESMIE,,
+ADAE,ATRMODFL,Event Leading to Dose Modification Flag,Char,1,$1.,Y,Derived,"Flags events that resulted in a dose modification (reduction, hold, delay, or incomplete/interrupted dose)
+
+Set to 'Y' if any of the following variables is ""Y"":
+ADAE.AEACRED1
+ADAE.AEACHLD1
+ADAE.AEACDEL2
+ADAE.AEACINC2
+ADAE.AEACDEL3
+ADAE.AEACINC3
+ADAE.AEACDEL5
+ADAE.AEACINC5
+
+Otherwise, null.",,ML 9/17/24: Also add ADAE.AEACRED5='Y' to derivation of ATRMODFL.AEACRED5 is in ODS.AECDB but missing in SDTM.SUPPAE. Update SUPPAE and ADAE accordingly.
+ADAE,ATRDISFL,Study Treatment Discontinued Flag (Any),Char,1,$1.,Y,Derived,"Flags events that resulted in any study drug being discontinued.
+
+Set to 'Y' if any of the following variables is ""Y"":
+ADAE.AEACWTH1
+ADAE.AEACWTH2
+ADAE.AEACWTH3
+ADAE.AEACWTH5
+
+Otherwise, null.",,
+ADAE,ATRDS2FL,Study Treatment Discontinued Flag (All),Char,1,$1.,Y,Derived,"Flags events that resulted in all study drug being discontinued.
+
+Set to 'Y' if the following conditions are met:
+
+If TRT01P indicates single agent XL092 and  ADAE.AEACWTH1='Y'
+If TRT01P indicates XL092 + Nivo, ADAE.AEACWTH1='Y' and ADAE.AEACWTH2='Y'
+If TRT01P indicates XL092 + Nivo + Ipi, ADAE.AEACWTH1='Y' and ADAE.AEACWTH2='Y' and ADAE.AEACWTH3='Y'
+If TRT01P indicates XL092 + Nivo + Rel, ADAE.AEACWTH1='Y' and ADAE.AEACWTH5='Y'
+
+Otherwise, null.",,
+ADAE,AEACN ,Action Taken with Study Treatment,Char ,200,$200.,,Predecessor,AE.AEACN,,
+ADAE,AEACRED1,XL092 Treatment Dose Reduced?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACRED1',,ML 9/17/24: Add variable AEACRED5 to ADAE as follows: SUPPAE.QVAL where QNAM= 'AEACRED5' once SDTM.SUPPAE is updated.
+ADAE,AEACHLD1,XL092 Treatment Dose Interrupted?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACHLD1',,
+ADAE,AEACWTH1,XL092 Treatment Dose Discontinued?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACWTH1',,
+ADAE,AEACDEL2,Nivo Infusion Delayed?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACDEL2',,
+ADAE,AEACINC2,Nivo Infusion Incomplete?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACINC2',,
+ADAE,AEACWTH2,Nivo Infusion Discontinued?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACWTH2',,
+ADAE,AEACDEL3,Ipilimumab Infusion Delayed?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACDEL3',,
+ADAE,AEACINC3,Ipilimumab Infusion Incomplete?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACINC3',,
+ADAE,AEACWTH3,Ipilimumab Permanently Discontinued?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACWTH3',,
+ADAE,AEACDEL5,Nivo/Rela FDC Infusion Delayed?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACDEL5',,
+ADAE,AEACINC5,Nivo/Rela FDC Infusion Incomplete?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACINC5',,
+ADAE,AEACWTH5,Nivo/Rela FDC Permanently Discontinued?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEACWTH5',,
+ADAE,AENRCDRL,Causally Related to the Disease?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AENRCDRL',,
+ADAE,AENRCIRL,Event Related to Concurrent Illness?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AENRCIRL',,
+ADAE,AENRCISP,Specify Concurrent Illness,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AENRCISP',,
+ADAE,RELCMFL,Event Related to Con Med?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AENRCMYN',,
+ADAE,AENRCMSP,Specify Concomitant Medication,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AENRCMSP',,
+ADAE,AENROTSP,Specify Different Cause,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AENROTSP',,
+ADAE,AESMIES1,Treatment Given for this Event 1,Char,200,$200.,AETRTGV1,Predecessor,SUPPAE.QVAL where QNAM = 'AESMIES1',,
+ADAE,AESMIES2,Treatment Given for this Event 2,Char,200,$200.,AETRTGV2,Predecessor,SUPPAE.QVAL where QNAM = 'AESMIES2',,
+ADAE,AETRTPR,Surgery / Procedure,Char,200,$200.,AETRTGV3,Predecessor,SUPPAE.QVAL where QNAM = 'AETRTPR',,
+ADAE,AETRTRA,Radiation,Char,200,$200.,AETRTGV4,Predecessor,SUPPAE.QVAL where QNAM = 'AETRTRA',,
+ADAE,AETRTBT,Transfusion,Char,200,$200.,AETRTGV5,Predecessor,SUPPAE.QVAL where QNAM = 'AETRTBT',,
+ADAE,AETRTOTH,Other Treatment,Char,200,$200.,AETRTGV6,Predecessor,SUPPAE.QVAL where QNAM = 'AETRTOTH',,
+ADAE,AETRTOSP,"If Other Treatment Given, Specify",Char,200,$200.,,Predecessor,SUPPAE.QVAL where QNAM = 'AETRTOSP',,
+ADAE,ATRTGV,Analysis Treatment Given,Char,200,$200.,,Derived,"Concatenated form of treatments given to support listing and data review.
+
+The following abbreviations are concatenated together in the order shown with a semi-colon and space between each one.
+If ADAE.AESMIES1 = 'NO TREATMENT GIVEN' then 'None';
+If ADAE.AESMIES2 = 'MEDICATION' then 'Con Med';
+If ADAE.AECMIMFL = 'Y' then concatenate a ""*"" onto 'Con Med';
+If ADAE.AETRTPR = 'SURGERY/PROCEDURE' then 'Proced.';
+if ADAE.AETRTRA = 'RADIATION'  then ""Radiation"";
+if ADAE.AETRTBT = 'TRANSFUSION' then 'Transfus';
+if ADAE.AETRTOTH = 'OTHER TREATMENT' then 'Other';
+",,
+ADAE,AECMIMFL,Is Medication an Immune Suppressant?,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AECMIMFL',,
+ADAE,AEIRREL,Is Event Immune-related,Char,200,$200.,NY,Predecessor,SUPPAE.QVAL where QNAM = 'AEIRREL',,
+ADAE,AECMIM1,1st Immunosuppressant Drug Related to AE,Char ,200,$200.,,Predecessor,SUPPAE.QVAL where QNAM = 'AECMIM1',,
+ADAE,AECMIM2,2nd Immunosuppressant Drug Related to AE,Char ,200,$200.,,Predecessor,SUPPAE.QVAL where QNAM = 'AECMIM2',,
+ADAE,AECMIM3,3rd Immunosuppressant Drug Related to AE,Char ,200,$200.,,Predecessor,SUPPAE.QVAL where QNAM = 'AECMIM3',,
+ADAE,AEDLT,Dose Limiting Toxicity,Char,200,$200.,,Predecessor,SUPPAE.QVAL where QNAM = 'AEDLT',,
+ADAE,LAST30FL,Within 30 days of Last Dose Flag,Char,1,$1.,,Derived,Set to Y if .<ADSL.TRTEDT <= ASTDT<=ADSL.TRTEDT+30,,
+ADAE,POST30FL,After 30 days post last dose flag,Char,1,$1.,,Derived,Set to Y if .<ADSL.TRTEDT +30< ASTDT,,
+ADAE,RDXLDT,Date of Recent Dose of XL092 Prior to AE ,Num,8,date9.,,,"1) For records where EXTRT=""XL092"" and EXDOSE>0 and non-missing EXSTDTC and non-missing EXENDTC, expand to create a record for all dates between EXSTDTC and EXENDTC, inclusive, creating an intermediate date variable (e.g. EXDT)
+2) For records where EXTRT=""XL092"" and EXDOSE>0 and non-missing EXSTDTC and missing EXENDTC, use EXSTDTC as intermediate date variable (e.g. EXDT)
+Set to latest intermediate date variable from above steps where date<=ASTDT                 ",,
+ADAE,RDNDT,Date of Recent Dose of Nivo Prior to AE ,Num,8,date9.,,,"Set to latest numeric mapp.EX.EXSTDTC where EXTRT=""Nivolumab"" and EXDOSE>0 and numeric EXSTDTC<=ASTDT",,
+ADAE,RDIDT,Date of Recent Dose of Ipi Prior to AE ,Num,8,date9.,,,"Set to latest numeric mapp.EX.EXSTDTC where EXTRT=""Ipilimumab"" and EXDOSE>0 and numeric EXSTDTC<=ASTDT",,
+ADAE,RDRDT,Date of Recent Dose of Nivo/Rela FDC Prior to AE ,Num,8,date9.,,,"Set to latest numeric mapp.EX.EXSTDTC where EXTRT=""Relatlimab/Nivolumab FDC"" and EXDOSE>0 and numeric EXSTDTC<=ASTDT",,
+ADAE,AEDTHPUB,Death Obtained from Public Records,Char ,200,$200.,,Derived,Set to numeric SUPPAE.QVAL where SUPPAE.QNAM=AEDTHPUB,,
+ADAE,AOCC01FL,1st Occurrence of AE leading to Trt D/C,Char,1,$1.,Y,Derived,"Flags the chronologically earliest record by start date (ASTDT) leading to study treatment discontinuation (ATRDISFL = 'Y').
+If more than one record with the same ASTDT can be selected, then the record with the lowest AESEQ is flagged.",,
+ADAE,ACAUSOTH,Event Related to Other Cause?,Char ,200,$200.,,Derived,"If RELCMFL='Y' then set to 'Con Med'
+If AENRCIRL='Y' then set to 'Illness'
+If AENRCDRL='Y' the set to 'DUS'
+
+Note: if multiple then concatenate with '; ' in alphabetical order (ex. 'Con Med; DUS')
+",,
+ADAE,AENOPDFL,AE Not Progressive Disease Flag,Char,1,$1.,Y,Derived,"Flags AEs that are not considered to be related to progressive disease.
+Set to ""Y"" unless AEDECOD is among the following:
+- “Malignant neoplasm progression""
+- ""Disease progression""
+- ""Colorectal cancer""
+- ""Metastases to bone""
+- ""Metastases to central nervous system""
+- ""Metastases to spine” ",,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

@@ -1,0 +1,550 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Core Variable,Notes,XL Comments,,,,,,,,,,
+ADSL,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,DM.STUDYID,Y,,,,,,,,,,,,
+ADSL,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,DM.USUBJID,Y,,,,,,,,,,,,
+ADSL,SUBJID,Subject Identifier for the Study,Char,8,$8.,,Predecessor,DM.SUBJID,Y,,,,,,,,,,,,
+ADSL,SITEID,Study Site Identifier,Char,4,$4.,,Predecessor,DM.SITEID,,,,,,,,,,,,,
+ADSL,COUNTRY,Country,Char,3,$3.,COUNTRY,Predecessor,DM.COUNTRY,,,,,,,,,,,,,
+ADSL,CNTRYGR1,Pooled Country Group 1,Char,40,$40.,CNTRYGR1,,"Set to 'NORTH AMERICA (CANADA/USA)' if COUNTRY in (USA, CAN)
+Set to 'ASIA (EXCLUDING JAPAN)' if COUNTRY in (PRC HKG MYS PHL THA VNM KOR TWN SGP IND)
+Set to 'EUROPE/AUSTRALIA/NEW ZEALAND' if COUNTRY in (BEL ROU FRA IRL ITA NLD POL ESP TUR GBR DEU AUS NZL AUT BGR BLR CHE CZE DNK FIN GRC HUN LTU SVK SWE)
+Otherwise Set to 'OTHER'
+Note: Only populate if ADSL.COUNTRY is populated",,,,,,,,,,,,,
+ADSL,REGION1,Geographic Region 1,Char,40,$40.,REGION1,,"Set based on ADSL.CNTRYGR1 and ADSL.COUNTRY:
+'NORTH AMERICA' if COUNTRY in (USA, CAN)
+'EUROPE' if if COUNTRY in (BEL ROU FRA IRL ITA NLD POL ESP TUR GBR DEU AUT CHE CZE HUN GRC UKR RUS PRT GEO ISR)
+'ASIA PACIFIC' if COUNTRY in (HKG PHL THA KOR TWN SGP CHN JPN AUS NZL )
+'LATIN AMERICA'  if COUNTRY in (ARG BRA CHL MEX) 
+'MISSING"" if COUNTRY is missing
+Else set as 'OTHER' 
+
+Note: Only populate if ADSL.COUNTRY is populated",,,,,,,,,,,,,
+ADSL,PROTVS,Protocol Version Subject Enrolled,Char,40,$40.,PROTVERS,Derived,"Set to SUPPDM.QVAL where QNAM = 'PVTYP' concatenated with SUPPDM.QVAL where QNAM = 'PVNO' in proper-case.
+Include a space between the two QVAL values.",,,,,,,,,,,,,
+ADSL,AGE,Age,Num,8,best20.,,Predecessor,DM.AGE,,,,,,,,,,,,,
+ADSL,AGEU,Age Units,Char,5,$5.,AGEU,Predecessor,DM.AGEU,,,,,,,,,,,,,
+ADSL,AGEGR1,Pooled Age Group 1,Char,10,$10.,AGEGR1,Assigned,"Assign according to AGE:
+""< 65""
+"">= 65""
+Null if AGE is missing.",,,,,,,,,,,,,
+ADSL,AGEGR2,Pooled Age Group 2,Char,10,$10.,AGEGR2,Assigned,"Assign according to AGE:
+""< 75""
+"">= 75""
+Null if AGE is missing.",,,,,,,,,,,,,
+ADSL,AGEGR3,Pooled Age Group 3,Char,10,$10.,AGEGR3,Assigned,"Assign according to AGE:
+""< 65""
+""65 to < 75""
+""75 to < 85""
+"">= 85""
+Null if AGE is missing.",,,,,,,,,,,,,
+ADSL,SEX,Sex,Char,4,$4.,SEX,Predecessor,DM.SEX,,,,,,,,,,,,,
+ADSL,RACE,Race,Char,50,$50.,RACE,Predecessor,DM.RACE,,,,,,,,,,,,,
+ADSL,RACEOTH,"Race, Other Specify",Char,200,$200.,,Predecessor,SUPPDM.QVAL where QNAM='RACEOTH',,,,,,,,,,,,,
+ADSL,RACEMULT,"Race, Multiple",Char,200,$200.,,Derived,"Take the decoded value (see RACE Codelist) of SUPPDM.QVAL where QNAM=RACE1-RACE7. Concatenate decoded values together with a semicolon and space between (e.g.  ""White; Asian"")",,,,,,,,,,,,,
+ADSL,ARACE,Analysis Race,Char,200,$200.,,Derived,"If RACE not 'MULTIPLE' or 'OTHER', set to the decoded value of RACE. 
+If RACE = 'MULTIPLE' then set to RACEMULT.
+If RACE = 'OTHER' or RACEMULT contains 'OTHER' then RACEMULT is the concatenation of RACEOTH in proper-case to the text ""Other"", separated by a colon and space. ",,,,,,,,,,,,,
+ADSL,ETHNIC,Ethnicity,Char,40,$40.,ETHNIC,Predecessor,DM.ETHNIC,,,,,,,,,,,,,
+ADSL,SCREENFL,Screened Population Flag,Char,1,$1.,NY,Derived,"Flags subjects who signed the informed consent.
+If DM.RFICDTC not missing, then set to 'Y'. 
+Otherwise, set to 'N'.",,,,,,,,,,,,,
+ADSL,ITTFL,Intent-To-Treat Population Flag,Char,1,$1.,NY,Derived,"Flags subjects who are randomized.
+If ADSL.RANDDT is non-missing, set to 'Y'; 
+Otherwise, set to 'N'.",Y,,,,,,,,,,,,
+ADSL,SCRNFFL,Screen failure flag,Char,1,$1.,Y,Derived,"Flags subjects who are screen failed.
+If DM.ARMNRS=""SCREEN FAILURE"", set to 'Y'; 
+Otherwise, null.",Y,,,,,,,,,,,,
+ADSL,SAFFL,Safety Population Flag,Char,1,$1.,NY,Derived,"Flags subjects who received any non-zero dose of study treatment.
+If the subject has a record in EX domain where EXDOSE > 0 or EXDOSTXT not in (0, missing), then set to 'Y'.
+Otherwise, set to 'N'.",Y,,,,,,,,,,,,
+ADSL,EVALFL,Efficacy Evaluable Population Flag,Char,1,$1.,NY,Derived,"If ADSL.SAFFL='Y' and ADSL.STAGE='EXPANSION' then set to 'Y'.
+Otherwise, set to 'N'.",Y,,,,,,,,,,,,
+ADSL,ARM,Description of Planned Arm,Char,100,$100.,ARMCD_C,Predecessor,DM.ARM,,,,,,,,,,,,,
+ADSL,ARMCD,Planned Arm Code,Char,28,$28.,ARMCD,Predecessor,DM.ARMCD,,,,,,,,,,,,,
+ADSL,ACTARM,Description of Actual Arm,Char,100,$100.,ARMCD_C,Predecessor,DM.ACTARM,,,,,,,,,,,,,
+ADSL,STAGE,Study Stage,Char,20,$20.,STAGE,Predecessor,SUPPDM.QVAL where SUPPDM.QNAM=STAGE,Y,,,,,,,,,,,,
+ADSL,COHORT,Cohort Description,Char,200,$200.,COHORT_C,Predecessor,Decoded value of SUPPDM.QVAL where SUPPDM.QNAM=SCOHORT ,Y,MS 4/26/2023: COHORT codelist updated for output display,,,,,,,,,,,
+ADSL,COHORTN,Cohort Description (N),Num,8,best20.,COHORT_N,Predecessor,"From ADSL.COHORT, assigned as per codelist.",,,,,,,,,,,,,
+ADSL,ACTARMCD,Actual Arm Code,Char,28,$28.,ARMCD,Predecessor,DM.ACTARMCD,,,,,,,,,,,,,
+ADSL,RFICDTC,Date/Time of Informed Consent,Char,19,$19.,,Predecessor,DM.RFICDTC,,,,,,,,,,,,,
+ADSL,RFICDT,Date of Informed Consent,Num,8,date9.,,Derived,DM.RFICDTC as a SAS numeric date variable,Y,,,,,,,,,,,,
+ADSL,RANDDT,Date of Randomization,Num,8,date9.,,Derived,Date part of DS.DSSTDTC where DSDECOD = 'RANDOMIZED' as a SAS numeric date variable.,Y,,,,,,,,,,,,
+ADSL,TRT01P,Planned Treatment for Period 01,Char,52,$52.,TRT01P,Assigned,Set to DM.ARM,Y,,,,,,,,,,,,
+ADSL,TRT01PN,Planned Treatment for Period 01 (N),Num,8,best20.,TRT01P_N,Assigned,"From ADSL.TRT01P, assigned as per codelist.",Y,,,,,,,,,,,,
+ADSL,TRT01A,Actual Treatment for Period 01,Char,52,$52.,TRT01A,Assigned,"Set to DM.ACTARM. 
+If DM.ACTARM is missing and DM.ARM is non-missing, set to ""Not Treated""",Y,,,,,,,,,,,,
+ADSL,TRT01AN,Actual Treatment for Period 01 (N),Num,8,best20.,TRT01A_N,Assigned,"From ADSL.TRT01A, assigned as per codelist.",Y,,,,,,,,,,,,
+ADSL,TRTSDT,Date of First Exposure to Treatment,Num,8,date9.,,Derived,"Date part of EX.EXSTDTC as a SAS numeric date for the chronologically first record in EX domain where EXDOSE > 0 and EXSTDTC is a complete date.
+
+Alert ST if calculated TRTSDT doesn't match date-part DM.RFXSTDTC.",Y,,,,,,,,,,,,
+ADSL,TRTSTM,Time of First Exposure to Treatment,Num,8,time5.,,Derived,"From the chronologically first record in EX domain where EXDOSE > 0, set to the time-part of EX.EXSTDTC or, if missing and SUPPEX.QVAL where QNAM = 'ECSTTX' is non-missing, then set to SUPPEX.QVAL where QNAM = 'ECSTTX'. Derive as a SAS numeric time variable.
+
+Alert ST if calculated TRTSDT doesn't match time-part DM.RFXSTDTC.",Y,,,,,,,,,,,,
+ADSL,TRTSDTM,Datetime of First Exposure to Treatment,Num,8,Datetime19.,,Derived,TRTSDT with TRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,Y,,,,,,,,,,,,
+ADSL,NVTRTSDT,Date of First Exposure to Nivolumab,Num,8,date9.,,Derived,"Date part of EX.EXSTDTC as a SAS numeric date for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'Nivolumab' and EXSTDTC is a complete date.",,,,,,,,,,,,,
+ADSL,NVTRTSTM,Time of First Exposure to Nivolumab,Num,8,time5.,,Derived,"Time part of EX.EXSTDTC as a SAS numeric time for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'Nivolumab' and EXSTDTC is has non-missing time.",,,,,,,,,,,,,
+ADSL,NVTRSDTM,Datetime of First Exposure to Nivolumab,Num,8,Datetime19.,,Derived,NVTRTSDT with NVTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,XLTRTSDT,Date of First Exposure to XL092,Num,8,date9.,,Derived,"Date part of EX.EXSTDTC as a SAS numeric date for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'XL092' and EXSTDTC is a complete date.",,,,,,,,,,,,,
+ADSL,XLTRTSTM,Time of First Exposure to XL092,Num,8,time5.,,Derived,"Time part of EX.EXSTDTC as a SAS numeric time for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'XL092' and EXSTDTC is has non-missing time.",,,,,,,,,,,,,
+ADSL,XLTRSDTM,Datetime of First Exposure to XL092,Num,8,Datetime19.,,Derived,XLTRTSDT with XLTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,RLTRTSDT,Date of First Exp to Nivo/Rela FDC,Num,8,date9.,,Derived,"Date part of EX.EXSTDTC as a SAS numeric date for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'Relatlimab/Nivolumab FDC' and EXSTDTC is a complete date.",,,,,,,,,,,,,
+ADSL,RLTRTSTM,Time of First Exp to Nivo/Rela FDC,Num,8,time5.,,Derived,"Time part of EX.EXSTDTC as a SAS numeric time for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'Relatlimab/Nivolumab FDC' and EXSTDTC is has non-missing time.",,,,,,,,,,,,,
+ADSL,RLTRSDTM,Datetime of First Exp to Nivo/Rela FDC,Num,8,Datetime19.,,Derived,RLTRTSDT with RLTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,IPTRTSDT,Date of First Exposure to Ipilimumab ,Num,8,date9.,,Derived,"Date part of EX.EXSTDTC as a SAS numeric date for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'Ipilimumab' and EXSTDTC is a complete date.",,,,,,,,,,,,,
+ADSL,IPTRTSTM,Time of First Exposure to Ipilimumab ,Num,8,time5.,,Derived,"Time part of EX.EXSTDTC as a SAS numeric time for the chronologically first record in EX domain where EXDOSE > 0, EXTRT = 'Ipilimumab' and EXSTDTC is has non-missing time.",,,,,,,,,,,,,
+ADSL,IPTRSDTM,Datetime of First Exposure to Nivolumab,Num,8,Datetime19.,,Derived,IPTRTSDT with IPTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,TRTEDT,Date of Last Exposure to Treatment,Num,8,date9.,,Derived,"Calculated as the maximum date from among (ADSL.NVTRTEDT, ADSL.XLTRTEDT, ADSL.IPTRTEDT, ADSL.RLTRTEDT, ADSL.ITRTEDT).",Y,,,,,,,,,,,,
+ADSL,TRTEDTF,Date of Last Exposure Imput. Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.TRTEDT source date imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if source date was not imputed.",,,,,,,,,,,,,
+ADSL,NVTRTEDT,Date of Last Exposure to Nivolumab,Num,8,date9.,,Derived,"Date part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'Nivolumab'.
+In the event of partial dates, follow imputation rules given for XLTRTEDT.
+For imputations, date decision to stop treatment from EOT CRF is ADSL.EONDCDT.
+",,,"ML 3/29/2023: Can we have imputation flag for Nivo?
+MS 3APR2023: Added to derivation and added flag below",,,,,,,,,,
+ADSL,NTRTEDTF,Date of Last Exposure to Nivo Imput Fl,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.NVTRTEDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if source date was not imputed.",,,,,,,,,,,,,
+ADSL,NVTRTETM,Time of Last Exposure to Nivolumab,Num,8,time5.,,Derived,"Time part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'Nivolumab'.
+Do not impute time.
+",,,,,,,,,,,,,
+ADSL,NVTREDTM,Datetime of Last Exposure to Nivolumab,Num,8,Datetime19.,,Derived,NVTRTSDT with NVTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,XLTRTEDT,Date of Last Exposure to XL092,Num,8,date9.,,Derived,"Date part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'XL092'.
+In the event of partial dates, sort records in EX domain by: year(EXSTDTC), year(EXENDTC), month(EXSTDTC), month(EXENDTC), day(EXSTDTC), day(EXENDTC). For the purposes of sorting, if date component (year, day, month) is missing from EXSTDTC and is non-missing from EXENDTC, or vice versa, use the opposite date component in the sort (e.g. if month of EXENDTC is missing and month of EXSTDTC is non-missing, use month of EXSTDTC in place of month(EXENDTC) for sorting).
+
+After sorting, impute partial EXENDTC values as follows:
+Define the ""next sequential dosing milestone"" as the earliest of the chronologically next EXSTDTC date in EX domain for the given treatment, date of decision to stop treatment from EOT CRF (ADSL.EOXDCDT) or the cutoff date (ADSL.CUTDT).
+If EXENDTC is completely missing: set to date of ""next sequential dosing milestone” - 1.
+If year is present but month/day are missing: set to the earlier of (December 31st, {""next sequential dosing milestone"" - 1}).
+If only day is missing: set to the earlier of (last day of the month, {""next sequential dosing milestone"" - 1}).",,Imputation rules require review/to be updated based on SAP,"No imputation needed.
+",,,,,,,,,,
+ADSL,XTRTEDTF,Date of Last Exposure to XL092 Imput Fl,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.XLTRTEDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if source date was not imputed.",,,,,,,,,,,,,
+ADSL,XLTRTETM,Time of Last Exposure to XL092,Num,8,time5.,,Derived,"Time part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'XL092'.
+Do not impute time.
+",,,,,,,,,,,,,
+ADSL,XLTREDTM,Datetime of Last Exposure to XL092,Num,8,Datetime19.,,Derived,XLTRTSDT with XLTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,RLTRTEDT,Date of Last Exp to Nivo/Rela FDC,Num,8,date9.,,Derived,"Date part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'Relatlimab/Nivolumab FDC'.
+In the event of partial dates, follow imputation rules given for XLTRTEDT.
+For imputations, date decision to stop treatment from EOT CRF is ADSL.EORDCDT.",,Imputation rules require review/to be updated based on SAP,"No imputation needed.
+",,,,,,,,,,
+ADSL,RTRTEDTF,Date of Last Exp Nivo/Rela FDC Imput Fl,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.RLTRTEDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if source date was not imputed.",,,,,,,,,,,,,
+ADSL,RLTRTETM,Time of Last Exp to Nivo/Rela FDC,Num,8,time5.,,Derived,"Time part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'Relatlimab/Nivolumab FDC'.
+Do not impute time.
+",,,,,,,,,,,,,
+ADSL,RLTREDTM,Datetime of Last Exp to Nivo/Rela FDC,Num,8,Datetime19.,,Derived,RLTRTSDT with RLTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,IPTRTEDT,Date of Last Exposure to Ipilimumab,Num,8,date9.,,Derived,"Date part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'Ipilimumab'.
+In the event of partial dates, follow imputation rules given for XLTRTEDT.
+For imputations, date decision to stop treatment from EOT CRF is ADSL.EORDCDT.",,,,,,,,,,,,,
+ADSL,ITRTEDTF,Date of Last Exposure to Ipi Imput Fl,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.ILTRTEDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if source date was not imputed.",,,,,,,,,,,,,
+ADSL,IPTRTETM,Time of Last Exposure to Ipilimumab,Num,8,time5.,,Derived,"Time part of EX.EXENDTC as a SAS numeric date for the chronologically last record in EX domain where EXDOSE > 0, EXTRT = 'Ipilimumab'.
+Do not impute time.
+",,,,,,,,,,,,,
+ADSL,IPTREDTM,Datetime of Last Exposure to Ipilimumab,Num,8,Datetime19.,,Derived,IPTRTSDT with IPTRTSTM as a SAS numeric date-time variable. Only populated if both variables are non-missing.,,,,,,,,,,,,,
+ADSL,EOTSTT,End of Treatment Status,Char,12,$12.,SBJTSTAT,Derived,"If ADSL.EOTDCDT is non-missing, then set to ""DISCONTINUED"".
+Otherwise, if ADSL.SAFFL = 'Y', then set to ""ONGOING"".
+Null if ADSL.SAFFL = 'N'.",,,,,,,,,,,,,
+ADSL,EONDCDT,Date of Decision to Discontinue Nivo,Num,8,date9.,,Derived,"Calculate as DS.DSSTDTC where DS.DSSCAT= ""END OF STUDY TREATMENT- NIVOLUMAB"" as a SAS numeric date variable.",,,,,,,,,,,,,
+ADSL,EONDCDY,Study Day of Decision to Discont. Nivo,Num,8,best20.,,Derived,If non-missing EONDCDT then set to EONDCDT-TRTSDT+1,,,,,,,,,,,,,
+ADSL,EOXDCDT,Date of Decision to Discontinue XL092,Num,8,date9.,,Derived,"Calculate as DS.DSSTDTC where DS.DSSCAT= ""END OF STUDY TREATMENT- XL092"" as a SAS numeric date variable.",,,,,,,,,,,,,
+ADSL,EOXDCDY,Study Day of Decision to Discont. XL092,Num,8,best20.,,Derived,If non-missing EOXDCDT then set to EOXDCDT-TRTSDT+1,,,,,,,,,,,,,
+ADSL,EORDCDT,Date of Dec. to Discont. Nivo/Rela FDC,Num,8,date9.,,Derived,"Calculate as DS.DSSTDTC where DS.DSSCAT= ""END OF STUDY TREATMENT - RELATLIMAB/NIVOLUMAB FDC"" as a SAS numeric date variable.",,,,,,,,,,,,,
+ADSL,EORDCDY,Stdy of Dec. to Discont. Nivo/Rela FDC,Num,8,best20.,,Derived,If non-missing EORDCDT then set to EORDCDT-TRTSDT+1,,,,,,,,,,,,,
+ADSL,EOIDCDT,Date of Decision to Discontinue Ipi,Num,8,date9.,,Derived,"Calculate as DS.DSSTDTC where DS.DSSCAT= ""END OF STUDY TREATMENT- IPILIMUMAB"" as a SAS numeric date variable.",,,,,,,,,,,,,
+ADSL,EOIDCDY,Study Day of Decision to Discont. Ipi,Num,8,best20.,,Derived,If non-missing EOIDCDT then set to EOIDCDT-TRTSDT+1,,,,,,,,,,,,,
+ADSL,EOTDCDT,Date of Decision to Disc. Core Treatment,Num,8,date9.,,Derived,"If TRT01P indicates single agent XL092 and  ADSL.EOXDCDT is non-missing, set to ADSL.EOXDCDT.
+Otherwise, MAX(EOXDCDT,EONDCDT, EOIDCDT, EORDCDT) with the following conditions:
+If TRT01P indicates XL092 + Nivo, only populate if both EOXDCDT and EONDCDT are both non-missing
+If TRT01P indicates XL092 + Nivo + Ipi, only populate if  EOXDCDT and EONDCDT and EOIDCDT are all non-missing
+If TRT01P indicates XL092 + Nivo + Rel, only populate if  EOXDCDT and EONDCDT and EORDCDT are all non-missing",,,,,,,,,,,,,
+ADSL,EOTDCDY,Study Day of Decision to Disc. Core Trt,Num,8,best20.,,Derived,If non-missing EOTDCDT then set to EOTDCDT-TRTSDT+1,,,,,,,,,,,,,
+ADSL,TRTDURD,Total Treatment Duration (Days),Num,8,best20.,,Derived,"Total treatment duration across all study treatments given.
+Defined as:
+Earlier of (Date of decision to discontinue study treatment, death date, cutoff date) – date of first dose + 1.
+Calculated as:
+Min(EOTDCDT, DTHDT, CUTDT) - TRTSDT + 1",,,,,,,,,,,,,
+ADSL,TRTDURM,Total Treatment Duration (Months),Num,8,best20.,,Derived,"Total treatment duration across all study treatments given.
+Defined as:
+(Earlier of (Date of decision to discontinue study treatment, death date, cutoff date) – date of first dose + 1)/30.4375.
+Calculated as:
+(Min(EOTDCDT, DTHDT, CUTDT) - TRTSDT + 1)/30.4375",,,,,,,,,,,,,
+ADSL,TRDURGR1,Pooled Treatment Duration Group 1,Char,10,$10.,,Derived,"Set per TRTDURM;
+<1 = '<1 month'
+>=1 month = '>= 1 month'
+>=3 => '>=3 months'
+>=6 => '>=6 months'
+>=9 => '>=9 months'
+>=12 => '>=12 months'
+",,,,,,,,,,,,,
+ADSL,XTRDRGR1,Pooled XL092 Duration Group 1,Char,10,$10.,,Derived,"Set per XTRTDURM;
+<1 = '<1 month'
+>=1 month = '>= 1 month'
+>=3 => '>=3 months'
+>=6 => '>=6 months'
+>=9 => '>=9 months'
+>=12 => '>=12 months'
+",,,,,,,,,,,,,
+ADSL,NTRDRGR1,Pooled Nivolumab Duration Group 1,Char,10,$10.,,Derived,"Set per NTRTDURM;
+<1 = '<1 month'
+>=1 month = '>= 1 month'
+>=3 => '>=3 months'
+>=6 => '>=6 months'
+>=9 => '>=9 months'
+>=12 => '>=12 months'
+",,,,,,,,,,,,,
+ADSL,RTRDRGR1,Pooled Nivo/Rela FDC Duration Group 1,Char,10,$10.,,Derived,"Set per RTRTDURM;
+<1 = '<1 month'
+>=1 month = '>= 1 month'
+>=3 => '>=3 months'
+>=6 => '>=6 months'
+>=9 => '>=9 months'
+>=12 => '>=12 months'
+",,,,,,,,,,,,,
+ADSL,ITRDRGR1,Pooled Ipilimumab Duration Group 1,Char,10,$10.,,Derived,"Set per ITRTDURM;
+<1 = '<1 month'
+>=1 month = '>= 1 month'
+>=3 => '>=3 months'
+>=6 => '>=6 months'
+>=9 => '>=9 months'
+>=12 => '>=12 months'
+",,,,,,,,,,,,,
+ADSL,FUDURM,Follow-up Duration (Months),Num,8,best20.,,Derived,"Calculated as:
+(CUTDT - TRTSDT + 1)/30.4375",,,"ML 9/20/24: Update derivation as follows:                             If EOTSTT='DISCONTINUED' then NTRTDURD=NVTRTEDT - NVTRTSDT +1
+If EOTSTT='ONGOING' then NTRTDURD=CUTDT-NVTRTSDT + 1",,,,,,,,,,
+ADSL,NTRTDURD,Total Nivolumab  Duration (Days),Num,8,best20.,,Derived,"NVTRTEDT - NVTRTSDT +1
+
+If EOTSTT='DISCONTINUED' then NTRTDURD=NVTRTEDT - NVTRTSDT +1
+If EOTSTT='ONGOING' then NTRTDURD=CUTDT-NVTRTSDT + 1",,,ML 9/20/24: Make updates as above and divide by 30.4375 to get dur in months.,,,,,,,,,,
+ADSL,NTRTDURM,Total Nivolumab  Duration (Months),Num,8,best20.,,Derived,(ADSL.NTRTDURD)/30.4375,,,"ML 9/20/24: Update derivation as follows:                             If EOTSTT='DISCONTINUED' then RTRTDURD=RLTRTEDT - RLTRTSDT +1
+If EOTSTT='ONGOING' then RTRTDURD=CUTDT-RLTRTSDT + 1",,,,,,,,,,
+ADSL,RTRTDURD,Total Nivo/Rela FDC Duration (Days),Num,8,best20.,,Derived,"RLTRTEDT - RLTRTSDT +1
+
+If EOTSTT='DISCONTINUED' then RTRTDURD=RLTRTEDT - RLTRTSDT +1
+If EOTSTT='ONGOING' then RTRTDURD=CUTDT-RLTRTSDT + 1",,,ML 9/20/24: Make updates as above and divide by 30.4375 to get dur in months.,,,,,,,,,,
+ADSL,RTRTDURM,Total Nivo/Rela FDC Duration (Months),Num,8,best20.,,Derived,(ADSL.RTRTDURD)/30.4375,,,,,,,,,,,,,
+ADSL,ITRTDURD,Total Ipilimumab Duration (Days),Num,8,best20.,,Derived,"RLTRTEDT - RLTRTSDT +1
+
+If EOTSTT='DISCONTINUED' then ITRTDURD=ITRTEDT - ITRTSDT +1
+If EOTSTT='ONGOING' then ITRTDURD=CUTDT-ITRTSDT + 1",,,,,,,,,,,,,
+ADSL,ITRTDURM,Total Ipilimumab Duration (Months),Num,8,best20.,,Derived,(ADSL.ITRTDURD)/30.4375,,,,,,,,,,,,,
+ADSL,XTRTDURD,Total XL092 Duration (Days),Num,8,best20.,,Derived,XLTRTEDT - XLTRTSDT +1,,,,,,,,,,,,,
+ADSL,XTRTDURM,Total XL092 Duration (Months),Num,8,best20.,,Derived,(XLTRTEDT - XLTRTSDT +1)/30.4375,,,,,,,,,,,,,
+ADSL,DCTREAS,Reason for Discontinuation of Treatment,Char,200,$200.,DCTREAS_C,Derived,"Only populate when ^missing EOTDCDT. 
+
+Find the variable with the greatest non-missing value from among EOXDCDT, EONDCDT, EOIDCDT, EORDCDT. In case of ties, select the variable in the order given.
+Assign DCTREAS based on the variable with the latest date:
+If EOXDCDT is the lastest date then set DCTREAS to DCTREASX,
+If EONDCDT, set DCTREAS to DCTREASN
+If EOIDCDT, set DCTREAS to DCTREASI
+If EORDCDT, set DCTREAS to DCTREASR
+",,,ML 1/8/25: Add 'SUBJECT REQUEST' codelist to codelist sheet to set it to 'Subject request' in DCTREAS in specs for ADSL.,,,,,,,,,,
+ADSL,DCTREASN,Reason for Discontinuation of Nivo,Char,200,$200.,DCTREAS_C,Derived,"Set to the decoded value of DS.DSDECOD from the record where DS.DSSCAT= ""END OF STUDY TREATMENT- NIVOLUMAB"", as per the codelist.
+
+If DS.DSDECOD is null, but EONDCDT is non-missing, set to ""Missing/data not yet received"".
+
+Only populate if SAFFL = 'Y'.",,,,,,,,,,,,,
+ADSL,DCTREASX,Reason for Discontinuation of XL092,Char,200,$200.,DCTREAS_C,Derived,"Set to the decoded value of DS.DSDECOD from the record where DS.DSSCAT= ""END OF STUDY TREATMENT- XL092"", as per the codelist.
+
+If DS.DSDECOD is null, but EOXDCDT is non-missing, set to ""Missing/data not yet received"".
+
+Only populate if SAFFL = 'Y'.",,,,,,,,,,,,,
+ADSL,DCTREASR,Reason for Discont. of Nivo/Rela FDC,Char,200,$200.,DCTREAS_C,Derived,"Set to the decoded value of DS.DSDECOD from the record where DS.DSSCAT= ""END OF STUDY TREATMENT - RELATLIMAB/NIVOLUMAB FDC"", as per the codelist.
+
+If DS.DSDECOD is null, but EORDCDT is non-missing, set to ""Missing/data not yet received"".
+
+Only populate if SAFFL = 'Y'.",Y,,,,,,,,,,,,
+ADSL,DCTREASI,Reason for Discontinuation of Ipi,Char,200,$200.,DCTREAS_C,Derived,"Set to the decoded value of DS.DSDECOD from the record where DS.DSSCAT= ""END OF STUDY TREATMENT - IPILIMUMAB"", as per the codelist.
+
+If DS.DSDECOD is null, but EOIDCDT is non-missing, set to ""Missing/data not yet received"".
+
+Only populate if SAFFL = 'Y'.",,,,,,,,,,,,,
+ADSL,EOSSTT,End of Study Status,Char,12,$12.,SBJTSTAT,Derived,"If there exists a record in DS domain where DS.DSSCAT='END OF SURVIVAL FOLLOW-UP', then set to ""DISCONTINUED"".
+Else if ADSL.SCREENFL = 'Y' and ADSL.SCRNFFL ne 'Y', then set to ""ONGOING"".
+Otherwise, null if ADSL.SAFFL = 'N'.",,,,,,,,,,,,,
+ADSL,EOSDT,End of Study Date,Num,8,date9.,,Derived,"Calculate as DS.DSSTDTC where dsscat='END OF SURVIVAL FOLLOW-UP' as a SAS numeric date variable.
+
+If missing or partial DS.DSSTDTC:
+if date is completely missing: set to ADSL.LSTALVDT + 1.
+if month and day are missing, then:
+if year > year(ADSL.LSTALVDT), set to 1st January.
+if year <= year(ADSL.LSTALVDT), set to ADSL.LSTALVDT +1.
+if only day is missing: 
+if year = year(ADSL.LSTALVDT) and month = month(ADSL.LSTALVDT), set to ADSL.LSTALVDT + 1.
+otherwise, set to the 1st of the month.
+
+If imputation of EOSDT>DTHDT>. then set EOSDT = DTHDT.",,,,,,,,,,,,,
+ADSL,EOSDTF,End of Study Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.EOSDT imputation. Set to:
+Y if entire date is imputed.
+M if month and day are imputed.
+D if only day is imputed.
+Null if source date was not imputed.",,,,,,,,,,,,,
+ADSL,DCSREAS,Reason for Discontinuation from Study,Char,200,$200.,DCSREAS_C,Derived,"Set to the decoded value of DS.DSDECOD where DS.DSSCAT='END OF SURVIVAL FOLLOW-UP'. See codelist for assignments.
+If DS.DSDECOD is null, but EOSDT is non-missing, set to ""Missing/data not yet received"".",,,,,,,,,,,,,
+ADSL,LASTVSDT,Last Visit Date,Num,8,date9.,,Derived,"From SV domain, set to the greater of SV.SVSTDTC or SV.SVENDTC from the the last record where SV.SVOCCUR = 'Y' and the date in SV is less than or equal to ADSL.CUTDT.",,,,,,,,,,,,,
+ADSL,WDCFDT,Date of Withdrawal of Full Consent,Num,8,date9.,,Derived,"Set to DS:DSSTDTC where DSTERM='WITHDREW FULL CONSENT FROM ALL STUDY INTERVENTIONS AND NON-INTERVENTIONAL STUDY ASSESSMENTS.' and DSSCAT = ""CONSENT WITHDRAWAL"".",Y,,,,,,,,,,,,
+ADSL,EORDT,Date of End of Radiographic FUP,Num,8,date9.,,Derived,"This is the date of the last available CT Scan prior to discontinuing radiographic follow-up. Will be null if subject discontinued the study and had no scans.
+
+The latest date in SUPPDS.QVAL where SUPPDS.QNAM in ('ERCTDTC', 'ERMRIDTC') corresponding to the record where DS.DSSCAT='END OF RADIOGRAPHIC FOLLOW-UP'. Calculated as a SAS date variable.",Y,,,,,,,,,,,,
+ADSL,DCRREAS,Reason for Discont. From Radio FUP,Char,200,$200.,DCRREAS_C,Derived,"Set to the decoded value of DS.DSDECOD where DS.DSSCAT='END OF RADIOGRAPHIC FOLLOW-UP'. See codelist.
+If DS.DSDECOD is null, but EORDT is non-missing, set to ""Missing/data not yet received"".",,,,,,,,,,,,,
+ADSL,CUTDT,Date of Data Cutoff Date,Num,8,date9.,,Assigned,"Set to the date of the data cut-off as a SAS numeric date variable. If date was not filtered, set to the date of the data extraction.",,,,,,,,,,,,,
+ADSL,LSTALVDT,Date Last Known Alive,num,8,date9.,,Derived,"1) If the subject has died and DM.DTHDTC is a complete date, set to DM.DTHDTC as a SAS numeric date variable.
+
+2) If DM.DTHDTC is null or partial, LSTALVDT is calculated as follows:
+{a} If ADSL.WDCFDT is not missing, set to  WDCFDT.
+{b} Otherwise, if available, set to the later of (latest available SS.SSDTC where SS.SSORRES = 'ALIVE') and (latest available SUPPSS.QVAL where QNAM = 'FUALVDTC') and (DS.DSSTDTC where DS.DSSCAT = 'END OF SURVIVAL FOLLOW-UP')
+{c} Otherwise, set to the latter of the following dates: (latest SV.SVSTDTC or  SV.SVENDTC where SV.SVOCCUR = 'Y' and SV.VISIT does not contain SURVIVAL FOLLOW-UP), DS.DSSTDTC where DS.DSSCAT='END OF RADIOGRAPHIC FOLLOW-UP', ADSL.EOTDCDT, (latest AE.AESTDTC or AE.AEENDTC with non-missing AETERM), (latest EX.EXSTDTC or EX.EXENDTC where EXDOSE>0), (lastest CM.CMSTDTC or CM.CMENDTC with non-missing CMTRT)
+
+If any of the dates used above are partial dates, then impute as follows:
+If only day is missing, set to the 1st of the month.
+If month and day are missing, set to January 1st.
+Do not consider records where date is completely missing.
+
+If calculated LSTALVDT < TRTSDT, then set to TRTSDT.
+If calculated LSTALVDT > CUTDT, then set to CUTDT.",,,,,,,,,,,,,
+ADSL,LSALVDTF,Date Last Known Alive Imp. Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.LSTALVDT. If the date used for ADSL.LSTALVDT is imputed, set to:
+M if month and day are imputed.
+D if only day is imputed.
+Null if source date was not imputed.",,Imputation rules require review/ input/ updates based on SAP text.,No imputation needed.,,,,,,,,,,
+ADSL,DTHFL,Subject Death Flag,Char,3,$3.,Y,Predecessor,DM.DTHFL,,,,,,,,,,,,,
+ADSL,DTHDTC,Date/Time of Death,Char,19,$19.,,Predecessor,DM.DTHDTC,Y,,,,,,,,,,,,
+ADSL,DTHUNFDT,"Date of Death, Unfiltered",Num,8,date9.,,Derived,"if DM.DTHDTC is a complete date, then set to ADSL.DTHDTC as a SAS numeric date variable.
+If DM.DTHDTC is missing but DM.DTHFL = 'Y', then check AE domain. If a record exists with AE.AETOXGR = 5, set DTHUNFDT to the latter of AE.AESTDTC, AE.AEENDTC. Otherwise,  set to ADSL.LSTALVDT +1.
+If DM.DTHDTC has only year, then impute as follows:
+- If year(DTHDTC) = year(LSTALVDT) , then set to ADSL.LSTALVDT +1.
+- If year(DTHDTC) > year(LSTALVDT), then set to January 1st.
+If only day is missing, set to the latter of {LSTALVDT+1}, {1st day of the month}",,,,,,,,,,,,,
+ADSL,DTHUNDTF,"Date of Death, Unfiltered, Imput Flag",Char,1,$1.,DATEFL,Assigned,"Based on ADSL.DTHUNFDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed.
+D if only day is imputed.
+Null if DM.DTHDTC is a complete date.",,,,,,,,,,,,,
+ADSL,DTHDT,Date of Death,Num,8,date9.,,Derived,"Set to ADSL.DTHUNFDT.
+If ADSL.DTHUNFDT > ADSL.CUTDT then set to missing.",,,,,,,,,,,,,
+ADSL,DTHDTF,Date of Death Imputation Flag,Char,1,$1.,DATEFL,Assigned,"If ADSL.DTHDT is populated, then carry forward the value of ADSL.DTHUNDTF.",,,,,,,,,,,,,
+ADSL,DTHFDY,Day of Death Relative to First Dose,Num,8,best20.,,Derived,Calcuate as DTHDT - TRTSDT+1,,,,,,,,,,,,,
+ADSL,DTHLDY,Day of Death Relative to Last Dose,Num,8,best20.,,Derived,Calcuate as DTHDT - TRTEDT+1,,,,,,,,,,,,,
+ADSL,DTHDYGR1,Day of Death Rel to Last Dose Group 1,Char,50,$50.,DTHPER,Assigned,"Assign based on the value of ADSL.DTHLDY:
+'<= 30 days'
+'> 30 days'
+Null if DTHLDY is missing.",,,,,,,,,,,,,
+ADSL,DTHDYGR2,Day of Death Rel to Last Dose Group 2,Char,50,$50.,DTHPER2,Assigned,"Assign based on the value of ADSL.DTHLDY:
+'<= 135 days'
+'> 135 days'
+Null if DTHLDY is missing.",,,,,,,,,,,,,
+ADSL,DTHDYGR3,Day of Death Rel to Last Dose Group 3,Char,50,$50.,DTHPER3,Assigned,"Assign based on the value of ADSL.DTHLDY:
+'<= 100 days'
+'> 100 days'
+Null if DTHLDY is missing.",,,,,,,,,,,,,
+ADSL,DTHCAUS,Cause of Death,Char,200,$200.,,Derived,"If DM.DTHFL='Y' then set to AE.AEDECOD from the record in AE domain where AE.AETOXGR = '5' or AE.AEOUT = 'FATAL'. If more than one such record, flag as a data issue and select AEDECOD from the record with the lowest AESEQ.
+If record exists in AE domain, but AEDECOD is missing on that record, set to ""Uncoded: "" concatenated with AETERM.
+
+If subject died (DM.DTHFL = 'Y') and DTHCAUS is not populated as per steps above, then set to ""Missing/data not yet received"" and investigate as a data issue.",,,,,,,,,,,,,
+ADSL,DTHASOSI                                                                                   ,Death Associated With Study Indication,Char,200,$200.,NY,,Set to DD.DDSTRESC where DD.DDTESTCD = 'DTHRELPR'.,,,ML 3/29/2023: Please update DTHRLAFL to DTHRLNFL for Nivo,,,,,,,,,,
+ADSL,DTHPUBL,Death Date Obtained from Public Records,Char,200,$200.,NY,,"From records in AE domain where AE.AEOUT = 'FATAL' or AE.AETOXGR = '5', Set to SUPPAE.QVAL where QNAM = 'AEDTHPUB'",,,,,,,,,,,,,
+ADSL,DTHRLTFL,Death Related to Study Treatment Flag,Char,1,$1.,NY,,"Set to 'Y' if death was related to any individual study treatment components.  Set to ""Y"" if ADSL.DTHRLNFL = 'Y' or ADSL.DTHRLXFL = 'Y' or ADSL.DTHRLIFL = 'Y' or ADSL.DTHRLRFL = 'Y'.
+Otherwise, set to ""N"" ADSL.DTHRLNFL = 'N' or ADSL.DTHRLXFL = 'N' or ADSL.DTHRLIFL = 'N' or ADSL.DTHRLRFL = 'N'.
+Null otherwise.",,,,,,,,,,,,,
+ADSL,DTHRLNFL,Death Related to Nivolumab Flag,Char,1,$1.,NY,,"From records in AE domain where AE.AEOUT = 'FATAL' or AE.AETOXGR = '5', set to ""Y"" if (SUPPAE.QVAL = 'RELATED"" where SUPPAE.QNAM = 'AEREL2') on any such record.
+Otherwise, if such a record exists in AE domain and SUPPAE.QVAL = 'NOT RELATED"" where SUPPAE.QNAM = 'AEREL2', then set to ""N"".
+Null otherwise.",,,,,,,,,,,,,
+ADSL,DTHRLXFL,Death Related to XL092 Flag,Char,1,$1.,NY,,"From records in AE domain where AE.AEOUT = 'FATAL' or AE.AETOXGR = '5', set to ""Y"" if (SUPPAE.QVAL = 'RELATED"" where SUPPAE.QNAM = 'AEREL1') on any such record.
+Otherwise, if such a record exists in AE domain and SUPPAE.QVAL = 'NOT RELATED"" where SUPPAE.QNAM = 'AEREL1', then set to ""N"".
+Null otherwise.",,,,,,,,,,,,,
+ADSL,DTHRLRFL,Death Related to Nivo/Rela FDC Flag,Char,1,$1.,NY,,"From records in AE domain where AE.AEOUT = 'FATAL' or AE.AETOXGR = '5', set to ""Y"" if (SUPPAE.QVAL = 'RELATED"" where SUPPAE.QNAM = 'AEREL5') on any such record.
+Otherwise, if such a record exists in AE domain and SUPPAE.QVAL = 'NOT RELATED"" where SUPPAE.QNAM = 'AEREL5', then set to ""N"".
+Null otherwise.",Y,"Requires review/ input/ updates based on SAP text. Should the safety observation period end when new Anti-Cancer therapy is initiated?  
+                ",ML 12/23/24: Safety observation period derivation should be updated as per SAP to include 4) ADSLxl.SYSACTDT-1,,,,,,,,,,
+ADSL,SMOKSTT,Smoking Status,Char,10,$10.,SUSTAT,Derived,"Set to 'NEVER' if SU.SUOCCUR='N' where SU.SUTRT='TOBACCO';
+Set to 'FORMER' if SU.SUOCCUR='Y' and SU.SUENRTPT='BEFORE' where SU.SUTRT='TOBACCO';
+Set to 'CURRENT' if SU.SUOCCUR='Y' and SU.SUENRTPT='ONGOING' where SU.SUTRT='TOBACCO'.
+Otherwise, null.",Y,"Requires review/ input/ updates based on SAP text. Should the safety observation period end when new Anti-Cancer therapy is initiated?
+",ML 12/23/24: Safety observation period derivation should be updated as per SAP to include 4) ADSLxl.SYSACTDT-1,,,,,,,,,,
+ADSL,ALCSTT,Alcohol Status,Char,10,$10.,SUSTAT,Derived,"Set to 'NEVER' if SU.SUOCCUR='N' where SU.SUTRT='ALCOHOL';
+Set to 'FORMER' if SU.SUOCCUR='Y' and SU.SUENRTPT='BEFORE' where SU.SUTRT='ALCOHOL';
+Set to 'CURRENT' if SU.SUOCCUR='Y' and SU.SUENRTPT='ONGOING' where SU.SUTRT='ALCOHOL'.
+Otherwise, null.",Y," Imputation rules require review/ input/ updates based on SAP text.
+-- updates to imputation rules will require corresponding updates to ADCM","SK: We should stay consistent with XL092-001 where possible.  Here is the algorithm used there. 
+Combine CM and SUPPCM and set to the first numeric CM.CMSTDTC on or after TRTSDT where CM.CMCAT=""CONCOMITANT AND SUBSEQUENT NON-RADIATION ANTI-CANCER THERAPY"" and SUPPCM.QVAL=""SYSTEMIC"" where QNAM=""CMTYPE"" 
+Do not include records with both CMTRT and CMSTDTC missing.
+
+For partial date, use the following imputation rules:
+If year is missing (or completely missing): set to date of last dose of study treatment (EOTDCDT) + 1
+If (year is present and month and day are missing) or (year and day are present and month is missing):
+If year > year of the last dose: Set month and day to January 1st.
+If year = year of the last dose: Set month and day to date of last dose of study treatment (EOTDCDT) + 1
+If year and month are present and day is missing:
+Set day to 1st day of month if the resulting imputed date is greater than date of last dose (EOTDCDT) or if the month is before the month of last dose date (EOTDCDT) and year is same or before the year of the last dose date. If both the month and year are the same as last dose date (EOTDCDT) month and year, then set imputed date to date of last dose (EOTDCDT) + 1.  Otherwise set the imputed date to date of last dose (EOTDCDT) + 1
+
+MS: included updates in red",,,,,,,,,,
+ADSL,EOSOBEDT,End Date of Standard Safety Obs Period,Num,8,date9.,,Derived,"Calculate as the earlier of the following dates:
+(1) ADSL.TRTEDT + 30
+(2) ADSL.DTHUNFDT
+(3) ADSL.CUTDT
+(4) ADSL.SYSACTDT-1
+Note: only populate when SAFFL = 'Y'.",,,,,,,,,,,,,
+ADSL,EOECCEDT,End Date of Extended Safety Obs Period,Num,8,date9.,,Derived,"Calculate as the earlier of the following dates:
+(1) a) ADSL.TRTEDT + 100 for XL092+Nivo
+     b) ADSL.TRTEDT + 135 for XL092+Nivo/Rela FDC and XL092+Nivo+Ipi
+(2) ADSL.DTHUNFDT
+(3) ADSL.CUTDT
+(4) ADSL.SYSACTDT-1
+Note: only populate when SAFFL = 'Y'. Only applies to combination therapies, not single agent.",," Imputation rules require review/ input/ updates based on SAP text.
+-- updates to imputation rules will require corresponding updates to ADCM","XW 2/13/2025: Definition of safety observation period changed.
+• Date of last dose + 135 days (FU-2) or Date of last dose of any component of study treatment + safety follow-up of 100 days for zanzalintinib + nivolumab combination therapy or + safety follow-up of 135 days for zanzalintinib + nivolumab/relatlimab FDC combination therapy or
+• Date of initiating new systemic anti-cancer therapy
+• End of study for subject (due to death, lost to follow-up, withdrawal of consent, etc.) or
+• Data cutoff date",,,,,,,,,,
+ADSL,SYSACTDT,First Systemic Non-Rad Therapy Date,Num,8,date9.,,Derived,"From CM domain, find the earliest record where CM.CMCAT = 'CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES' and CMSCAT = 'SYSTEMIC' and CMSTDTC >= RANDDT.
+Combine CM and SUPPCM and set to the first numeric CM.CMSTDTC on or after TRTSDT where CM.CMCAT=""CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES"" and CM.CMSCAT=""SYSTEMIC"" 
+Do not include records with both CMTRT and CMSTDTC missing.
+
+In the event of partial dates, impute as follows:
+If CMSTDTC is completely missing, set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+if CMSTDTC has only year populated, then:
+- if year(CMSTDTC) > year(ADSL.EOTDCDT) then set to January 1st.
+- if year(CMSTDTC) = year(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+If CMSTDTC has year and month only, then:
+- if year(CMSTDTC) and month(CMSTDTC) are the same as year(ADSL.EOTDCDT) and month(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+- Otherwise, set to the first day of the month.",,,,,,,,,,,,,
+ADSL,SYSACDTF,First Systemic Therapy Date Imput. Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.SYSACTDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if  date was not imputed.",Y,Imputation rules require review/ input/ updates based on SAP text.,"SK: This is what is used in XL092-001
+We should stay consistent with this when possible
+Set to the minimum of the following non-missing dates.  If all are missing, set to Null:
+(1) ADSL.SYSACTDT
+(2) First Subsequent Local NPACT: Combine CM and SUPPCM and set to the first numeric CM.CMSTDTC on or after TRTSDT where CM.CMCAT=""CONCOMITANT AND SUBSEQUENT NON-RADIATION ANTI-CANCER THERAPY"" and SUPPCM.QVAL=""LOCAL"" where QNAM=""CMTYPE"" 
+Do not include records with both CMTRT and CMSTDTC missing.
+(3) Date of Subsequent Radiation Therapy: First numeric PR.PRSTDTC on or after TRTSDT where PR:PRCAT=""CONCOMITANT AND SUBSEQUENT RADIATION THERAPY"" and PR.PRINDC='DISEASE UNDER STUDY' and SUPPPR:QVAL where QNAM='RASITYP'^=BONE and PR.VISIT^='SCREENING'
+(4) Date of Subsequent Surgery / Procedure Impacting Tumor Lesion: First numeric PR.PRSTDTC on or after TRTSDT where (PR.PRCAT='CONCOMITANT AND SUBSEQUENT SURGERIES AND PROCEDURES'  and SUPPPR.QVAL=Y where SUPPPR.QNAM=CSITL and SUPPPR.QVAL=Y where SUPPPR.QNAM=CSPREL and VISIT^='SCREENING'
+
+Note: if any of the dates in 2-4 above are partial, use the following imputation rules:
+1) If year is missing: set to date of last dose of study treatment (EOTDCDT) + 1
+2) If (year is present and month and day are missing) or (year and day are present and month is missing):
+If year > year of the last dose: Set month and day to January 1st.
+If year = year of the last dose: Set month and day to date of last dose of study treatment(EOTDCDT)  + 1
+If year < year of the last dose: Set month and day to December 31st 
+If the above clause is met, impute as above and flag for stats & programming in the ADaM data issues log.
+3) If year and month are present and day is missing:
+Set day to 1st day of month if the resulting imputed date is greater than date of last dose(EOTDCDT)  or if the month is before the month of last dose date(EOTDCDT)  and year is same or before the year of the last dose date(EOTDCDT) . If both the month and year are the same as last dose date (EOTDCDT) month and year, then set imputed date to date of last dose (EOTDCDT) + 1.  Otherwise set the imputed date to date of last dose(EOTDCDT)  + 1
+
+MS: Included updates in red, categories differ between studies so identical spec cannot be used.",,,,,,,,,,
+ADSL,LOCACTDT,First Local Non-Rad Therapy Date,Num,8,date9.,,Derived,"
+Combine CM and SUPPCM and set to the first numeric CM.CMSTDTC on or after TRTSDT where CM.CMCAT=""CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES"" and CM.CMSCAT=""LOCAL"" 
+Do not include records with both CMTRT and CMSTDTC missing.
+
+In the event of partial dates, impute as follows:
+If CMSTDTC is completely missing, set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+if CMSTDTC has only year populated, then:
+- if year(CMSTDTC) > year(ADSL.EOTDCDT) then set to January 1st.
+- if year(CMSTDTC) = year(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+If CMSTDTC has year and month only, then:
+- if year(CMSTDTC) and month(CMSTDTC) are the same as year(ADSL.EOTDCDT) and month(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+- Otherwise, set to the first day of the month.",,,,,,,,,,,,,
+ADSL,LOCACDTF,First Local Therapy Date Imput. Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.LOCACTDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if  date was not imputed.",,,ML 10/25/24: Can we use TRTSTDT instead of RANDDT ,,,,,,,,,,
+ADSL,FSBACTDT,First Subsequent Anticancer Therapy Date,Num,8,date9.,,Derived,"Earliest date from among subsequent: systemic anti-cancer therapy, local anti-cancer therapy, radiation therapy for disease under study (not targeting bone), surgical resection of target lesion.
+
+Calculate as the earliest from:
+(1) ADSL.SYSACTDT
+(2) CM.CMSTDTC where CMCAT = 'CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES' and CMSCAT = 'LOCAL' and CMSTDTC >= RANDDTTRTSDT.
+(3)  PR.PRSTDTC where PRCAT = 'CONCOMITANT AND SUBSEQUENT LOCAL RADIATION THERAPY' and PRINDC = 'DISEASE UNDER STUDY'  and SUPPPR.QVAL where QNAM = 'RTSITE' not ""BONE"" and PR.VISIT^='SCREENING'
+(4) PR.PRSTDTC where PRCAT = 'CONCOMITANT/SUBSEQUENT SURGERY AND PROCS' and {SUPPPR.QVAL where QNAM = 'PRSGRTL'} = 'Y'
+
+In the event of any partial dates, impute following the same logic as the imputation rules given for ADSL.SYSACTDT (substituting PRSTDTC for CMSTDTC for dates coming from PR domain).",,,ML 10/25/24: Can we use TRTSTDT instead of RANDDT ,,,,,,,,,,
+ADSL,FSBACDTF,First SACT Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADSL.FSBACTDT imputation. Set to:
+Y if entire date is imputed
+M if month and day are imputed
+D if only day is imputed
+null if  date was not imputed.",,,ML 10/25/24: Can we use TRTSTDT instead of RANDDT ,,,,,,,,,,
+ADSL,HTBL,Baseline Height (cm),Num,8,best20.,,Derived,"Set to the most recent non-missing VS.VSSTRESN where VS.VSTESTCD='HEIGHT' and VSDTC is prior to or on the date of randomization (ADSL.TRTSDT).
+Null for subjects with missing RANDDT.",,,ML 10/25/24: Can we use TRTSTDT instead of RANDDT ,,,,,,,,,,
+ADSL,WTBL,Baseline Weight (kg),Num,8,best20.,,Derived,"Set to the most recent non-missing VS.VSSTRESN where VS.VSTESTCD='WEIGHT' and VSDTC is prior to or on the date of randomization (ADSL.TRTSDT).
+Null for subjects with missing RANDDT.",,,,,,,,,,,,,
+ADSL,BMIBL,Baseline BMI  (kg/m^2),Num,8,best20.,,Derived,Calculate as: (ADSL.WTBL) / (ADSL.HTBL/100)^2,,,,,,,,,,,,,
+ADSL,KPSBL,Baseline Karnofsky Score,Num,8,best20.,,Derived,"Set to numeric version of the most recent non-missing QS.QSORRES where QS.QSTESTCD='KPSS0101' and QSDTC is prior to or on treatment start date (ADSL.TRTSDT).
+Null for subjects with missing RANDDT.",,,TD 4/3/25: Updated to use QS instead of RS since this testcd was moved from RS to QS.,,,,,,,,,,
+ADSL,LSTCTDT,Date Last CT Scan,Num,8,date9.,,Derived,Latest PR.PRSTDTC in numeric format where PRTRT=CT SCAN,,,,,,,,,,,,,
+ADSL,LSTMRIDT,Date Last MRI Scan,Num,8,date9.,,Derived,Latest PR.PRSTDTC in numeric format where PRTRT=BRAIN MRI,,,ML 9/20/24: When there are multiple records pick the records with the last DSSTDTC ,,,,,,,,,,
+ADSL,LSTBNDT,Date Last Bone Scan,Num,8,date9.,,Derived,Latest PR.PRSTDTC in numeric format where PRTRT=BONE SCAN,Y,,,,,,,,,,,,
+ADSL,FOCBP,Female of Childbearing Potential?,Char,200,$200.,,Predecessor,SUPPDM.QVAL where SUPPDM.QNAM=FOCBP,,,"ML 12/23/2024: Add 5 new variables 'Time to XL092 discontinuation', 'Time to Nivo discontinuation', 'Time to Ipi discontinuation', 'Time to Rela disocntinuation' and 'Time to all study treatmenrt discontinuatioon'.                                                                                       For example: 'Time to XL092 discontinuation' (TT1DC) is calculated as If EOT1STT= ""Discontinued"" then TT1DC= EOT1DCDT – TRT1SDT +1.                                                                                                                                                                          Where EOT1STT (End of treatment status XL092) is calculated as If EOXDCDT (Date of decision to discontinue XL092) is not missing, then EOT1STT='Discontinued'
+Else if EOXDCDT is missing, then EOT1STT='Ongoing'",,,,,,,,,,
+ADSL,ETREASAE,End of Treatment AE Attribution,Char,200,$200.,,Predecessor,"SUPPDS.QVAL where SUPPDS.QNAM=ETREASAE
+
+Note: Set to latest by DSSTDTC DSSEQ",,,,,,,,,,,,,
+ADSL,INVPDDT,Date of Radiographic PD per INV,Num,8,date9.,,Derived,"Date of earliest PD per investigator assessment. Excludes records with dates prior to randomization/treatment start.
+
+If ADSL.STAGE='EXPANSION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'RECIST 1.1' and RSEVAL = 'INVESTIGATOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > RANDDT.
+
+If ADSL.STAGE='ESCALATION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'RECIST 1.1' and RSEVAL = 'INVESTIGATOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > TRTSDT.",,,,,,,,,,,,,
+ADSL,BIRCPDDT,Date of Radiographic PD per BIRC,Num,8,date9.,,Derived,"Date of earliest PD per BIRC assessment. Excludes records with dates prior to randomization/treatment start.
+
+If ADSL.STAGE='EXPANSION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'RECIST 1.1' and RSEVAL = 'INDEPENDENT ASSESSOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > RANDDT and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then use RSEVALID='READER 1' record) 
+
+If ADSL.STAGE='ESCALATION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'RECIST 1.1' and RSEVAL = 'INDEPENDENT ASSESSOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > TRTSDT and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then use RSEVALID='READER 1' record) ",,,"XW 2/13/2025: Only apply to Cohort 3. There should be two variables for PD dates from BIRC: CT/MRI scan PD per RECIST 1.1 and Bone scan PD per PCWG3.
+
+XW 2/14/2025: There are reader 1 and reader 2 data in BIRC datasets. Create a imputed acceptance flag, if the acceptance flag is non-missing in BIRC, choose the same value as in acceptance flag; if the acceptance is missing, choose reader 1's data.",,,,,,,,,,
+ADSL,PCWGPDDT,Date of Bone Scan PD per PCWG3 IRC,Num,8,date9.,,Derived,"Date of earliest PD per PCWG3 by IRC. Excludes records with dates prior to randomization/treatment start.
+
+If ADSL.STAGE='EXPANSION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'PCWG3' and RSEVAL = 'INDEPENDENT ASSESSOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > RANDDT and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then use RSEVALID='READER 1' record) 
+
+If ADSL.STAGE='ESCALATION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'PCWG3' and RSEVAL = 'INDEPENDENT ASSESSOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > TRTSDT and (RS.RSACPTFL='Y' or If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit then use RSEVALID='READER 1' record) ",,,,,,,,,,,,,
+ADSL,PCIVPDDT,Date of Bone Scan PD per PCWG3 INV,Num,8,date9.,,Derived,"Date of earliest PD per PCWG3 by INV. Excludes records with dates prior to randomization/treatment start.
+
+If ADSL.STAGE='EXPANSION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'PCWG3' and RSEVAL = 'INVESTIGATOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > RANDDT 
+
+If ADSL.STAGE='ESCALATION' then set to the earliest RS.RSDTC (as a numeric SAS date variable) where RSCAT= 'PCWG3' and RSEVAL = 'INVESTIGATOR' and RSTESTCD= 'OVRLRESP' and RS.RSSTRESC=""PD"" and numeric(RSDTC) > TRTSDT ",,,,,,,,,,,,,
+ADSL,DTHSOPFL,Death During the Standard Obs Per Flag,Char,1,$1.,Y,Derived,"Flags death that occur during the Standard Safety Observation Period.
+Standard SOP starts at TRTSDT and is therefore only applicable to subjects in the SAF population.
+Derived as:
+If SAFFL = 'Y' and TRTSDT<= DTHDT <= EOSOBEDT then set to 'Y'.",,,,,,,,,,,,,
+ADSL,DTHESPFL,Death During the Extended SOP Flag,Char,1,$1.,Y,Derived,"Flags death that occur during the Extended Safety Observation Period.
+Extended SOP starts at TRTSDT and is therefore only applicable to subjects in the SAF population.
+Derived as:
+If SAFFL = 'Y' and TRTSDT<= DTHDT <= EOECCEDT then set to 'Y'.",,,,,,,,,,,,,
+ADSL,DTHAEPFL,Death After the Extended SOP Flag,Char,1,$1.,Y,Derived,"Flags death that occur during the Extended Safety Observation Period.
+Extended SOP starts at TRTSDT and is therefore only applicable to subjects in the SAF population.
+Derived as:
+If SAFFL = 'Y' and DTHDT > EOECCEDT then set to 'Y'.",,,,,,,,,,,,,
+ADSL,METLNG,BL.Metastatic Site:Lung,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='LUNG'. Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METLYM,BL.Metastatic Site:Lymph Node,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC contains ='LYMPH' or 'NODE' . Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METBON,BL. Metastatic Site:Bone,Char,1,$1.,NY,"TU, SUPPTU","Set to ""Y"" if subject has at least 1 record with 
+
+(TU.TULOC contains  ('HUMERUS', 'RADIUS', 'ULNA', 'FEMUR', 'FIBULA', 'TIBIA', 'VERTEBRA', 'BONE', 'RIBS', 'SKULL', 'HIP', 'SPINAL CORD') or SUPPTU.QVAL where SUPPTU.QNAM=TLLOC contains ('HUMERUS', 'RADIUS', 'ULNA', 'FEMUR', 'FIBULA', 'TIBIA', 'VERTEBRA', 'BONE', 'RIBS', 'SKULL', 'HIP', ACETABULUM, ISCHIUM, BONY, RIGHT SCAPULA, OSSEOUS, SHOULDER BLADE, ILEUM, RIGHT JAW, STERNUM, SPINAL CORD, SPINAL COLUMN, LEFT SACRUM, LYTIC METASTASIS, GLENOID RIGHT, RIGHT SACRAL MASS, SCINTIGRAPHY, SIXTH RIGHT RIB, 7TH COAST, SCINTIGRAPHY))  and ((TU.TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or ( TU.TUORRES in ('NON-TARGET' 'BONE LESION') and VISIT='SCREENING'))  
+Otherwise set to N.
+Exception: If  SUPPTU.QVAL where QNAM='TLLOC' contains the search term 'PARAVERTEBRAL' then this lesion is not a bone lesion. 
+
+
+Otherwise, set to 'N'",,,,,,,,,,,,,
+ADSL,METLIV,BL.Metastatic Site:Liver,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='LIVER'  . Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METBRA,BL.Metastatic Site:Brain,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='BRAIN'. Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METADR,BL.Metastatic Site:Adrenal,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='ADRENAL GLAND' . Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METKID,BL.Metastatic Site:Kidney,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='KIDNEY' . Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METPAN,BL.Metastatic Site:Pancreas,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='PANCREAS' . Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METSPL,BL.Metastatic Site:Spleen,Char,1,$1.,NY,TU,Set to Y if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='SPLEEN'. Otherwise set to N.,,,,,,,,,,,,,
+ADSL,METOTH,BL.Metastatic Sites: Other,Char,1,$1.,NY,TU,"Set to Y if
+1.None of (METBON, METLNG,METLYM,METLIV,METBRA, METADR,METKID,METPAN,METSPL)=Y AND there is a non missing TU.TULOC or  SUPPTU.QVAL where SUPPTU.QNAM=TLLOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING'))  or 
+2.if subject has at least one record that TU.TULOC where ((TUORRES='TARGET' and TU.TUDTC <=TRTSDT) or (TUORRES='NON-TARGET' and VISIT='SCREENING')) and TU.TULOC ='OTHER' . Otherwise set to N.",,,,,,,,,,,,,

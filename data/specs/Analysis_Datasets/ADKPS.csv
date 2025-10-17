@@ -1,0 +1,40 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADKPS,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADKPS,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADKPS,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.","Only keep records where QS.QSSTAT ne ""NOT DONE""",
+ADKPS,QSCAT,Category for Assessment,Char,50,$50.,,Predecessor,QS.QSCAT,,
+ADKPS,QSTESTCD,Assessment Short Name,Char,19,$19.,,Predecessor,QS.QSTESTCD,,
+ADKPS,QSTEST,Assessment Name,Char,40,$40.,,Predecessor,QS.QSTEST,,
+ADKPS,QSDTC,Date/Time of Event ,Char,19,$19.,,Predecessor,"QS.QSDTC
+",,
+ADKPS,QSDY,Study Day of Assessment,Num,8,best20.,,Predecessor,"QS.QSDY
+",,
+ADKPS,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,"QS.VISITNUM
+",,
+ADKPS,VISIT,Visit Name,Char,100,$100.,,Predecessor,"QS.VISIT
+",,
+ADKPS,QSORRES,Finding in Original Units,Char,200,$200.,,Predecessor,QS.QSORRES,,
+ADKPS,QSSTRESC,Character Result/Finding in Std Format,Char,200,$200.,,Predecessor,QS.QSSTRESC,,
+ADKPS,QSSTRESN,Numeric Result/Finding in Standard Units,Num,8,best20.,,Predecessor,QS.QSSTRESN,,
+ADKPS,PARCAT1,Parameter Category 1,Char,50,$50.,,Derived,"Set to QSCAT
+",,
+ADKPS,PARAMN,Parameter (N),Num,8,best20.,,Assigned,"If PARAMCD=""KPSS0101"" then set to 1",,
+ADKPS,PARAM,Parameter ,Char,40,$40.,,Assigned,Set to QSTEST,,
+ADKPS,PARAMCD,Parameter Code,Char,8,$8.,,Assigned,Set to QSTESTCD,,
+ADKPS,AVISITN,Analysis Visit (N),Num,8,best20.,,Assigned,"Set to QS.VISITNUM
+",,
+ADKPS,AVISIT,Analysis Visit,Char,100,$100.,,Assigned,Set to propcase of QS.VISIT,,
+ADKPS,ADT,Analysis Date,Num,8,date9.,,Derived,Date part of QSDTC as a SAS numeric date variable. No imputation.,,
+ADKPS,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,
+ADKPS,AVAL,Analysis Value,Num,8,best20.,,Derived,Set to QSSTRESN,,
+ADKPS,ABLFL,Baseline Record Flag,Char,1,$1.,Y,Derived,Set to 'Y' on last record when soring by USUBJID PARAMCD ADT AVISITN with non-missing AVAL per USUBJID PARAMCD where ADT<=TRTSDT,,
+ADKPS,PSBLFL,Post-Baseline Record Flag,Char,1,$1.,Y,Derived,Set to 'Y' on all records with non-missing AVAL per USUBJID PARAMCD where ADT>TRTSDT,,
+ADKPS,BASE,Baseline Value,Num,8,best20.,,Derived,"Set to AVAL from the record where ABLFL = 'Y' within a given PARAMCD. 
+Populated on all records (regardless of timing relative to baseline)",,
+ADKPS,CHG,Change from Baseline,Num,8,best20.,,Derived,"Calculate as: AVAL - BASE.
+Only populated on post-baseline records (where PSBLFL = 'Y').",,
+ADKPS,ANL01FL,Analysis Flag 01,Char,1,$1.,Y,Derived,"Set to 'Y' if (ABLFL=""Y"" or PSBLFL=""Y"") and AVISIT does not contain ""Unscheduled""",,
+,,,,,,,,,,

@@ -1,0 +1,121 @@
+﻿Data Set,Variable / Parameter,Order,Derivation,Additional Comments
+ADEX,AENDT,1,"Imputation Rules for Cases Wherein ECENDTC and subsequent ECSTDTC are both partial dates:
+
+Note: given a maximum of 4 weeks between planned visits, it is expected that at least the month part of the date is known. If month part is missing, alert ST.
+In this scenario, we are dealing with (at least) two distinct records in EC domain, one with partial ECENDTC and the next with partial ECSTDTC. Call the first record (with partial ECENDTC) ""record 1"" (with dates ASTDT1, AENDT1 ...) and the next record ""record 2"" (with dates ASTDT2, AENDT2...).  ECENDTC of ""record 1"" and ECSTDTC of ""record 2"" form an ECENDTC-ECSTDTC ""pair"".
+If more than 2 sequential records have partial dates (i.e. there are records in the middle with partial start and stop dates, sandwiched between records where only end date or start date are missing), we'll say there are a total of ""j"" records in the sequence. Call the last sequential record with missing start date, ""record j"". Note: ""record j"" should have a partial start date and a complete end date. If ""record j"" had a partial end date, given that it is the last record in the sequence, it must be followed by a complete start date, and therefore, end date from ""record j"" should be imputed to a complete date as per rules (1) - (4) in the AENDT derivation. Similarly, ""record 1"" should have a complete start date. If ""record 1"" had a partial start date and is the first record with a partial date in this sequence, ASTDT1 should have been imputed to a complete date, as per rules (1) - (4) laid out in derivation of ASTDT.
+
+(5a) If the month-part of ECENDTC1 is less than the month-part of ECSTDTC2, then AENDT1 is set to the last day of the month. ASTDT2 is set to the first day of the month. Check these dates for potential data issues (as sequential records in EC domain should have dates that align). 
+Use these dates for derivations of subsequent partial dates, if needed, in the steps below.
+If month-part of ECENDTC1 is greater than the month-part of ECSTDTC2, then alert ST and check for data issues / issues with record sorting procedure.",
+ADEX,AENDT,2,"(5b) If month-part of ECENDTC1 is the same as month-part ECSTDTC2 then imputation proceeds as follows:
+  (5bi): Find the next known complete dosing date (AENDTj) and the previous complete dosing date (ASTDT1).
+  (5bii): Imputation starts with AENDT1. Call month-part(ECENDTC1) ""MON1"". 
+Count the number of ECENDTC-ECSTDTC pairs with partial dates between ASTDT1 and AENDTj where month-part is MON1.
+For example. if ASTDT1 and AENDT2 are complete dates [or were already imputed], and only ECENDTC1 and ECSTDTC2 are partial, both with month-parts = MON1, then the number of ECENDTC-ECSTDTC pairs with partial dates in MON1 is 1. 
+If there were another record in the middle, such that ECENDTC1, ECSTDTC2, ECENDTC2, and ECSTDTC3 are all partial dates in MON1, then the number of ECENDTC-ECSTDTC pairs with partial dates in MON1 would be 2, and so on.) 
+Note: if month-part of ECENDTCx and ECSTDTCx+1 differ, then we should have already imputed these dates per rules in step (5a) and this pair wouldn't count toward anything. 
+If month-part of ECSTDTC and ECENDTC from the same record differ, that's OK. In this case, if ECSTDTCx is in MON1 and ECENDTCx is in MON2 then the ECENDTC-ECSTDTC pair of ECENDTCx-ECSTDTCx+1 just won't count toward the number of ECENDTC-ECSTDTC pairs in MON1, since that pair would be in MON2. MON2 pairs will be handled separately.",
+ADEX,AENDT,3,"  (5iii):  Find the range of MON1:
+    • If month-part(ASTDT1) = MON1, then MON1 range start date = (ASTDT1).
+    • If month-part(ASTDT1) < MON1, then MON1 range start date = first day of MON1.
+    • If month-part(ASTDT1) > MON1, then alert ST and check for data issues.
+    • if month-part(AENDTj) = MON1, then MON1 range end date = (AENDTj).
+    • if month-part(AENDTj) > MON1, then MON1 range end date = last day of MON1.
+    • If month-part(AENDTj) < MON1, then alert ST and check for data issues.
+    • range of MON1 = ({MON1 end date} - {MON1 start date})",
+ADEX,AENDT,4,"(5iv): Let k be the number of ECSTDTC-ECENDT pairs with partial dates in MON1.
+do i = 1 to k:
+AENDTk = {MON1 start date} + i * ({range of MON1}/{k +1}). Round down (floor function) if calculation results in a fraction/partial day.
+
+(5v): If, within the given sequence of partial dates, there exist ECENDTC-ECSTDT pairs in MON2, follow the logic above, setting MON2 start date = first day of MON2. Define MON2 end date, according to rules in (5iii).
+
+(6) ASTDTx is imputed as AENDTx-1 + 1.",
+ADEX,AENDT,5,"Examples:
+Example 1: If ASTDT1 and AENDT2 are complete dates, both in MON1, and ECENDTC1 and ECSTDT2 are partial dates in MON1, then:
+• k = 1 (one ECENDTC-ECSTDTC pair with partial dates in MON1, in the sequence).
+• MON1 range start date = ASTDT1
+• MON1 range end date = AENDT2 
+• AENDT1  = ASTDT1 + 1 * ({AENDT2 - ASTDT1}/2 [rounded down])
+• i.e. AENDT1 will be imputed as the mid-point between ASTDT1 and AENDT2.
+• ASTDT2 =  AENDT1 + 1","Example with real numbers/dates:
+ASTDT1 = 2022-04-18; ECENDTC1 = 2022-04
+ECSTDTC2 = 2022-04; AENDT2 = 2022-04-29.
+• k = 1
+• MON1 Range = ({2022-04-29} - {2022-04-18}) = 11 days
+• AENDT1 = {2022-04-18} + 1 * {11 / 2 (rounded down)} = 2022-04-23
+• ASTDT2 = 2022-04-24"
+ADEX,AENDT,6,"Example 2: ASTDT1 and AENDT3 are complete dates with partial dates in between. ASTDT1, ECENDTC1, ECSTDTC2, ECENDTC2 and ECSTDTC3 are all in MON1. AENDT3 is in MON2. Then:
+• k = 2 (two ECENDTC-ECSTDTC pairs with partial dates in MON1 in the sequence).
+• MON1 range start date = ASTDT1
+• MON1 range end date = last day of MON1.
+• AENDT1  = ASTDT1 + (1 * {last day of MON1 - ASTDT1}/3 [rounded down])
+• ASTDT2 = AENDT1 + 1
+• AENDT2 = ASTDT1 + (2 * {last day of MON1 - ASTDT1}/3 [rounded down])
+• ASTDT3 = AENDT2 + 1
+• i.e. AENDT1 and AENDT2 will be imputed as dates equally spread out between ASTDT1 and the end of MON1.","Example with real numbers/dates:
+ASTDT1 = 2022-04-18; ECENDTC1 = 2022-04
+ECSTDTC2 = 2022-04; ECENDTC2 = 2022-04
+ECSTDTC3 = 2022-04; AENDT3 = 2022-05-19.
+• k = 2
+• MON1 Range = ({2022-04-30} - {2022-04-18}) = 12 days
+• AENDT1 = {2022-04-18} + 1 * {12 / 3} = 2022-04-22
+• ASTDT2 = 2022-04-23
+• AENDT2 = {2022-04-18} + 2 * {12 / 3} = 2022-04-26
+• ASTDT3 = 2022-04-27"
+ADEX,AENDT,7,"Example 3: ASTDT1 and AENDT3 are complete dates with partial dates in between. ASTDT1, ECENDTC1, ECSTDTC2, are in MON1; ECENDTC2, ECSTDTC3, and AENDT3 are in MON2. Then:
+MON1:
+• k = 1 (only one ECENDTC-ECSTDTC pair with partial dates in MON1 in the sequence, there is a second ECENDTC-ECSTDTC pair with partial dates, both those are in MON2).
+• MON1 range start date = ASTDT1
+• MON1 range end date = last day of MON1.
+• AENDT1  = ASTDT1 + 1 * ({last day of MON1 - ASTDT1}/2)
+• ASTDT2 = AENDT1 + 1
+
+MON2:
+• k = 1
+• MON2 range start date = First day of MON2
+• MON2 range end date = AENDT3
+• AENDT2  = {First day of MON2} + 1 * (AENDT3 - First day of MON2} / 2)
+• ASTDT2 = AENDT1 + 1","Example with real numbers/dates:
+ASTDT1 = 2022-04-18; ECENDTC1 = 2022-04
+ECSTDTC2 = 2022-04; ECENDTC2 = 2022-05
+ECSTDTC3 = 2022-05; AENDT3 = 2022-05-19.
+MON1:
+• k = 1
+• MON1 Range = ({2022-04-30} - {2022-04-18}) = 12 days
+• AENDT1 = {2022-04-18} + 1 * {12 / 2} = 2022-04-24
+• ASTDT2 = 2022-04-25
+
+MON2:
+• k = 1:
+• MON2 Range = {2022-05-19} - {2022-05-01} = 18 days
+• AENDT2 = {2022-05-01} + 1 * {18 / 2} = 2022-05-10
+• ASTDT3 = 2022-05-11"
+ADEX,AENDT,8,"Example 4: ASTDT1 and AENDT3 are complete dates with partial dates in between. ASTDT1, and ECENDTC1 are in MON1;
+ECSTDTC2, ECENDTC2, and ECSTDTC3 are in MON2, AENDT3 is in MON3. Then:
+MON1:
+AENDT1 = last day of MON1 
+ASTDT2 = 1st day of MON2
+** Follows rule 5a, since dates in this ECENDTC - ECSTDTC pair are in different months.
+
+MON2:
+• k = 1 (only one ECSTDTC-ECENDTC pair with partial dates in MON2 in the sequence).
+• MON2 range start date = 1st day of MON2
+• MON2 range end date = last day of MON2.
+• AENDT2  = {1st day of MON2} + 1 * ({last day of MON2 - 1st day of MON2} / 2)
+• ASTDT3 = AENDT1 + 1","Example with real numbers/dates:
+ASTDT1 = 2022-04-18; ECENDTC1 = 2022-04
+ECSTDTC2 = 2022-05; ECENDTC2 = 2022-05
+ECSTDTC3 = 2022-05; AENDT3 = 2022-06-12.
+MON1 (according to rule 5a):
+** check data/ log issue for possible data issue here.
+• AENDT1 = 2022-04-30 
+• ASTDT2 = 2022-05-01
+
+MON2:
+• k = 1:
+• MON2 Range = {2022-05-31} - {2022-05-01} = 30 days
+• AENDT2 = {2022-05-01} + 1 * {30 / 2} = 2022-05-16
+• ASTDT3 = 2022-05-17"
+,,,,
+,,,,

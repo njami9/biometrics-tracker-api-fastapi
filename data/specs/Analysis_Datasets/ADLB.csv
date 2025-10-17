@@ -1,0 +1,272 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments,
+ADLB,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,,
+ADLB,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,,
+ADLB,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,,
+ADLB,LBSEQ,Source Sequence Number,Num,8,best20.,,Predecessor,LB.LBSEQ,,,
+ADLB,LBCAT,Category for Lab Test,Char,200,$200.,LBP1CAT,Predecessor,LB.LBCAT,,,
+ADLB,LBNAM,Vendor Name,Char,200,$200.,,Predecessor,LB.LBNAM,,,
+ADLB,LBTESTCD,Lab Test or Examination Short Name,Char,200,$200.,,Predecessor,LB.LBTESTCD,,,
+ADLB,LBTEST,Lab Test or Examination Name,Char,200,$200.,,Predecessor,LB.LBTEST,,,
+ADLB,LBSPEC,Specimen Type,Char,200,$200.,LBSPEC,Predecessor,LB.LBSPEC,,,
+ADLB,LBORRES,Result or Finding in Original Units,Char,200,$200.,,Predecessor,LB.LBORRES,,,
+ADLB,LBORRESU,Original Units,Char,200,$200.,,Predecessor,LB.LBORRESU,,,
+ADLB,LBORNRLO,Reference Range Lower Limit in Orig Unit,Char,200,$200.,,Predecessor,LB.LBORNRLO,,,
+ADLB,LBORNRHI,Reference Range Upper Limit in Orig Unit,Char,200,$200.,,Predecessor,LB.LBORNRHI,,,
+ADLB,LBSTRESC,Character Result/Finding in Std Format,Char,200,$200.,,Predecessor,LB.LBSTRESC,,,
+ADLB,LBSTRESN,Numeric Result/Finding in Standard Units,Num,8,best20.,,Predecessor,LB.LBSTRESN,,,
+ADLB,LBSTRESX,Result in Std. Units w/o Qualifier,Char,200,$200.,,Predecessor,SUPPLB.QVAL where QNAM = 'LBSTRESX',,,
+ADLB,LBSTRESU,Standard Units,Char,200,$200.,,Predecessor,LB.LBSTRESU,,,
+ADLB,LBSTNRLO,Reference Range Lower Limit-Std Units,Num,8,best20.,,Predecessor,LB.LBSTNRLO,,,
+ADLB,LBSTNRHI,Reference Range Upper Limit-Std Units,Num,8,best20.,,Predecessor,LB.LBSTNRHI,,,
+ADLB,LBNRIND,Reference Range Indicator,Char,200,$200.,NRIND,Predecessor,LB.LBNRIND,,,
+ADLB,LBTOX,Toxicity,Char,200,$200.,,Predecessor,LB.LBTOX,,,
+ADLB,LBTOXGR,Standard Toxicity Grade,Char,200,$200.,TOXGRLB,Predecessor,LB.LBTOXGR,,,
+ADLB,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,LB.VISITNUM,,,
+ADLB,VISIT,Visit Name,Char,200,$200.,,Predecessor,LB.VISIT,,,
+ADLB,LBDTC,Date/Time of Specimen Collection,Char,200,$200.,,Predecessor,LB.LBDTC,,,
+ADLB,LBDY,Study Day of Specimen Collection,Num,8,best20.,,Predecessor,LB.LBDY,,,
+ADLB,PARCAT1,Parameter Category 1,Char,25,$25.,LBP1CAT,Derived,"Generally, set to LB.LBCAT in proper-case.
+Set to ""Thyroid Function"" if PARAMCD in ('TSH', 'T4FR', 'T4')",,,
+ADLB,PARCAT2,Parameter Category 2,Char,100,$100.,LBCAT2,Derived,"Set to ""BI-DIRECTIONAL GRADING"" for PARAMCD in (TSH, K, GLUC, SODIUM, HGB, WBC, LYM, MG, CACR, CAION).  Else if ATOXGR is present, set to ""UNI-DIRECTIONAL GRADING"".
+Note: Populate every PARAM/PARAMCD combination with the same PARCAT2, even if ATOXGR is not present.",,,
+ADLB,PARAMN,Parameter (N),Num,8,best20.,PARLB_N,Assigned,"Assign as the numeric version of PARAMCD, as per the codelist",,,
+ADLB,PARAMCD,Parameter Code,Char,8,$8.,PARLB,Assigned,"Set to LB.LBTESTCD.
+
+See VLM tab for PARAMCDs DILISCRN, HYSLAW, ALTAST",,,
+ADLB,PARAM,Parameter,Char,100,$100.,PARLB_C,Assigned,"Assign as the decoded version of PARAMCD, as per the codelist",,,
+ADLB,AVISITN,Analysis Visit (N),Num,8,best20.,,Assigned,"For records copied directly from LB domain, set to LB.VISITNUM",,,
+ADLB,AVISIT,Analysis Visit,Char,200,$200.,,Assigned,"For records copied directly from LB domain, set to LB.VISIT in proper-case.",,,
+ADLB,ADT,Analysis Date,Num,8,date9.,,Derived,Date-part of LB.LBDTC as a SAS numeric date variable. No imputation.,,,
+ADLB,ATM,Analysis Time,Num,8,time5.,,Derived,"Time-part of LB.LBDTC as a SAS numeric time variable, if available. No imputation.",,,
+ADLB,ADTM,Analysis Datetime,Num,8,Datetime19.,,Derived,LB.LBDTC as a SAS numeric date-time variable. Only populated if both the date- and time-parts of LB.LBDTC are available.,,,
+ADLB,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,,
+ADLB,AVAL,Analysis Value,Num,8,best20.,,Assigned,"For records copied directly from LB domain, set to LB.LBSTRESN.
+
+If LB.LBSTRESN is missing and LBSTRESC contains >, >=, together with a numeric value, then multiple the numeric value (ADLB.LBSTRESX) by 1.01. 
+Set DTYPE = 'ULOQ' in this case.
+
+If LB.LBSTRESN is missing and LBSTRESC contains <, <=, together with a numeric value, then multiple the numeric value (ADLB.LBSTRESX) by 0.99. 
+Set DTYPE = 'LLOQ' in this case.
+
+See VLM tab for PARAMCDs DILISCRN, HYSLAW, ALTAST",,,
+ADLB,AVALC,Analysis Value (C),Char,31,$31.,,Derived,"For all PARAMCDs originally from the LB domain, set to LB.LBSTRESC where AVAL is missing
+
+See VLM tab for PARAMCD in ('HYSLAW' 'DILISCRN')",,,
+ADLB,DTYPE,Derivation Type,Char,4,$4.,DTYPLB,Assigned,"If LB.LBSTRESN is null and AVAL is imuputed as 1.01x the upper limit normal, set to ""ULOQ"".
+If LB.LBSTRESN is null and AVAL is imuputed as 0.99x the upper limit normal, set to ""LLOQ"".",,,
+ADLB,LBSTAT,Completion Status,Char,200,$200.,STAT,Predecessor,LB.LBSTAT,,,
+ADLB,ABLFL,Baseline Record Flag,Char,1,$1.,Y,Derived,"Set to 'Y' on the chronologically last record prior to treatment start (ADSL.TRTSDT, ADSL.TRTSTM) per parameter with non-missing result. If time component of either date is missing, unscheduled assessments on the day of treatment start (where LB.VISIT contains ""UNSCHEDULED"") are assumed to have been performed after treatment start. Scheduled assessments are assumed to have been performed prior to treatment start. If necessary, VISITNUM and LBSEQ are used in the sort to determine the chonologically last record.
+
+For PARAMCD=PSAP 'PSA'
+Set to 'Y' for the last record with a non-missing result where AVISIT in ('SCREENING', 'SAFETY VISIT 1') within the by grouping of USUBJID, PARCAT1, PARAMCD.                                                                                                                                                      
+Note: If a subject has both 'SCREENING' and 'SAFETY VISIT 1',  then use 'SAFETY VISIT 1' as baseline. If a subject has only 'SCREENING' record then use screening as baseline.                          
+
+If ADSL.SAFFL = 'N' then no records are flagged.",,"ML 2/7/25: Baseline flag derivation should be updated for PARAMCD= 'PSAP'. This should be derived differently for this parameter.                                                                                                                                                                          Set to 'Y' for the last record with a non-missing result where AVISIT in ('SCREENING', 'SAFETY VISIT 1') within the by grouping of USUBJID, PARCAT1, PARAMCD.                                                                                                                                                      Note: If a subject has both 'SCREENING' and 'SAFETY VISIT 1',  then use 'SAFETY VISIT 1' as baseline. If a subject has only 'SCREENING' record then use screening as baseline.                                                                  Other PARAMCDs will use the old derivation, only PSA PARAMCD needs to be updated.",
+ADLB,PSBLFL,Post-Baseline Record Flag,Char,1,$1.,Y,Derived,"Set to 'Y' on any record determined to have occurred on or after treatment start. If time component of LB.LBDTC or treatment-start is missing, unscheduled assessments on the day of treatment start (where LB.VISIT contains ""UNSCHEDULED"") are assumed to have been performed after treatment start.
+
+If ADSL.SAFFL = 'N' then no records are flagged.",,,
+ADLB,PSAFL,PSA 12 Week Flag,Char,1,$1.,Y,Derived,"Only populate for Cohort 3 subjects with PARAMCD= 'PSAP''PSA':                                                                                                           
+
+Set to Y, for the records that are 12 weeks on or after baseline.  i.e ADT (where PSBLFL= 'Y' and PARAMCD= 'PSAP') - ADT (where ABLFL='Y' and PARAMCD='PSAP')  > =84",,,
+ADLB,BASE,Baseline Value,Num,8,best20.,,Derived,Set to ADLB.AVAL from the record where ADLB.ABLFL = 'Y'.,,,
+ADLB,CHG,Change from Baseline,Num,8,best20.,,Derived,Calculate as: AVAL - BASE.,,,
+ADLB,PCHG,Percent Change from Baseline,Num,8,best20.,,Derived,"Calculate as: 100*(AVAL - BASE)/(BASE) where AVAL is non-missing and BASE is not missing or 0. 
+Only populated on post-baseline record (where ADLB.PSBLFL = 'Y').",,,
+ADLB,ANRIND,Analysis Reference Range Indicator,Char,200,$200.,NRIND,Assigned,"For records copied directly from LB domain, set to LB.LBNRIND.",,,
+ADLB,ANRLO,Analysis Normal Range Lower Limit,Num,8,best8.,,Assigned,"For records copied directly from LB domain, set to LB.LBSTNRLO.",,,
+ADLB,ANRHI,Analysis Normal Range Upper Limit,Num,8,best8.,,Assigned,"For records copied directly from LB domain, set to LB.LBSTNRHI.",,,
+ADLB,BNRIND,Baseline Reference Range Indicator,Char,200,$200.,NRIND,Derived,Set to ADLB.ANRIND from the record where ADLB.ABLFL = 'Y'.,,,
+ADLB,A1HI,Analysis Range 1 Upper Limit,Num,8,best20.,,Derived,"For PARAMCD in ('AST', 'ALT', 'BILI', 'ALP') set to ANRHI.",MS 3/11: Added to support T_DILI,,
+ADLB,R2A1HI,Ratio to Analysis Range 1 Upper Limit ,Num,8,best20.,,Derived,Calculated as AVAL/A1HI,MS 3/11: Added to support T_DILI,,
+ADLB,ATOXDIR,Toxicity Grade Direction,Char,10,$10.,Derived,TOXDIRC,"If LB.LBTOX contains ""INCREASED"", ""HYPER"", ""LEUKOCYTOSIS"" then set as ""HIGH"".  Else if LB.LBTOX contains ""DECREASED"", ""HYPO"", ""ANEMIA"", ""LEUKOPENIA"" then set as ""LOW""",,,
+ADLB,ATOXDIRB,Baseline Toxicity Grade Direction,Char,10,$10.,Derived,TOXDIRC,ATOXDIR where ABLFL='Y',,,
+ADLB,ATOXGR,Analysis Toxicity Grade,Char,1,$1.,,Derived,"LB.LBTOXGR
+
+",,,
+ADLB,BTOXGR,Baseline Toxicity Grade,Char,1,$1.,,Derived,ATOXGR where ABLFL=Y,,,
+ADLB,ATOXDSCL,Analysis Toxicity Description Low,Char,26,$26.,ATOXDSL,Assigned,"See VLM for assignments.
+Populate when AVAL not missing.",,,
+ADLB,ATOXGRL,Analysis Toxicity Grade Low,Char,7,$7.,TOXGRLB_C,Derived,"For records copied directly from LB domain, if ADLB.ANRIND = 'LOW' and numeric(LB.LBTOXGR) > 0 then set to LB.LBTOXGR with ""Grade "" concatenated to the front. Otherwise, if LB.LBTOXGR and ADLB.ATOXDSCL are both non-missing, then set to ""Grade 0"".
+Null if LB.LBTOXGR is missing. 
+Alert ST if ADLB.ATOXGRL is populated and ADLB.ATOXDSCL is not populated.",,,
+ADLB,ATOXGRLN,Analysis Toxicity Grade Low (N),Num,8,best8.,TOXGRLB_N,Assigned,Set to the numeric component of ADLB.ATOXGRL.,,,
+ADLB,ATOXDSCH,Analysis Toxicity Description High,Char,37,$37.,ATOXDSH,Assigned,"See VLM for assignments.
+Populate when AVAL not missing.",,,
+ADLB,ATOXGRH,Analysis Toxicity Grade High,Char,7,$7.,TOXGRLB_C,Derived,"For records copied directly from LB domain, if ADLB.ANRIND = 'HIGH'  and numeric(LB.LBTOXGR) > 0 then set to LB.LBTOXGR with ""Grade "" concatenated to the front. Otherwise, if LB.LBTOXGR and ADLB.ATOXDSCH are both non-missing, then set to ""Grade 0"".
+Null if LB.LBTOXGR is missing. 
+Alert ST if ADLB.ATOXGRH is populated and ADLB.ATOXDSCH is not populated.",,,
+ADLB,ATOXGRHN,Analysis Toxicity Grade High (N),Num,8,best8.,TOXGRLB_N,Assigned,Set to the numeric component of ADLB.ATOXGRH.,,,
+ADLB,BTOXGRL,Baseline Toxicity Grade Low,Char,7,$7.,TOXGRLB_C,Derived,Set to ADLB.ATOXGRL from the record where ADLB.ABLFL = 'Y'.,,,
+ADLB,BTOXGRLN,Baseline Toxicity Grade Low (N),Num,8,best8.,TOXGRLB_N,Derived,Set to ADLB.ATOXGRLN from the record where ADLB.ABLFL = 'Y'.,,,
+ADLB,BTOXGRH,Baseline Toxicity Grade High,Char,7,$7.,TOXGRLB_C,Derived,Set to ADLB.ATOXGRH from the record where ADLB.ABLFL = 'Y'.,,,
+ADLB,BTOXGRHN,Baseline Toxicity Grade High (N),Num,8,best8.,TOXGRLB_N,Derived,Set to ADLB.ATOXGRHN from the record where ADLB.ABLFL = 'Y'.,,,
+ADLB,NADIRPSA,NADIR Value,Num,8,best8.,,Derived,"NADIR Value: 
+Only populated for records where PSAFL='Y':
+Set to the subject's smallest AVAL of PARAMCD='PSAP''PSA' of all prior AVISIT
+",,"ML 2/11/25: Can we add a new variable to flag records that are 12 weeks on or after baseline? PSAFL: Only populate for Cohort 3 subjects with PARAMCD= 'PSA':                                                                                                           Set to Y, for the records that are 12 weeks on or after baseline.                                                                      i.e ADT (where PSBLFL= 'Y' and PARAMCD= 'PSA') - ADT (where ABLFL='Y' and PARAMCD='PSA')  > =84.",
+ADLB,CHGNPSA,Change from NADIR,Num,8,best8.,,Derived,"Calculated as: AVAL- NADIRPSA
+Only populated on PSAFL='Y' records.",,"ML 2/11/25: PSA NADIR, CHGNAD, PCHGNAD will all use records that have PSAFL= 'Y'. i.e means we will only consider records that are 12 weeks on or after baseline. Please update specs for all these variables.",
+ADLB,PCHGNPSA,Percent Change from NADIR,Num,8,best8.,,Derived,"Calculated as: 100*(AVAL-NADIRPSA) /NADIRPSA
+Null if NADIRPSA = 0. 
+Only populated on PSAFL='Y' records.",,"ML 2/11/25: Can we rename NADIR to NADIRPSA, CHGNAD to CHGNPSA etc since we are only creating these variables for PSAP paramter?",
+ADLB,NADIRDT,Date of NADIR Value,Num,8,date9.,,Derived,Set to the ADT of the record chosen as the NADIR Value. ,,,
+ADLB,ANL01FL,Analysis Flag 01,Char,1,$1.,Y,Derived,"Unique Change From Baseline Record for Scheduled Safety Assessments - 
+Flags only records where PARCAT1 in (""Chemistry"", ""Hematology"") or PARAMCD=PSAP PSA:
+For each parameter, set to 'Y on the baseline record (where ABLFL = 'Y') and on post-baseline (where ADLB.PSBLFL = 'Y'), scheduled visits (where LB.VISIT does not contain 'UNSCHEDULED') with non-missing AVAL. If multiple records per visit, the chronologically earliest one (by date, time, and LBSEQ, if necessary) is selected.
+
+The following parameters are not expected at routine safety visits, per protocol, and are not flagged: PARAMCD in ('CACR', 'CREATCLR', 'TESTOS', 'BASOLE', 'EOSLE', 'LYMLE', 'MONOLE', 'NEUTLE').",CL 1/23: Updated to add PSA,,
+ADLB,ANL02FL,Analysis Flag 02 (Liver),Char,1,$1.,Y,Derived,"Set to Y for any record where PARAMCD in (AST, ALT, ALP, BILI) and the following criteria are met when AVAL:
+
+for PARAMCD in (ALT, AST):
+> 3x ANRHI
+
+ for PARAMCD in (ALP, BILI):
+> 1.5x ANRHI",,,
+ADLB,ANL03FL,Analysis Flag 03 (Tox Chg Uni),Char,1,$1.,Y,Derived,"Set to Y if ATOXGR-BOTXGR >=2 and PARCAT2=""UNI-DIRECTIONAL GRADING""
+",,,
+ADLB,ANL04FL,Analysis Flag 04 (Worst Gr),Char,1,$1.,Y,Derived,"Set to Y for the largest ATOXGR value within each PARAM and PARCAT1 combination where PSBLFL = ""Y"" and TRTSDT<ADTM/ADT <=EOSOBEDT.  If multiple instances occur, select the earliest AVAL by ADT and ATM",,,
+ADLB,ANL05FL,Analysis Flag 05 (Max Inc),Char,1,$1.,Y,Derived,"Set to Y for the largest CHG value within each PARAM and PARCAT1 where PSBLFL = ""Y"" and ADTM/ADT <=EOSOBEDT and CHG>=0.  If multiple instances occur, select the earliest AVAL by ADT and ATM",,,
+ADLB,ANL06FL,Analysis Flag 06 (Max Dec),Char,1,$1.,Y,Derived,"Set to Y for the smallest CHG value within each PARAM and PARCAT1 where PSBLFL = ""Y"" and ADTM/ADT <=EOSOBEDT and CHG<=0.  If multiple instances occur, select the earliest AVAL by ADT and ATM",,,
+ADLB,ANL07FL,Analysis Flag 07 (Last PBL),Char,1,$1.,Y,Derived,"Set to Y for the last record by ADT and ATM within each PARAM and PARCAT1 combination where AVAL or AVALC is populated and PSBLFL = ""Y"" and ADTM/ADT <=EOSOBEDT.
+If two records have the same ADT/ATM and AVISIT, select the last record using the latest VISITNUM.
+Do not populate for PARAMCD=TSHT4FRR.",,,
+ADLB,ANL08FL,Analysis Flag 08 (Unique-Shift),Char,1,$1.,Y,Derived,"ANL08FL = Y for post baseline records where (AVISIT ^ = UNSCHEDULED and PSBLFL=Y and TRTSDT<ADTM/ADT <=EOSOBEDT ) or ABLFL=Y or PARAMCD in (HYLAW1, HYLAW2,SPORCRIT, EGFR, TSHT4FRR)
+
+Notes: If there are multiple lab test from the same visit, set ANL08FL=Y to the lowest LBSEQ record.
+
+If units are not present but are expected (i.e. PARAM contains (XXXX) for the units but LBSTRESU=''), then do not set ANL08FL=Y.  Cases where unit='no unit' can be flagged as well as parameters not expecting units as long as the above criteria is met.",,,
+ADLB,ANL09FL,Analysis Flag  09 (Worst Gr Low),Char,1,$1.,Y,Derived,"Set to Y for the largest ATOXGRL value within each PARAM and PARCAT1 combination where PSBLFL = ""Y"" and TRTSDT<ADTM/ADT <=EOSOBEDT.  If multiple instances occur, select the earliest AVAL by ADT and ATM",,,
+ADLB,ANL10FL,Analysis Flag 10 (Worst Gr High),Char,1,$1.,Y,Derived,"Set to Y for the largest ATOXGRH value within each PARAM and PARCAT1 combination where PSBLFL = ""Y"" and TRTSDT<ADTM/ADT <=EOSOBEDT.  If multiple instances occur, select the earliest AVAL by ADT and ATM",,,
+ADLB,ANL11FL,Analysis Flag  11 (TSH Min),Char,1,$1.,Y,Derived,"For paramcd=TSH:
+Set to Y for the MINIMUM value ANRIND where PARAMCD where PSBLFL = ""Y"" and TRTSDT<ADTM/ADT <=EOSOBEDT.  If multiple instances occur, select the earliest AVAL by ADT and ATM.
+[i.e prioritize  order by 1=LOW, 2=NORMAL, 3=HIGH]",,,
+ADLB,ANL12FL,Analysis Flag 12 (TSH Max),Char,1,$1.,Y,Derived,"For paramcd=TSH:
+Set to Y for the MAXIMUM value ANRIND where PARAMCD where PSBLFL = ""Y"" and TRTSDT<ADTM/ADT <=EOSOBEDT.  If multiple instances occur, select the earliest AVAL by ADT and ATM.
+[i.e prioritize order by 1=HIGH, 2=NORMAL, 3=LOW]",,,
+ADLB,ANL13FL,Analysis Flag 13 (Max PSA Dec),Char,1,$1.,Y,Derived,"Set to Y for the smallest CHG value within PARAMCD=PSA where PSBLFL = ""Y"".  If multiple instances occur, select the earliest AVAL by ADT and ATM",,,
+ADLB,ANL14FL,Analysis Flag 14 (Tox Gr Bi-High),Char,1,$1.,Y,Derived,"Set to Y if ATOXGR-BTOXGR >=2 and PARCAT2=""BI-DIRECTIONAL GRADING"" and ATOXDIR = ""HIGH"".  If ATOXDIRB = ""LOW"", temporarily set BTOXGR to 0 for calculation.  Only consider records where  PSBLFL='Y' and .<ADT <=EOSOBEDT.",,,
+ADLB,ANL15FL,Analysis Flag 15 (Tox Gr Bi-Low),Char,1,$1.,Y,Derived,"Set to Y if ATOXGR-BTOXGR >=2 and PARCAT2=""BI-DIRECTIONAL GRADING"" and ATOXDIR = ""LOW"".  If ATOXDIRB = ""HIGH"", temporarily set BTOXGR to 0 for calculation.  Only consider records where PSBLFL='Y' and .<ADT <=EOSOBEDT.",,,
+ADLB,ANL16FL,Analysis Flag 16 (PBL Saf Obs),Char,1,$1.,Y,Derived,"Set to 'Y' for PSBLFL = Y records where TRTSDT/TRTSDTM < ADT/ADTM <= EOSOBEDT
+
+Set to 'Y' if PARAMCD in ('HYLAW1','HYLAW2','SPORCRIT')",,,
+ADLB,ANL17FL,Analysis Flag 17 (PSA NADIR),Char,1,$1.,Y,Derived,"PSA NADIR:
+Flag only for records where PARAMCD='PSAP''PSA' and  COHORT contains 'EXP 3'
+Set to 'Y' on one post-baseline record (where ADLB.PSBLFL = 'Y'), scheduled visits (where LB.VISIT does not contain 'UNSCHEDULED') with the smallest non-missing AVAL",,ML 2/11/2025:                                                                                   1. Why is specs asking to only flag records from Cohort 3 XL092 100mg? We need to flag subjects from both arms in cohort 3.                                                          2. What is the difference between this variable and NADIR?,
+ADLB,ANL18FL,Analysis Flag  18 (Worst Value Low),Char,1,$1.,Y,Derived,"
+Set to 'Y' on the record with ANRIND = 'LOW' and the lowest non-missing ADLB.AVAL during the Safety Observation Period (where ADLB.PSBLFL = 'Y' and TRTSDT<ADTM/ADT <=EOSOBEDT) per parameter. 
+If no records with ANRIND = 'LOW' during the Safety Observation Period, then the record with the lowest AVAL is selected.
+Only chemistry or hematology (PARCAT1 in ('CHEMISTRY', 'HEMATOLOGY')) parameters without low-direction CTCAE grading (ATOXGRL is missing) and non-missing(ANRIND). 
+
+In case of multiple records with the same AVAL, flags the chronologically earliest record, using LBSEQ, if necessary to break ties.",,,
+ADLB,ANL19FL,Analysis Flag  19 (Worst Value High),Char,1,$1.,Y,Derived,"
+Set to 'Y' on the record with ANRIND = 'HIGH' and the highest non-missing ADLB.AVAL during the Safety Observation Period (where ADLB.PSBLFL = 'Y' and TRTSDT<ADTM/ADT <=EOSOBEDT) per parameter. 
+If no records with ANRIND = 'HIGH' during the Safety Observation Period, then the record with the highest AVAL is selected.
+Only chemistry or hematology (PARCAT1 in ('CHEMISTRY', 'HEMATOLOGY')) parameters without high-direction CTCAE grading (ATOXGRH is missing)  and non-missing(ANRIND). 
+
+In case of multiple records with the same AVAL, flags the chronologically earliest record, using LBSEQ, if necessary to break ties.",,,
+ADLB,CRIT1,Analysis Criterion 1,Char,1,$200.,,Derived,"Populate with ""PSA >=50% Decrease from Baseline"" if PSAFL='Y' and PCHG<=-50",,"XW 2/14/2025: We need this for both arms in cohort 3. ""PSA >=50% Decrease from Baseline"", remove the response word in it.",
+ADLB,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Derived,Set to Y for the records with CRIT1 populated,,,
+ADLB,CRIT2,Analysis Criterion 2,Char,1,$200.,,Derived,"Populate with ""PSA >=25% Increase from NADIR"" if PSAFL='Y' and PCHGNPSA>=25 and CHGNPSA>=2 and ADT gt NADIRDT",,"XW 2/14/2025: We need this for both arms in cohort 3. ""PSA >= 25% Increase from NADIR"", remove the response word in it.",
+ADLB,CRIT2FL,Criterion 2 Evaluation Result Flag,Char,1,$1.,Y,Derived,Set to Y for the records with CRIT2 populated,,,
+ADLB,MCRIT1,Analysis Multi-Response Criterion 1,char,30,$30.,,Derived,"Set to 'Baseline ALT Grade Range' for PARAMCD=ALT, 'Baseline AST Grade Range' for PARAMCD=AST, 'Baseline ALP Grade Range' for PARAMCD=ALP, 'Baseline BILI Grade Range' for PARAMCD=BILI for all records for a subject where ANL02FL=""Y""",,,
+ADLB,MCRIT1ML,Multi-Response Criterion 1 Evaluation,Char,30,$30.,,Derived,"Assign the appropriate category for all records where ANL02FL=""Y"" for a subject based on BASE and ANRHI for PARAMCD in (ALT, AST, BILI):
+<=ULN
+>ULN to <=1.5xULN
+>1.5xULN to <=2.5xULN
+> 2.5xULN
+
+Assign the appropriate category for all records where ANL02FL=""Y"" for a subject based on BASE and ANRHI for PARAMCD=ALP:
+<=ULN",,,
+ADLB,MCRIT2,Analysis Multi-Response Criterion 2,char,20,$20.,,Derived,"Set to 'ALT Grade Increase' for PARAMCD=ALT, 'AST Grade Increase' for PARAMCD=AST, 'ALP Grade Increase' for PARAMCD=ALP, 'BILI Grade Increase' for PARAMCD='BILI' for records where ANL02FL=""Y"" for a subject",,,
+ADLB,MCRIT2ML,Multi-Response Criterion 2 Evaluation,char,10,$10.,,Derived,"Assign the appropriate category for the ANL02FL='Y' records for a subject based on AVAL and ANRHI for PARAMCD in (ALT, AST):
+> 3xULN
+> 5xULN
+> 10xULN
+> 20xULN
+
+Assign the appropriate category for the ANL02FL='Y' records for a subject based on AVAL and ANRHI for PARAMCD in (ALP, BILI):
+> 1.5xULN
+> 2xULN",,,
+ADLB,MCRIT3,Analysis Multi-Response Criterion 3,char,30,$30.,,Derived,"Set to ‘PSA % Decrease Since Baseline’ for PARAMCD=PSA for records where ANL01FL=""Y"" for a subject",,,
+ADLB,MCRIT3ML,Multi-Response Criterion 3 Evaluation,char,15,$15.,,Derived,"Assign the appropriate category for the ANL01FL='Y' records for a subject based on PCHG for PARAMCD in (PSA):
+Any Decrease  (.<PCHG<0)
+>=30% Decrease (.<PCHG<=-30)
+>=50% Decrease (.<PCHG<=-50)",,,
+ADLB,HYSLAW1,Hy's Law Criteria #1,char,2,$2.,,Derived,"Set to ""Y"" on all records (ALT, AST, ALP, BILI), which contribute to a potential Hy's Law case, defined as: Any postbaseline total bilirubin equal to or exceeding 2 x ULN within 30 days after a postbaseline ALT or AST equal to or exceeding 3 x ULN, and ALP <2 x ULN (all ALP values during the period of elevation; missing ALPs are included).
+
+(1) Bilirubin records which satisfy the criteria are identified and flagged: any postbaseline total bilirubin (PARAMCD = 'BILI' and PSBLFL = 'Y') equal to or exceeding 2 x ULN (R2A1HI >= 2) within 30 days after a postbaseline ALT or AST equal to or exceeding 3 x ULN (PARAMCD in ('ALT', 'AST') and PSBLFL = 'Y' and R2A1HI >= 3 and (ADT[BILI] - ADT[ALT/AST]) <=30), and ALP <2 x ULN (all ALP values between the elevated ALT/AST and the BILI, missing ALPs are included) (PARAMCD = 'ALP' and (AVAL = . or R2A1HI <2) with ADT[BILI] <= ADT >= ADT[ALT/AST]);.
+
+",,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

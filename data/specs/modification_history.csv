@@ -1,0 +1,53 @@
+﻿Version,Date of Change,Dataset,Update,Name,
+1,29-Aug-22,N/A,"First Draft (ADSL, ADCM, ADPR, ADBASE, ADEX, ADEXSUM, ADAE)",Marcus Spearman,
+2,14-Sep-22,N/A,,Marcus Spearman,
+3,24-Mar-23,N/A,"Align with 303 study, add ADLB",Marcus Spearman,
+4,17-Apr-23,N/A,"Updated PARCH, PARLB codelists. Other minor updates in orange",Marcus Spearman,
+6,29-May-23,ADEXSUM,Update ADEXSUM.AVAL where PARAMCD EQ NVDOSINT,Marcus Spearman,
+7,28-Sep-23,ADEXSUM,"Update ADEXSUM.AVAL where PARAMCD in (XLTRDURD, NVTRDURD, IPTRDURD, RLTRDURD, NVDOSINT, IPDOSINT, RLDOSINT)
+Update to PARLB, ARMCD, COHORT codelists",Marcus Spearman,
+8,16-Oct-23,N/A,"Update to DCTREAS codelist
+ADSL.EORDCDT
+instances of ECTRT/EXTRT='Relatlimab' updated to 'Relatlimab/Nivolumab FDC'
+ADEX.ECYNSP added back
+",Marcus Spearman,
+9,20-Feb-24,ADBASE,"Added ADBASE, PARBASE added to codelist, VLM tab updated for ADBASE",Marcus Spearman,
+10,28-Jun-24,ADTTE/ADTTEINT/ ADTUM/ ADTUMSUM,Added efficacy datasets for IDMC,Marcus Spearman,
+10,23-Jul-24,ADEXSUM,"Added 4 new intermediate variables for calculating Percent Dose Intensity for Nivo and Rela (NIVEXINF, NIVETDOS, RELEXINF, RELETDOS)",Patrick Hannon,
+10,23-Jul-24,ADEXSUM,Updated derivation logic for NVDOSINT and RLDOSINT (Percent Dose Intensity for Nivo and Rela),Patrick Hannon,
+10,10-Sep-24,N/A,Added comments under XL comments section for few ADaM dataset specs,Monica Lakkadi,
+10,16-Sep-24,ADEXSUM,Updated derivation for paramcd= 'NVNEXINF' and 'NVEXCDOS' in ADEXSUM in VLM sheet,Monica Lakkadi,
+10,20-Sep-24,ADSL,Updated derivations of NTRTDURD and RTRTDURD ,Monica Lakkadi,
+10,20-Sep-24,ADSL,Removed Ipilimumab related variables from ADSL,Monica Lakkadi,
+11,26-Sep-24,ADEXSUM,Added derivation for paramcd= 'DURTDH' and 'DUREHLD' in ADEXSUM in VLM sheet,Marcus Spearman,
+11,26-Sep-24,ADEX,Added CRIT1/CRIT1FL to ADEX,Marcus Spearman,
+12,2-Feb-25,ADSL,Added CNTRYGR1 and REGION1,Otis Evans,
+12,14-Feb,ADEXSUM,Updated the derivation of IADINT to reference ITRTDURD instead of NTRTDURD,Otis Evans,
+16,19-Feb,ADSL,"EVALFL added, updated RANDDT",Marcus Spearman,
+16,19-Feb,N/A,"DCTREAS codelist updated for SUBJECT REQUEST
+
+Dataset selection criteria updated from ITTFL to SAFFL",Marcus Spearman,
+16,2/19/2025,ADLB,"NADIR/CHGNAD/ PCHGNAD renamed 
+
+PSAFL added",Marcus Spearman,
+16,2/19/2025,ADEXSUM,"Added PARAMCD=TOTDURN, CRIT4/FL-CRIT9/FL",Marcus Spearman,
+16,2/19/2025,ADVS,Added CRIT4/FL-CRIT9/FL,Marcus Spearman,
+16,2/19/2025,ADCM,Added variables ARELTM-ICIBOR,Marcus Spearman,
+16,2/19/2025,ADPR,Added PRWHCSP,Marcus Spearman,
+16,2/19/2025,ADAE,Added AEIRREL,Marcus Spearman,
+16,2/19/2025,ADSL,"Added DIAGDT, DIAGDTF, DIAGDURY",Marcus Spearman,
+17,2/25/2025,ADEXSUM ,"Update to PARAMCD EQ DUREHLD in VLM
+",Marcus Spearman,
+17.1,3/3/2025,ADEG,Update AVAL calculation logic for multiple measurements,Amy Kim,
+17.1,3/5/2025,ADLB,Added LBTOX and grading variables for CSR analysis,Marcus Spearman,
+17.1,3/5/2025,ADAESI/ADAETTE,Datasets added,Marcus Spearman,
+20,3/14/2025,ADAE,"Added ATRDS2FL, ACAUSOTH",Marcus Spearman,
+20,3/14/2025,ADSL,"Added DTHXXXFL, and METXXX vars",Marcus Spearman,
+20.1,3/18/2025,ADEXSUM,Updated PARAMCD EQ XTT1HLD derivation in VLM tab,Marcus Spearman,
+20.1,3/18/2025,ADLB,"ATOXDSCH, ATOXDSCH updated in VLM tab",Marcus Spearman,
+21.1,4/4/2025,All,"Updated variable labels from Relatlimab to Nivo/Rela FDC, update references to ITTFL to SAFFL",Marcus Spearman,
+21.1,4/4/2025,ADSL,EOECCEDT derivation updated,Marcus Spearman,
+21.1,4/4/2025,ADCM,"AOCC01FL, CONFL, PREFL derivation updated",Marcus Spearman,
+21.1,4/7/2025,ADLB,"Dropped PARAMCD=PSAP, Updated ABLFL, PSAFL, NADIRPSA, ANL01FL, ANL17FL, LBSTAT",Amy Kim,Updates are noted in this font color
+21.1,4/7/2025,ADEX,"Updated DURDH, CRIT2, CRIT3, CRIT17",Amy Kim,Updates are noted in this font color
+21.1,4/7/2025,ADEXSUM,Updated SRCDOM,Amy Kim,Updates are noted in this font color

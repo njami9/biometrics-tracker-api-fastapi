@@ -1,0 +1,229 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADCM,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADCM,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADCM,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADCM,CMSEQ,Sequence Number,Num,8,best20.,,Predecessor,CM.CMSEQ,,
+ADCM,CMSPID,Sponsor-Defined Identifier,Char,16,$16.,,Predecessor,CM.CMSPID,,
+ADCM,CMCAT,Category for Medication,Char,50,$50.,CMCAT,Predecessor,CM.CMCAT,,
+ADCM,ACAT1,Analysis Category 1,Char,10,$10.,CMACAT,Assigned,"Abbreviated form of CMCAT to simplify programming and data checks.
+If CM.CMCAT = 'PRIOR AND CONCOMITANT MEDICATIONS' then set to 'Con Med';
+if CMCAT = 'HISTORY OF ANTI-CANCER THERAPIES' then set to 'Prior ACT';
+if CMCAT = 'CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES' then set to 'Subq ACT';",,
+ADCM,CMSCAT,Subcategory for Medication,Char,8,$8.,CMSCAT,Predecessor,CM.CMSCAT,,
+ADCM,CMTRT,"Reported Name of Drug, Med, or Therapy",Char,200,$200.,,Predecessor,CM.CMTRT,,
+ADCM,CMDECOD,Standardized Medication Name,Char,200,$200.,WHODrug,Predecessor,CM.CMDECOD,,
+ADCM,CMSTDTC,Start Date/Time of Medication,Char,19,$19.,,Predecessor,CM.CMSTDTC,,
+ADCM,CMSTDY,Study Day of Start of Medication,Num,8,best20.,,Predecessor,CM.CMSTDY,,
+ADCM,ASTDT,Analysis Start Date,Num,8,date9.,,Derived,"Calculated as CM.CMSTDTC as a SAS numeric date variable.
+If CM.CMSTDTC is a partial date then imputed according to CM.CMCAT.
+If CMCAT in ('PRIOR AND CONCOMITANT MEDICATIONS', 'HISTORY OF ANTI-CANCER THERAPIES') then imputed as follows:
+• If CMSTDTC is completely missing: not imputed.
+• If CMSTDTC has only year populated, then set to January 1st.
+• If CMSTDTC has year and month only, then set day to 1st day of month.
+
+If CMCAT = 'CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES' then imputed as follows:
+ • If CMSTDTC is completely missing, set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+• If CMSTDTC has only year populated, then:
+-  if year(CMSTDTC) > year(ADSL.EOTDCDT) then set to January 1st.
+-  if year(CMSTDTC) = year(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+
+• If CMSTDTC has year and month only, then:
+-  if year(CMSTDTC) and month(CMSTDTC) are the same as year(ADSL.EOTDCDT) and month(ADSL.EOTDCDT) then set to date of decision to discontinue treatment (ADSL.EOTDCDT) + 1.
+-  Otherwise, set to the first day of the month.","Imputation rules will need review/confirmation/updating based on SAP.
+
+Updates to imputation rules for Subsequent Anti-Cancer therapy will require updates to ADSL variables as well.",
+ADCM,ASTDTF,Analysis Start Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADCM.ASTDT imputation. Set to:
+Y if entire date is imputed or year is imputed
+M if month and day are imputed
+D if ony day is imputed.
+Null if ASTDT is null or if CM.CMSTDTC is a complete date.",,
+ADCM,ASTDY,Analysis Start Relative Day,Num,8,best20.,,Derived,"If ACAT1 in(""Prior ACT"", ""Subq ACT"") derive based on STAGE:
+If ADSL.STAGE=""EXPANSION"":
+If ADCM.ASTDT < ADSL.RANDDT then calculated as: ASTDT-RANDDT
+Otherwise, calculated as: ASTDT-RANDDT+1.
+If ADSL.STAGE=""ESCALATION"":
+If ADCM.ASTDT < ADSL.TRTSDT then calculated as: ASTDT-TRTSDT
+Otherwise, calculated as: ASTDT-TRTSDT+1.
+If ACAT=""Con Med"" then:
+If ADCM.ASTDT < ADSL.TRTSDT then calculated as: ASTDT-TRTSDT
+Otherwise, calculated as: ASTDT-TRTSDT+1.",,
+ADCM,CMENDTC,End Date/Time of Medication,Char,19,$19.,,Predecessor,CM.CMENDTC,,
+ADCM,CMENDY,Study Day of End of Medication,Num,8,best20.,,Predecessor,CM.CMENDY,,
+ADCM,AENDT,Analysis End Date,Num,8,date9.,,Derived,"Calculatde as CM.CMENDTC as a SAS numeric date variable.
+In the event of partial dates for records where CMCAT = 'PRIOR AND CONCOMITANT MEDICATIONS', imputed as follows:
+- If CMENDTC is completely missing: not imputed
+- If CMENDTC has only year populated, then set to December 31st.
+- If CMENDTC has year and month only, then set day to the last day of the month. 
+
+AENDT is not imputed if CMCAT in ('HISTORY OF ANTI-CANCER THERAPIES', 'CONCOMITANT AND SUBSEQUENT ANTI-CANCER THERAPIES').",,
+ADCM,AENDTF,Analysis End Date Imputation Flag,Char,1,$1.,DATEFL,Assigned,"Based on ADCM.AENDT imputation. Set to:
+Y if entire date is imputed or year is imputed
+M if month and day are imputed
+D if ony day is imputed.
+Null if AENDT is null or if CM.CMENDTC is a complete date.",,
+ADCM,AENDY,Analysis End Relative Day,Num,8,best20.,,Derived,"If ACAT1 in(""Prior ACT"", ""Subq ACT"") derive based on STAGE:
+If ADSL.STAGE=""EXPANSION"":
+If ADCM.AENDT < ADSL.RANDDT then calculated as: AENDT-RANDDT
+Otherwise, calculated as: AENDT-RANDDT+1.
+If ADSL.STAGE=""ESCALATION"":
+If ADCM.AENDT < ADSL.TRTSDT then calculated as: AENDT-TRTSDT
+Otherwise, calculated as: AENDT-TRTSDT+1.
+If ACAT=""Con Med"" then:
+If ADCM.AENDT < ADSL.TRTSDT then calculated as: AENDT-TRTSDT
+Otherwise, calculated as: AENDT-TRTSDT+1.",,
+ADCM,CMENRTPT,End Relative to Reference Time Point,Char,20,$20.,,Predecessor,CM.CMENRTPT,,
+ADCM,PREFL,Pre-treatment Flag,Char,1,$1.,Y,Derived,"Expansion cohorts:
+Flags medications that are taken prior to randomization, including those that are continued on-study.
+
+Set to ""Y"" if:
+. < ASTDT < RANDDT or
+ . < AENDT < RANDDT
+If ASTDT and AENDT are missing and CMCAT = 'HISTORY OF ANTI-CANCER THERAPIES' then set to 'Y'.
+
+Escalation cohorts:
+Flags medications that are taken prior to treatment start, including those that are continued on-study.
+
+Set to ""Y"" if:
+. < ASTDT < TRTSDT or
+ . < AENDT < TRTSDT
+If ASTDT and AENDT are missing and CMCAT = 'HISTORY OF ANTI-CANCER THERAPIES' then set to 'Y'.
+",Definition will need review/updating based on SAP definition.,
+ADCM,CONFL,Conconmitant Flag,Char,1,$1.,Y,Derived,"Expansion cohorts:
+Flags medications that are given after randomization, prior to treatment end.
+
+Set to ""Y"" if:
+ADSL.RANDDT <= ADCM.ASTDT and ( ASTDT <= ADSL.TRTEDT or TRTEDT missing) or 
+RANDDT <= ADCM.AENDT and ( AENDT <= TRTEDT or TRTEDT missing) or
+ADCM.PREFL = 'Y' and AENDT >= RANDDT or
+PREFL = 'Y' and ADCM.CMENRTPT = 'ONGOING'  
+
+Escalation cohorts:
+Flags medications that are given after treatment start, prior to treatment end.
+
+Set to ""Y"" if:
+ADSL.TRTSDT <= ADCM.ASTDT and ( ASTDT <= ADSL.TRTEDT or TRTEDT missing) or 
+TRTSDT <= ADCM.AENDT and ( AENDT <= TRTEDT or TRTEDT missing) or
+ADCM.PREFL = 'Y' and AENDT >= TRTSDT or
+PREFL = 'Y' and ADCM.CMENRTPT = 'ONGOING'","Currently based on RANDDT (not TRTSDT), since Con-Med analyses likely to be done for ITT population as well as Safety. Definition will need review/updating based on SAP definition.
+** Do we need to consider the Safety Observation Period? **
+",
+ADCM,CMINDTYP,Indication Type,Char ,200,$200.,CMINDTYP,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMINDTYP',,
+ADCM,CMCLAS,Medication Class ,Char ,200,$200.,,Predecessor,CM.CMCLAS,,
+ADCM,CMCLASCD,Medication Class Code,Char ,200,$200.,,Predecessor,CM.CMCLASCD,,
+ADCM,CMINDC,Indication,Char ,200,$200.,,Predecessor,CM.CMINDC,,
+ADCM,CMINDCSP,"Indication Other, Specify",Char ,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMINDCSP',,
+ADCM,CMDOSTOT,Total Daily Dose,Num,8,best20.,,Predecessor,CM.CMDOSTOT,,
+ADCM,CMDOSTXT,Dose Description,Char ,50,$50.,,Predecessor,CM.CMDOSTXT,,
+ADCM,CMDOSUSP,If Other Units Specify,Char ,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMDOSUSP',,
+ADCM,CMDOSTUN,Total Daily Dose Unknown,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMDOSTUN',,
+ADCM,CMDOSFRQ,Dosing Frequency per Interval,Char ,200,$200.,,Predecessor,CM.CMDOSFRQ,,
+ADCM,CMROUTE,Route of Administration,Char ,50,$50.,CMROUTE,Predecessor,CM.CMROUTE,,
+ADCM,CMROUTSP,If Other Route Specify,Char ,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMROUTESP',,
+ADCM,IMMUNOFL,Is Medication an Immunosuppressant?,Char,2,$2.,NY,Predecessor,"""Is medication a Corticosteroid or non-corticosteroid immunosuppressant?"":
+SUPPCM.QVAL where SUPPCM.QNAM = 'CMISYN'",Old CMISYN,
+ADCM,CMTRTSTT,Context of Therapy Received,Char,200,$200.,CMTRTSTT,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMTRTSTT',,
+ADCM,TRTSTTSP,"If Other Treatment Setting, Specify",Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'TRTSTTSP',,
+ADCM,PROGINIT,Progression after Initiation of Regimen,Char,2,$2.,NY,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'PROGINIT',,
+ADCM,CMHFPDTC,'Date/Time First PD After Initiation',Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMHFPDTC',MS: Variable label must align with SDTM. Please confirm if you would like to update SDTM QLABEL to 'Date/Time First PD After Initiation' to be more descriptive.,"ML 03/27/23: Yes, please update label to 'Date/Time First PD After Initiation'
+MS 04/03/2023: Updated"
+ADCM,AHFPDT,Analysis Date of 1st PD After Regimen,Num,8,date9.,,Derived,Calculated as ADCM.CMHFPDTC as a SAS numeric date variable. Null if ADCM.CMHFPDTC is null or partial. No imputation.,,
+ADCM,AHFPDY,Analysis Day of 1st PD After Regimen,Num,8,best20.,,Derived,"If ADSL.STAGE=""EXPANSION"":
+If ADCM.AHFPDT < ADSL.RANDDT then calculated as: AHFPDT-RANDDT
+Otherwise, calculated as: AHFPDT-RANDDT+1.
+If ADSL.STAGE=""ESCALATION"":
+If ADCM.AHFPDT < ADSL.TRTSDT then calculated as: AHFPDT-TRTSDT
+Otherwise, calculated as: AHFPDT-TRTSDT+1.",,
+ADCM,CMADJ,Reason for Dose Adjustment,Char,21,$21.,CMREAS,Predecessor,CM.CMADJ,"** For Prior Anti-Cancer treatments, reason for discontinuation of Regimen is found here **",
+ADCM,CMINT,Intent,Char,10,$10.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMINT',,
+ADCM,CMINTSP,"If Other Intent, Specify",Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMINTSP',,
+ADCM,APRCNTYN,Most Recent Agent Administered?,Char,2,$2.,NY,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'APRCNTYN',,
+ADCM,APSETT,Setting of Therapy Received,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'APSETT',,
+ADCM,CMLNKAE1,CM AE Number 1,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLNKAE1',,
+ADCM,CMLNKAE2,CM AE Number 2,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLNKAE2',,
+ADCM,CMLNKAE3,CM AE Number 3,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLNKAE3',,
+ADCM,CMLNKAE4,CM AE Number 4,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLNKAE4',,
+ADCM,CMLNKAE5,CM AE Number 5,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLNKAE5',,
+ADCM,CMREASSP,"If Discontinuation Other, Specify",Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CMREASSP',,
+ADCM,CSACTYN,Any ACT after First Study Dose?,Char,2,$2.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'CSACTYN',,
+ADCM,PSAPDDTC,Date/Time of Biochem Prog,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'PSAPDDTC',,
+ADCM,PSAPDYN,Biochemical Prog. After/During Agent?,Char,2,$2.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'PSAPDYN',,
+ADCM,ARELTM,Analysis Relative Time,Num,8,best20.,,Derived,"
+If ADSL.STAGE=""ESCALATION"" or ACAT1=""Con Med"" :
+(ASTDT - TRTSDT+1)/30.4375
+
+Else iff ADSL.STAGE=""EXPANSION"":
+(ASTDT - RANDDT+1)/30.4375
+
+",,
+ADCM,ARELTMU,Analysis Relative Time Unit,Char,6,$6.,,Assigned,"Set to ""Months"" where ARELTM is non-missing.",,
+ADCM,AOCC01FL,1st Occurrence of Most Recent ACT ,Char,1,$1.,Y,Derived,"Flags the Most Recent Prior Non-Radiation Anti-Cancer Therapy.
+From among records with ACAT1 = 'Prior ACT', the record with the latest AENDT is identified and AOCC01FL set to 'Y'. If AENDT is missing, but ASTDT is non-missing, then ASTDT is used to determine if the record is the ""latest"".
+If more than one record with the same date, the record with the lowest CMSEQ is flagged.",,
+ADCM,AOCC02FL,1st Occurrence of Subsq Systemic ACT ,Char,1,$1.,Y,Derived,"Flags the first concomitant/subsequent systemic anti-cancer therapy.
+
+From among records with ACAT1 = ‘Subq ATC’ and CMSCAT = 'SYSTEMIC', the record with the earliest non-missing ASTDT is identified and AOCC02FL = 'Y'.
+If more than one record with the same date, the record with the lowest CMSEQ is flagged.",,
+ADCM,CMLINE,Line of Therapy,Char,200,$200.,Y,Derived,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLINE',,
+ADCM,CMINHIB,PD-1/PD-L1 immune check-point inhibitor?,Char,1,$1.,Y,Derived,SUPPCM.QVAL where SUPPCM.QNAM = 'CMINHIB',,
+ADCM,REGNUM,Regimen Number,Char,200,$200.,,Derived,Set to the last part (after second dash) of CM.CMREFID (ex. If CMREFID='ACTH-00-1' then set REGNUM='1'),,
+ADCM,ICIBOR,Best Response Based on RECIST 1.1,Char,200,$200.,,Predecessor,SUPPCM.QVAL where SUPPCM.QNAM = 'ICIBOR',,
+ADCM,CMLOC,Local Therapy Location,Char,200,$200.,,Derived,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLOC',,
+ADCM,CMLOCSP,"Local Therapy Location, Specify",Char,200,$200.,,Derived,SUPPCM.QVAL where SUPPCM.QNAM = 'CMLOCSP',,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

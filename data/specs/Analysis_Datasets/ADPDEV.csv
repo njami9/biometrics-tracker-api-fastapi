@@ -1,0 +1,37 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADPDEV,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADPDEV,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADPDEV,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADPDEV,SRCDOM,Source Data,Char,2,$2.,,Assigned,"For records copied from DV domain, set to ""DV"".
+For records copied from IE domain, set to ""IE"".",,
+ADPDEV,SRCSEQ,Source Sequence Number,Num,8,best20.,,Assigned,"For records copied from DV domain, set to DVSEQ
+For records copied from IE domain, set to IESEQ",,
+ADPDEV,DVCAT,Category for Protocol Deviation,Char,200,$200.,,Predecessor,DV.DVCAT,,
+ADPDEV,ACAT1,Analysis Category 1 for Prot Deviation,Char,200,$200.,,Predecessor,"For records copied from DV domain, set to DV.DVCAT
+For records copied from IE domain, carry forward the value of DVCAT from the DV record that trigger the inclusion of IE domain records.",,
+ADPDEV,DVDECOD,Protocol Deviation Coded Term,Char,200,$200.,,Predecessor,DV.DVDECOD,,
+ADPDEV,ADECOD,Analysis Deviation Coded Term,Char,200,$200.,,Derived,"Set to DV.DVDECOD in sentence case (first letter capitalized, others in low-case). Keep text string ""ICH"" in upper-case.
+
+If subject has a record with ADECOD = 'Did not satisfy eligibility criteria (ICH)' then create an additional record for each record in IE domain for that subject. The value of ACAT and ADECOD is carried forward from the ""'Did not satisfy eligibility criteria (ICH)"" row. ",,
+ADPDEV,IETESTCD,Inclusion/Exclusion Criterion Short Name,Char,8,$8.,,Predecessor,IE.IETESTCD,,
+ADPDEV,IETEST,Inclusion/Exclusion Criterion,Char,200,$200.,,Predecessor,IE.IETEST,,
+ADPDEV,ELIGTERM,Eligibility Criterion,Char,200,$200.,,Predecessor,"Formatted version of IETESTCD.
+If IETESTCD takes form ""INzz"" where zz is numeric, then ELIGTERM = 'Inclusion #zz""
+If IETESTCD takes form ""EXzz"" where zz is numeric, then ELIGTERM = 'Exclusion #zz""
+If zz has a character value concatenated to the end, retain the character value.
+For example, if IETESTCD = ""EX07A"" then ELIGTERM = ""Exclusion #07A""
+
+If IETESTCD takes form ""Izz_y"" , then ELIGTERM = 'Inclusion #zz v.y""
+If IETESTCD takes form ""Ezz_y"", then ELIGTERM = 'Exclusion #zz v.y""
+For example, if IETESTCD = 'E07F_3' then ELIGTERM = 'Exclusion #07F v.3""
+",,
+ADPDEV,DVTERM,Protocol Deviation Term,Char,200,$200.,,Predecessor,DV.DVTERM,,
+ADPDEV,DVTERM1,Protocol Deviation Term 1,Char,200,$200.,,Predecessor,SUPPDV.QVAL where QNAM = 'DVTERM1',,
+ADPDEV,DVTERM2,Protocol Deviation Term 2,Char,200,$200.,,Predecessor,SUPPDV.QVAL where QNAM = 'DVTERM2',,
+ADPDEV,DVTERM3,Protocol Deviation Term 3,Char,200,$200.,,Predecessor,SUPPDV.QVAL where QNAM = 'DVTERM3',,
+ADPDEV,DVTERM4,Protocol Deviation Term 4,Char,200,$200.,,Predecessor,SUPPDV.QVAL where QNAM = 'DVTERM4',,
+ADPDEV,DVSTDTC,Start Date/Time of Deviation,Char,19,$19.,,Predecessor,DV.DVSTDTC,,
+ADPDEV,ASTDT,Analysis Start Date,Num,8,date9.,,Derived,"DV.DVSTDTC as a SAS numeric date variable. No imputation.
+For records from IE domain, carry forward the value from the ADECOD = 'Did not satisfy eligibility criteria (ICH)' record.",,
+ADPDEV,DVSTDY,Study Day of Start of Deviation Event,Num,8,best20.,,Predecessor,DV.DVSTDY,,

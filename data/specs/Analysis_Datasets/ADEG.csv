@@ -1,0 +1,109 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist,Origin,Derivation / Comments / Predecessor,Notes,XL Comments,
+ADEG,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,,
+ADEG,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,,
+ADEG,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,,
+ADEG,EGSEQ,Sequence Number,Num,8,best20.,,Predecessor,Set to EG.EGSEQ; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGREPNUM,Repetition Number,Num,8,best20.,,Predecessor,Set to EG.EGREPNUM; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGTESTCD,ECG Test or Examination Short Name,Char,8,$8.,,Predecessor,Set to EG.EGTESTCD; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGTEST,ECG Test or Examination Name,Char,50,$50.,,Predecessor,Set to EG.EGTEST; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGORRES,Result or Finding in Original Units,Char,200,$200.,,Predecessor,Set to EG.EGORRES; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGORRESU,Original Units,Char,20,$20.,EGUNIT,Predecessor,Set to EG.EGORRESU; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGSTRESN,Numeric Result/Finding in Standard Units,Num,8,best20.,,Predecessor,Set to EG.EGSTRESN; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGSTRESU,Standard Units,Char,20,$20.,EGUNIT,Predecessor,Set to EG.EGSTRESU; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGMETHOD,Method of Test or Examination,Char,20,$20.,EGMTHOD,Predecessor,Set to EG.EGMETHOD. Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGTYPE,Assessment type,Char,10,$10.,EGTYP,Predecessor,Set to SUPPEG.QVAL where SUPPEG.QNAM = 'EGTYPE'; Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,EG.VISITNUM. Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,VISIT,Visit Name,Char,75,$75.,,Predecessor,EG.VISIT. Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGTPTNUM,Planned Time Point Number,Num,8,best20.,EGTPT_N,Predecessor,EG.EGTPTNUM. Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGTPT,Planned Time Point Name,Char,75,$75.,EGTPT,Predecessor,EG.EGTPT. Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGDTC,Date/Time of ECG,Char,19,$19.,,Predecessor,Set to EG.EGDTC; Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,EGDY,Study Day of ECG,Num,8,best20.,,Predecessor,EG.EGDY. Carry forward to records with DTYPE = 'AVERAGE'.,,,
+ADEG,PARAMCD,Parameter Code,Char,8,$8.,PAREG,Assigned,Set to EG.EGTESTCD.,,,
+ADEG,PARAM,Parameter,Char,100,$100.,PAREG_C,Assigned,"Assigned as the decoded version of PARAMCD, as per the codelist",,,
+ADEG,AVISITN,Analysis Visit (N),Num,8,best20.,,Assigned,Set to EG.VISITNUM.,,,
+ADEG,AVISIT,Analysis Visit,Char,75,$75.,,Assigned,Set to EG.VISIT in proper-case.,,,
+ADEG,ATPTN,Analysis Timepoint (N),Num,8,best20.,,Assigned,"If EG.EGTPT not 'NOT APPLICABLE' then set to EG.EGTPTNUM. If EGTPT = 'NOT APPLICABLE', then leave null.",,,
+ADEG,ATPT,Analysis Timepoint,Char,75,$75.,,Assigned,"Assigned from EG.EGTPT from the source EG record(s):
+If EGTPT = 'PREDOSE' then set to 'Pre-dose';
+if EGTPT = 'POSTDOSE' then set to 'Post-dose'; 
+if EGTPT = 'NOT APPLICABLE' then null.",,,
+ADEG,ADT,Analysis Date,Num,8,date9.,,Derived,"Set datepart of EG.EGDTC as a SAS numeric date variable. On records where DTYPE = 'AVERAGE', set to the ADT value of the records used for the average.",,,
+ADEG,ATM,Analysis Time,Num,8,time8.,,Derived,Set timepart of EG.EGDTC as a SAS numeric time variable. Null on records with DTYPE = 'AVERAGE'.,,,
+ADEG,ADTM,Analysis Datetime,Num,8,Datetime19.,,Derived,EG.EGDTC as a SAS numeric date-time variable. Only populated if both the date- and time-parts of  EG.EGDTC are available. Null on records where DTYPE = 'AVERAGE'.,,,
+ADEG,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,,
+ADEG,AVAL,Analysis Value,Num,8,best20.,,Assigned,"For records from EG domain, where EGTESTCD not 'EGALL', a record is output with PARAMCD = EGTESTCD and AVAL set to EG.EGSTRESN.
+
+For PARAMCD = 'QTCFSB': For each set of records with EGTYPE = 'TRIPLICATE' and a common EG.VISITNUM,  EG.EGTPT, and date-part of EG.EGDTC, an additional record is output with AVAL calculated as the average of EG.EGSTRESN from the records selected. The additional record is only created if there is more than one record for a given VISITNUM/EGTPT/date combination. 
+
+For PARAMCD = 'INTP', null.",3/3/25 AK: Removed EGTYPE condition as this variable is not consistent throughout EG data,,
+ADEG,AVALC,Analysis Value (C),Char,26,$26.,EGINTP,Assigned,"For PARAMCD = 'INTP' set to EG.EGSTRESC.
+For PARAMCD = 'QTCFSB', null.",,,
+ADEG,EGCLNSIG,"Clinically Significant, Collected",Char,20,$20.,,Predecessor,EG.EGCLNSIG,,,
+ADEG,DTYPE,Derivation Type,Char,7,$7.,DTYPEG,Assigned,"Set to ""AVERAGE"" on records that are created by averaging triplicate measurements.",,,
+ADEG,ABLFL,Baseline Record Flag,Char,1,$1.,Y,Derived,"Set to 'Y' on the chronologically last record prior to treatment start per parameter with non-missing result. Preference is given to selection of DTYPE = 'AVERAGE' records, when available for selection. When determining ""chronologically last"" for AVERAGE records, the timing of the last record contributing to the AVERAGE is used. If a record has missing time component and ADT = TRTSDT, records with EGTPT = 'PREDOSE' are assumed to have occurred prior to treatment start; records with other values of EGTPT are assumed to have occurred after treatment start.
+
+If ADSL.SAFFL = 'N' then no records are flagged.",,,
+ADEG,PSBLFL,Post-Baseline Record Flag,Char,1,$1.,Y,Derived,"Set to 'Y' on any record determined to have occurred on or after treatment start. When flagging DTYPE = 'AVERAGE' records, the timing of the last record contributing to the AVERAGE is used to determine if record is after treatment start.
+
+If ADSL.SAFFL = 'N' then no records are flagged.",,,
+ADEG,BASE,Baseline Value,Num,8,best20.,,Derived,Set to AVAL from the record where ABLFL = 'Y'.,,,
+ADEG,BASEC,Baseline Value (C),Char,26,$26.,,Assigned,Set to AVALC from the record where ABLFL = 'Y'.,,,
+ADEG,CHG,Change from Baseline,Num,8,best20.,,Derived,"Calculate as: AVAL - BASE.
+Only populated on post-baseline record (where ADLB.PSBLFL = 'Y').",,,
+ADEG,PCHG,Percent Change from Baseline,Num,8,best20.,,Derived,"Calculate as: 100*(AVAL - BASE)/(BASE) where AVAL is non-missing and BASE is not missing or 0. 
+Only populated on post-baseline record (where ADLB.PSBLFL = 'Y').",,,
+ADEG,AVALCAT1,Analysis Value Category 1,Char,11,$11.,EGVCAT1,Derived,"For records where PARAMCD = 'QTCFSB', assign as per codelist using AVAL:
+""<= 450 msec""
+""> 450 msec""",,,
+ADEG,AVALCAT2,Analysis Value Category 2,Char,11,$11.,EGVCAT2,Derived,"For records where PARAMCD = 'QTCFSB', assign as per codelist using AVAL:
+""<= 480 msec""
+""> 480 msec""",,,
+ADEG,AVALCAT3,Analysis Value Category 3,Char,11,$11.,EGVCAT3,Derived,"For records where PARAMCD = 'QTCFSB', assign as per codelist using AVAL:
+""<= 500 msec""
+""> 500 msec""",,,
+ADEG,CHGCAT1,Change from Baseline Category 1,Char,10,$10.,EGCCAT1,Derived,"For records where PARAMCD = 'QTCFSB', assign as per codelist using CHG:
+""<= 30 msec""
+""> 30 msec""",,,
+ADEG,CHGCAT2,Change from Baseline Category 2,Char,10,$10.,EGCCAT2,Derived,"For records where PARAMCD = 'QTCFSB', assign as per codelist using CHG:
+""<= 60 msec""
+""> 60 msec""",,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,

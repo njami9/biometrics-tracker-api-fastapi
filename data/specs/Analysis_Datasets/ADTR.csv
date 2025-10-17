@@ -1,0 +1,202 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADTR,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADTR,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADTR,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADTR,TRSEQ,Sequence Number,Num,8,best20.,,Predecessor,TR.TRSEQ. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRCAT,Category,Char,10,$10.,,Predecessor,TR.TRCAT. Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.,,
+ADTR,TRTESTCD,Lab Test or Examination Short Name,Char,8,$8.,,Predecessor,TR.TRTESTCD. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRTEST,Tumor/Lesion Assessment Test Name,Char,50,$50.,,Predecessor,TR.TRTEST. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRSTRESC,Character Result/Finding in Std Format,Char,200,$200.,,Predecessor,TR.TRSTRESC. Null for PARAMCD = 'SUMDIV'.,"Note: Lesions that are ""too small to measure"" have TRORRES/TRSTRESC/TRSTRESN set to 5 at the SDTM level.",
+ADTR,TRSTRESN,Numeric Result/Finding in Standard Units,Num,8,best20.,,Predecessor,TR.TRSTRESN. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRSTRESU,Standard Units,Char,20,$20.,,Predecessor,TR.TRSTRESU. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRSTAT,Completion Status,Char,8,$8.,,Predecessor,TR.TRSTAT. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRGRPID,Group ID,Char,10,$10.,,Predecessor,TR.TRGRPID. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRLNKID,Link ID,Char,10,$10.,,Predecessor,TR.TRLNKID. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TRLOC,Location of the Tumor/Lesion,Char,200,$200.,,Predecessor,SUPPTR.QVAL where QNAM=TLLOC. Null for PARAMCD = 'SUMDIV'.,,
+ADTR,TLLOC,Tumor/Lesion Location Details,Char,200,$200.,,Predecessor,SUPPTR.QVAL where QNAM=TLLOC. Null for PARAMCD = 'SUMDIV'.,MS: Awaiting SDTM,ML 12/12/24: We do not have QNAM= 'TRLOCDTL' in SUPPTR. Can you update accordingly?
+ADTR,TLRES,Target Lesion Status,Char,200,$200.,,Predecessor,SUPPTR.QVAL where QNAM='TLRES. Null for PARAMCD = 'SUMDIV'.,MS: Awaiting SDTM,ML 12/12/24: We need to update SDTM specs to map TLCDB.TLRES to SUPPTR.TLRES.
+ADTR,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,TR.VISITNUM. Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.,,
+ADTR,VISIT,Visit Name,Char,75,$75.,,Predecessor,TR.VISIT. Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.,,
+ADTR,TRDTC,Date/Time of Tumor/Lesion Measurement,Char,19,$19.,,Predecessor,"TR.TRDTC.  Null for PARAMCD = 'SUMDIV', as TRDTC could differ among records used in the calculation.",,
+ADTR,TRDY,Study Day of Tumor/Lesion Measurement,Num,8,best20.,,Predecessor,"TR.TRDY.  Null for PARAMCD = 'SUMDIV', as TRDY could differ among records used in the calculation.",,
+ADTR,TREVAL,Evaluator,Char,50,$50.,TEVAL,Predecessor,TR.TREVAL. Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.,,
+ADTR,TREVALID,Evaluator Identifier,Char,20,$20.,,Predecessor,TR.TREVALID. Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.,,
+ADTR,PARCAT1,Parameter Category 1,Char,12,$12.,TUP1CAT,Assigned,"Set to TR.TRCAT.
+Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.",,
+ADTR,PARCAT2,Parameter Category 2,Char,50,$50.,TEVAL,Assigned,"Set to TR.TREVAL.
+Carried forward onto PARAMCD = 'SUMDIV' from records used to create the record.",,
+ADTR,PARAMN,Parameter (N),Num,8,best20.,PARTR_N,Assigned,"Assigned based on PARAMCD, as per the codelist",,
+ADTR,PARAMCD,Parameter Code,Char,8,$8.,PARTR,Assigned,Assign as per VLM.,,
+ADTR,PARAM,Parameter,Char,100,$100.,PARTR_C,Assigned,"Assigned as the decoded version of PARAMCD, as per the codelist",,
+ADTR,AVISITN,Analysis Visit (N),Num,8,best20.,,Assigned,"Equivalent to TR.VISITNUM. For derived parameters, carried forward from source records.",,
+ADTR,AVISIT,Analysis Visit,Char,75,$75.,,Assigned,"Set to TR.VISIT in proper-case. For derived parameters, carried forward from source records.",,
+ADTR,ADT,Analysis Date,Num,8,date9.,,Derived,"Within a given PARAMCD and VISIT, the chronologically earliest TRDTC is identified. ADT is set to the numeric form of that earliest TRDTC, as a SAS numeric date.",,
+ADTR,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"Where ADSL.STAGE=EXPANSION:
+If ADT < ADSL.RANDDT then calculated as (ADT - RANDDT). 
+If ADT >= ADSL.RANDDT then calculated as (ADT - RANDDT + 1).
+Null if ADSL.RANDDT is null.
+
+Where ADSL.STAGE=ESCALATION:
+If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,ML 12/12/24: How is this handled for Escalation cohorts which are not randomized? We should use TRTSDT for such subjects.
+ADTR,AVAL,Analysis Value,Num,8,best20.,,Derived,See VLM for details.,,
+ADTR,AVALC,Analysis Value (C),Char,200,$200.,,Assigned,"Populated only for TR.TRTESTCD = 'TUMSTATE' or ""SUMDIAM""
+Set to TR.TRSTRESC.",,
+ADTR,ABLFL,Baseline Record Flag,Char,1,$1.,Y,Derived,"Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+Where ADSL.STAGE=EXPANSION:
+Set to ""Y"" on the last non-missing value prior to randomization (ADSL.RANDDT). 
+
+If ADT = RANDDT, assume the assessment was performed prior to randomization and is eligible for selection
+
+Where ADSL.STAGE=ESCALATION:
+Set to ""Y"" on the last non-missing value prior to treatment start (ADSL.TRTSDT). 
+
+If ADT = TRTSDT, assume the assessment was performed prior to treatment start and is eligible for selection
+
+Note for PARAMCD='SUMDIR' only count records where ACEPTFL=Y",,ML 12/12/24: For Escalation subjects use TRTSDT and for randomized subjects use RANDDT. This update should be made across all efficacy ADaMs.
+ADTR,PSBLFL,Post-Baseline Record Flag,Char,1,$1.,Y,Derived,"Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+
+Where ADSL.STAGE=EXPANSION:
+Set to 'Y' on any record determined to have occurred after randomization (ADT > RANDDT).
+
+Where ADSL.STAGE=ESCALATION:
+Set to 'Y' on any record determined to have occurred after treatment start (ADT > TRTSDT).",,
+ADTR,BASE,Baseline Value,Num,8,best20.,,Derived,"Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+
+if TREVAL=INDEPENDENT ASSESSOR then set to numeric SUPPTR.QVAL where QNAM=TORRESR and corresponding SUPPTR.QVAL where QNAM=TREFTYP=""BASELINE""  when combining onto the PARAMCD='SUMDIR' record within a subject, VISIT, TREVALID, TRCAT
+
+If TREVAL=INVESTIGATOR then do:
+Set to ADTR.AVAL from the record where ADTR.ABLFL = 'Y' within a given PARAMCD. 
+Populated on all records (regardless of timing relative to baseline)",,
+ADTR,CHG,Change from Baseline,Num,8,best20.,,Derived,"Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+
+If TREVAL=INDEPENDENT ASSESSOR then set to TR.TRSTRESN where TR.TRTESTCD=""CHGBL"" and populate for corresponding TPARAMCD=SUMDIR within a subject, VISIT, TREVALID, TRCAT
+
+If TREVAL=INVESTIGATOR then do:
+Calculate as: AVAL - BASE.
+Only populated on post-baseline records (where ADTR.PSBLFL = 'Y').",,
+ADTR,PCHG,Percent Change from Baseline,Num,8,best20.,,Derived,"
+Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+
+If TREVAL=INDEPENDENT ASSESSOR then set to TR.TRSTRESN where TR.TRTESTCD=""PCHGBL"" and populate for corresponding PARAMCD=SUMDIR within a subject, VISIT, TREVALID, TRCAT
+
+If TREVAL=INVESTIGATOR then do:
+Calculate as: 100*(AVAL - BASE)/(BASE) where AVAL is non-missing and BASE is not missing or 0. 
+Only populated on post-baseline records (where ADTR.PSBLFL = 'Y').",,
+ADTR,NADIR,Nadir Value,Num,8,best20.,,Derived,"Populated on SUMDIV and SUMDIR records.
+
+For PARAMCD=SUMDIV:
+If ABLFL = 'Y', set to AVAL.
+This value is retained on all subsequent records.
+If AVAL < NADIR then, on the next record, NADIR is set equal to that lesser AVAL (update NADIR for the subsequent record to be equal to AVAL from the current record; do not update NADIR on the current record), and continue retaining that value of NADIR on subsequent records, until an even lower value is encountered. Repeated as above any time a record is encountered where AVAL < NADIR.
+
+For PARAMCD=SUMDIR:
+if TREVAL=INDEPENDENT ASSESSOR then set to numeric SUPPTR.QVAL where QNAM=TORRESR and corresponding SUPPTR.QVAL where QNAM=TREFTYP=""NADIR""  when combining onto the PARAMCD=SUMDIR record within a subject, VISIT, TREVALID, TRCAT",,
+ADTR,CHGNAD,Change from Nadir,Num,8,best20.,,Derived,"Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+
+If TREVAL=INDEPENDENT ASSESSOR then set to TR.TRSTRESN where TR.TRTESTCD=""CHGNAD"" and populate for corresponding PARAMCD=SUMDIR within a subject, VISIT, TREVALID, TRCAT
+
+If TREVAL=INVESTIGATOR then do:
+Calculated as: AVAL- NADIR
+Only populated on post-baseline (where PSBLFL = 'Y' )  records.",,
+ADTR,PCHGNAD,Percent Change from Nadir,Num,8,best20.,,Derived,"Populated only for PARAMCD =""SUMDIR"" and ""SUMDIV"".   
+
+If TREVAL=INDEPENDENT ASSESSOR then set to TR.TRSTRESN where TR.TRTESTCD=""PCHGNAD"" and populate for corresponding PARAMCD=SUMDIR within a subject, VISIT, TREVALID, TRCAT
+
+If TREVAL=INVESTIGATOR then do:
+Calculated as: 100*(AVAL-NADIR) /NADIR
+Null if NADIR = 0. 
+Only populated on post-baseline (where PSBLFL = 'Y' ) SUMDIV records.",,
+ADTR,PREPDFL,On or Prior to 1st PD Flag,Char,1,$1.,,Derived,"Populated on records with TREVAL in ('INVESTIGATOR' 'INDEPENDENT ASSESSOR')
+If TREVAL='INVESTIGATOR' and TRCAT='RECIST 1.1'  then set to ""Y"" if ADT <= ADSL.INVPDDT or INVPDDT is missing.
+
+else If TREVAL='INVESTIGATOR' and TRCAT='RECIST 1.1'  then set to ""Y"" if ADT <= ADSL.PCIVPDDT or PCIVPDDT is missing.
+
+Else if TREVAL='INDEPENDENT ASSESSOR' then set to ""Y"" if TRCAT='RECIST 1.1' and ACEPTFL='Y' and ( ADT <= ADSL.BIRCPDDT or BIRCPDDT is missing).
+
+Else if TREVAL='INDEPENDENT ASSESSOR' then set to ""Y"" if TRCAT='PCWG3' and ACEPTFL='Y' and ( ADT <= ADSL.PCWGPDDT or PCWGPDDT is missing).
+",,"ML 12/12/24: The current specs is only written for TREVAL= ""INVESTIGATOR"". But we also need to consider TREVAL= ""INDEPENDENT ASSESSOR"" since 002 has BICR data."
+ADTR,PREACTFL,Prior to 1st Anti-Cancer Therapy Flag,Char,1,$1.,Y,Derived,Set to 'Y' if ADT <=ADSL.FSBACTDT or FSBACTDT is missing,,
+ADTR,ACEPTFL,Accepted Record Flag Imputed,Char,1,$1.,Y,Derived,"Only populate for records where TRCEVAL=INDEPENDENT ASSESSOR
+Set to TR.TRACPTFL
+
+If a subject is missing TR.TRACPTFL for both TREVALID='READER 1' and 'READER 2' records within the same visit, TRCAT, and TRSPID then set ACEPTFL=Y for TREVALID='READER 1' record.                                                                            ",,
+ADTR,ANL01FL,Analysis Flag 01 (Max Pct Reduction SoD),Char,1,$1.,Y,Derived,"Flags the post-baseline sum of diameter record with the largest %reduction from baseline that occurs prior to start of new anti-cancer therapy and on or prior to the first PD.
+
+For records with PARAMCD = 'SUMDIV', set to 'Y' on the record with the smallest/most negative non-missing PCHG where PSBLFL = 'Y' and PREPDFL = 'Y' and PREACTFL = 'Y'. If more than one record with the same low PCHG, flag the earlier record.
+
+For records with PARAMCD = 'SUMDIR', set to 'Y' on the record with the smallest/most negative non-missing PCHG where PSBLFL = 'Y' and PREPDFL = 'Y' and PREACTFL = 'Y' and ACEPTFL='Y'. If more than one record with the same low PCHG, flag the earlier record.",,
+ADTR,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Flags Sum of Diameters records that indiciate a post-baseline reduction in SoD prior to subsequent anti-cancer history and prior to or on first PD.
+
+Set to ""Y"" on records where (PARAMCD = 'SUMDIV'  or (PARAMCD = 'SUMDIR' and ACEPTFL='Y') ) and PSBLFL = 'Y' and non-missing CHG < 0 and PREACTFL = 'Y' and PREPDFL = 'Y'.",,
+ADTR,CRIT1,Analysis Criterion 1,Char,30,$30.,CRIT1TR,Assigned,"Set to ""Post-Baseline Reduction in SoD"" on records where CRIT1FL = 'Y'",,
+ADTR,CRIT2FL,Criterion 2 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Flags Sum of Diameters records that show a >=20% increase in SoD relative to Nadir, indicating disease progression of target lesions. Only considers records that are prior to subsequent anti-cancer therapy.
+
+Set to ""Y"" on records where (PARAMCD = 'SUMDIV'   or (PARAMCD = 'SUMDIR' and ACEPTFL='Y')) and PSBLFL = 'Y' and PREACTFL = 'Y' and PCHGNAD >= 20.",,
+ADTR,CRIT2,Analysis Criterion 2,Char,30,$30.,CRIT1TR,Assigned,"Set to ""20% increase in SoD from Nadir"" on records where CRIT2FL = 'Y'",,
+ADTR,CRIT3FL,Criterion 3 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Flags Sum of Diameters records that show a >=30% decrease in SoD relative to baseline, indicating a partial response of target lesions. Only considers scans prior to first PD and prior to subsequent anti-cancer treatment.
+
+Set to ""Y"" on records where (PARAMCD = 'SUMDIV'   or (PARAMCD = 'SUMDIR' and ACEPTFL='Y') ) and PSBLFL = 'Y' and  non-missing PCHG <= -30 and PREPDFL = 'Y' and PREACTFL = 'Y'.",,
+ADTR,CRIT3,Analysis Criterion 3,Char,50,$50.,CRIT1TR,Assigned,"Set to ""30% decrease in SoD from Baseline"" on records where CRIT3FL = 'Y'",,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,

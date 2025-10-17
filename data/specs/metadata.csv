@@ -1,0 +1,40 @@
+﻿"Dataset 
+Name",Data Set Label,Class of Dataset,Data Set Structure:,Key Variables of Dataset,Source Data Sets,Comments for Developer + Selection Criteria,XL comments
+ADSL,Subject-Level Analysis Dataset,SUBJECT LEVEL ANALYSIS DATASET,One record per subject.,"STUDYID, USUBJID","SDTM: AE, CD, CM, DM, DS, EX, IE, PR, QS, SS, SU, SV, VS",Include all subjects in DM domain.,
+ADCM,Concomitant Medication Analysis Dataset,OCCURRENCE DATA STRUCTURE,"One record per subject, per medication category, per regimen number, per medication start date, per medication end date, per medication reported term","STUDYID, USUBJID, CMCAT, CMSTDTC, CMENDTC, CMTRT, CMSEQ","SDTM: CM
+ADaM: ADSL",Include all records in CM domain.,"ML 3/31/2023: Currently we don't have CMRGMNUM key variable in ADCM. APREGNUM was recently added to CRF to ""History of anti-cancer therapy"" page. We will update ODS specs to include APREGNUM in HTCDBL. Once HTCDBL is updated, I will inform Allucent to update SDTM.CD.
+
+MS 4/12/2023: Removed"
+ADPR,Procedures Analysis Dataset,OCCURRENCE DATA STRUCTURE,"One record per subject, per procedure category, per procedure start date, per reported term","STUDYID, USUBJID, PRCAT, PRSTDTC, PRENDTC, PRTRT, PRLOC","SDTM: PR
+ADaM: ADSL",Include all records in PR domain.,
+ADEX,Exposure Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per study drug administration","STUDYID, USUBJID, ECTRT, PARAMCD, ASTDT, ASTTM, AENDT, AENTM","SDTM: EC
+ADaM: ADSL",,
+ADEXSUM,Exposure Summary Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter","STUDYID, USUBJID, PARAMN","ADaM: ADSL, ADEX",Only include records with AVAL>0,
+ADAE,Adverse Events Analysis Dataset,OCCURRENCE DATA STRUCTURE,"One record per subject, per adverse event, per start date, per end date","STUDYID, USUBJID, AEDECOD, AETERM, ASTDT, AENDT","SDTM: AE
+ADaM: ADSL",Only include subjects where ADSL.SAFFL = 'Y',
+ADAETTE,AE Time to Event Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter","STUDYID, USUBJID, PARAMN","ADaM: ADSL, ADAE, ADAESI",Only includes subjects where ADSL.SAFFL = 'Y',
+ADAESI,AEs of Special Interest Analysis Dataset,OCCURRENCE DATA STRUCTURE,"One record per subject, per AESI group term, per adverse event, per start date, per end date.","STUDYID, USUBJID, CQ01NAM,  ASTDT, AENDT, AEDECOD, AETERM","ADaM: ADAE
+Other: AESI look-up datasets provided by sponsor",Includes all records in ADAE which are present in the sponsor-provided AESI look-up datasets among subjects where SAFFL = 'Y'.,
+ADLB,Laboratory Results Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per assessment date, per assessment time, per visit","STUDYID, USUBJID, PARAMN, ADT, ATM, AVISITN","SDTM: LB
+ADaM: ADSL",Only include subjects where ADSL.SAFFL = 'Y'; Do not include records where LBSTAT = 'NOT DONE',
+ADBASE,Baseline Char. Analysis Dataset,BASIC DATA STRUCTURE,One record per subject per parameter.,"STUDYID, USUBJID, PARAMN","SDTM: (none)
+ADaM: ADSL, ADCM",Only includes subjects where ADSL.SAFFL = 'Y',
+ADTR,Tumor Assessment Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per occurrence of event","STUDYID, USUBJID, PARAMN, ADT, AVISITN, TRLNKID, TRLOC, TRLOCDTL","SDTM: TR
+ADaM: ADSL",Only includes subjects where ADSL.SAFFL = 'Y',
+ADRS,Tumor Response Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per occurrence of event","STUDYID, USUBJID, PARAMN, ADT, AVISITN, RSLNKID","SDTM: RS
+ADaM: ADSL",Only includes subjects where ADSL.SAFFL = 'Y'; Omits records from RS domain where RSTESTCD = 'ECOG101',
+ADEFFSUM,Efficacy Summary Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter","STUDYID, USUBJID, PARAMN","ADaM: ADSL, ADRS, ADTR",Only includes subjects where ADSL.SAFFL = 'Y',
+ADEFFINT,Intermediate Efficacy Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per occurrence of event","STUDYID, USUBJID, PARAMN, ADT","ADaM: ADSL, ADEFFSUM, ADPR",Only includes subjects where ADSL.SAFFL = 'Y',
+ADTTE,Time to Event Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter","STUDYID, USUBJID, PARAMN","ADaM: ADSL, ADEFFINT",Only includes subjects where ADSL.SAFFL = 'Y',
+ADPC,Plasma Concentration Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per analysis timepoint","USUBJID, PARAM, AVISIT, ADT, ATM, PCREFID","ADaM: ADSL
+SDTM: PC, EX",,
+ADPDEV,Protocol Deviations Analysis Dataset,OCCURRENCE DATA STRUCTURE,"One record per subject, per deviation occurrence","STUDYID, USUBJID, DVSTDTC, DVDECOD, DVTERM, IETESTCD","SDTM: DV, IE
+ADaM: ADSL",Include all records in DV domain.,
+ADVS,Vital Signs Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per assessment date, per assessment time, per visit","STUDYID, USUBJID, PARAMN, ADT, ATM, AVISITN","SDTM: VS
+ADaM: ADSL",Only include subjects where ADSL.SAFFL = 'Y'; Do not include records where VSSTAT = 'NOT DONE',
+ADEG,ECG Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per assessment date, per assessment time, per visit","STUDYID, USUBJID, PARAM, ADT, ATM, AVISITN, ATPTN, EGREPNUM","SDTM: EG
+ADaM: ADSL",Only include subjects where ADSL.SAFFL = 'Y'; Do not include records where EGSTAT = 'NOT DONE',
+ADIS,Immunogenicity Specimen Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per analysis timepoint","USUBJID, PARAM, AVISIT, ADT, ATM","ADaM: ADSL
+SDTM: IS","Do not include records where ISBDAGNT in ('Ipilimumab', 'Relatlimab').",
+ADKPS,Karnofsky Perf. Status Analysis Dataset,BASIC DATA STRUCTURE,"One record per subject, per parameter, per analysis timepoint","USUBJID, PARAMN, ADT, AVISITN","ADaM: ADSL
+SDTM: QS","Only include subjects where ADSL.SAFFL = 'Y'; Do not include records where QSSTAT = ""NOT DONE""",

@@ -1,0 +1,60 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADLB,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADLB,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,ML 2/11/25: We don't need to include binding agent (ISBDAGNT) records with Ipi or Rela. You can remove them as these are not in scope for PK analysis.
+ADIS,SRCDOM,Source Data,Char,8,$8.,,Predecessor,IS.DOMAIN,,
+ADIS,SRCVAR,Source Variable,Char,8,$8.,,Assigned,"Set to ""ISSTRESN""",,
+ADIS,SRCSEQ,Source Sequence Number,Num,8,best20.,,Predecessor,IS.ISSEQ,,
+ADIS,ISREFID,Reference ID,Char,50,$50.,,Predecessor,IS.ISREFID,,
+ADIS,ISNAM,Vendor Name,Char,50,$50.,,Predecessor,IS.ISNAM,,
+ADIS,ISTEST,Immunogenicity Test or Examination Name,Char,40,$40.,,Predecessor,IS.ISTEST,,
+ADIS,ISTESTCD,Immunogenicity Test/Exam Short Name,Char,8,$8.,,Predecessor,IS.ISTESTCD,,
+ADIS,ISREASND,Reason Not Done,Char,200,$200.,,Predecessor,IS.ISREASND,,
+ADIS,ISSPEC,Specimen Type,Char,200,$200.,,Predecessor,IS.ISSPEC,,
+ADIS,ISSPCCND,Specimen Condition,Char,200,$200.,,Predecessor,IS.ISSPCCND,,
+ADIS,ISMETHOD,Method of Test or Examination,Char,200,$200.,,Predecessor,IS.ISMETHOD,,
+ADIS,ISLLOQ,Lower Limit of Quantitation,Num,8,best20.,,Predecessor,IS.ISLLOQ,,
+ADIS,ISORRES,Result or Findings in Original Units,Char,200,$200.,,Predecessor,IS.ISORRES,,
+ADIS,ISORRESU,Original Units,Char,200,$200.,UNIT,Predecessor,IS.ISORRESU,,
+ADIS,ISSTRESC,Character Result/Finding in Std Format,Char ,$200.,$200.,,Predecessor,IS.ISSTRESC,,
+ADIS,ISSTRESN,Numeric Results/Findings in Std. Units,Num ,8,best20.,,Predecessor,IS.ISSTRESN,,
+ADIS,ISSTRESU,Standard Units,Char ,200,$200.,UNIT,Predecessor,IS.ISSTRESU,,
+ADIS,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,IS.VISITNUM,,
+ADIS,VISIT,Visit Name,Char,100,$100.,,Predecessor,IS.VISIT,,
+ADIS,AVISIT,Analysis Visit,Char,100,$100.,AVISC,Assigned,Set to propcase(IS.VISIT),,
+ADIS,AVISITN,Analysis Visit (N),Num,8,best20.,,Predecessor,IS.VISITNUM,,
+ADIS,ISDTC,Date/Time of Collection,Char ,50,$50.,ISO 8601,Predecessor,IS.ISDTC,,
+ADIS,ISDY,Study Day of Visit/Collection/Exam,Num ,8,best20.,,Predecessor,IS.ISDY,,
+ADIS,ISBDAGNT,Binding Agent,Char ,17,$17.,,,IS.ISBDAGNT,,
+ADIS,ISTSTOPO,Test Operational Objective,Char,200,$200.,,Predecessor,IS.ISTSTOPO,,
+ADIS,PARAM,Parameter ,Char,50,$50.,ISPARM                                                         ,ISPARM                                                         ,"Set to IS.ISTEST ||' (' || IS.ISTSTOPO||')'; see codelist (BINDING ANTIDRUG ANTIBODY (SCREEN), BINDING ANTIDRUG ANTIBODY (CONFIRM), BINDING ANTIDRUG ANTIBODY (TITER))
+
+For secondary derived parameters see VLM","VLM (screen - visitnum=101, confirm - visitnum >101, titer - isorresu = titer)",
+ADIS,PARAMCD,Parameter Code,Char,8,$8.,ISPARMCD,ISPARMCD,"IS.ISTESTCD concatenated with first character of IS.ISTSTOPO; see codelist (ADA_BABS, ADA_BABC, ADA_BABT)
+
+For secondary derived parameters see VLM",VLM,
+ADIS,AVAL,Analysis Value,Num,8,best20.,,,"If IS.ISSTRESC = '<LLQ' then set to LLQ,
+else set to IS.ISSTRESN",VLM,
+ADIS,AVALC,Analysis Value (C),Char,31,$31.,,,"Set to IS.ISSTRESC
+
+For secondary derived parameters see VLM",VLM,
+ADIS,ABLFL,Baseline Record Flag,Char,1,$1.,,,"Set to Y for the last record where (AVAL or AVALC ne missing) and  . < ADIS.ADT <= ADSL.TRTSDT, within the by grouping of USUBJID PARAMCD
+Note: If ADIS.ADTM is non-missing and ADSL.TRTSDTM is non-missing then take the time parts into account for baseline as well (i.e., if .<ADIS.ADTM<=ADSL.TRTSDTM)
+If multiple records exist with the same date/time choose ADIS.PARAMCD =ADA_BABT first, then ADA_BABC, and lastly ADA_BABS",EG 3/5: Updated with record heirarchy when same date and time.,
+ADIS,PSBLFL,Post-Baseline Analysis Flag,Char,1,$1.,,,"If . < ADSL.TRTSDT < ADIS.ADT, then set PSBLFL = Y
+
+Note: if ADSL.TRTSDTM^=. and ADIS.ADTM^=. then consider if .<ADSL.TRTSDTM<ADIS.ADTM.",,
+ADIS,ADT,Analysis Date,Num,8,date9.,,,Date part of IS.ISDTC,,
+ADIS,ATM,Analysis Time,Num,8,Time5.,,,Time part of IS.ISDTC,,
+ADIS,ADTM,Analysis Datetime,Num,8,Datetime20.,,,Numeric version of IS.ISDTC  Note: only create ADTM when both date and time present.,,
+ADIS,ADY,Analysis Relative Day,Num,8,best20.,,,"ADT- ADSL.TRTSDT +1 if ADT>=TRTSDT
+ADT- ADSL.TRTSDT if ADT < ADSL.TRTSDT",,
+ADIS,BASE,Baseline Value,Num,8,best20.,,,AVAL where ABLFL=Y,,
+ADIS,CHG,Change from Baseline,Num,8,best20.,,,"AVAL - BASE
+Should be missing for records where PSBLFL is missing or AVAL is missing or BASE is missing",,
+ADIS,ANL01FL,Analysis Flag 01 (Unique Obs per Visit),Char,1,$1.,,,"Consider records where PSBLFL = ""Y"". Group the records by USUBJID, IS.ISTESTCD, and AVISITN. Assign ""Y"" based on the following heirarchy of IS.ISTSTOPO per USUBJID, ISTESTCD, and AVISITN:
+1 - QUANTIFY
+2 - CONFIRM
+3 - SCREEN
+Set to 'Y' on last record per USUBJID PARAMCD AVISITN where PSBLFL='Y' when sorting by USUBJID PARAMCD AVISITN ADTM",EG 3/7: Updated,
+ADIS,ANL02FL,Analysis Flag 02 (Last Post-BL Obs),Char,1,$1.,,,"Set to 'Y' on last record per USUBJID PARAMCD where PSBLFL='Y' and ANL01FL = ""Y"" when sorting by USUBJID PARAMCD ISTESTCD ADTM. If there is more than one record per ADTM, use the heirarchy described in ANL01FL.",EG 3/7: Updated,

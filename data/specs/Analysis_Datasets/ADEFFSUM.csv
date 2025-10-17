@@ -1,0 +1,35 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments
+ADEFFSUM,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,
+ADEFFSUM,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,
+ADEFFSUM,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,
+ADEFFSUM,SRCDOM,Source Data,Char,8,$8.,SRCDEFFS,Assigned,See VLM for details.,,
+ADEFFSUM,SRCVAR,Source Variable,Char,8,$8.,SRCVEFFS,Assigned,See VLM for details.,,
+ADEFFSUM,SRCSEQ,Source Sequence Number,Num,8,best20.,,Predecessor,See VLM for details.,,
+ADEFFSUM,PARCAT1,Parameter Category 1,Char,12,$12.,,Assigned,"For PARAMCD ending in sufix ""IVR"" or ""IVR' followed by a numeric, set to ""RECIST 1.1"".",,
+ADEFFSUM,PARCAT2,Parameter Category 2,Char,20,$20.,,Assigned,"For PARAMCD ending in sufix ""IVR"" or ""IVR' followed by a numeric, set to ""INVESTIGATOR"".",,
+ADEFFSUM,PARAMN,Parameter (N),Num,8,best20.,PAREFS_N,Assigned,"Assigned based on PARAMCD, as per the codelist",,
+ADEFFSUM,PARAMCD,Parameter Code,Char,8,$8.,PAREFS,Assigned,Assign as per VLM.,,
+ADEFFSUM,PARAM,Parameter,Char,100,$100.,PAREFS_C,Assigned,"Assigned as the decoded version of PARAMCD, as per the codelist",,
+ADEFFSUM,AVISITN,Analysis Visit (N),Num,8,best20.,,Assigned,"Set to VISITNUM from the record used to populate AVAL, select AVISIT.",,
+ADEFFSUM,AVISIT,Analysis Visit,Char,75,$75.,,Assigned,See VLM for details.,,
+ADEFFSUM,ADT,Analysis Date,Num,8,date9.,,Derived,See VLM for details.,,
+ADEFFSUM,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"Where ADSL.STAGE=EXPANSION:
+If ADT < ADSL.RANDDT then calculated as (ADT - RANDDT). 
+If ADT >= ADSL.RANDDT then calculated as (ADT - RANDDT + 1).
+Null if ADSL.RANDDT is null.
+
+Where ADSL.STAGE=ESCALATION:
+If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,ML 12/12/24: For Escalation subjects use TRTSDT and for Expansion subjects which are randomized use RANDDT. This update should be made across all efficacy ADaMs.
+ADEFFSUM,AVALC,Analysis Value (C),Char,200,$200.,,Derived,See VLM for details.,,
+ADEFFSUM,AVAL,Analysis Value,Num,8,best20.,,Derived,See VLM for details.,,
+ADEFFSUM,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Set to 'Y' if the record indicates an objective response.
+Set to 'Y' if PARAMCD = 'CBORIVR' and AVALC in ('Confirmed CR', 'Confirmed PR')",,
+ADEFFSUM,CRIT1,Analysis Criterion 1,Char,30,$30.,CRIT1ES,Assigned,"Set to ""Objective Response"" if CRIT1FL = 'Y'.",,
+ADEFFSUM,CRIT2FL,Criterion 2 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Set to 'Y' if the record indicates a BOR that is considered ""Disease Control"".
+Set to 'Y' if PARAMCD = 'CBORIVR' and AVALC in ('Confirmed CR', 'Confirmed PR', 'SD', ""NON-CR/NON-PD"")",,
+ADEFFSUM,CRIT2,Analysis Criterion 2,Char,30,$30.,CRIT2ES,Assigned,"Set to ""Disease Control"" if CRIT2FL = 'Y'.",,
+ADEFFSUM,UCRFL,Unconfirmed CR Flag,Char,1,$1.,Y,Derived,Populated where PARAMCD = 'CBORIVR'. Set to ADRS.UCRFL from the record selected as the Best Overall Response record.,,
+ADEFFSUM,UPRFL,Unconfirmed PR Flag,Char,1,$1.,Y,Derived,Populated where PARAMCD = 'CBORIVR'. Set to ADRS.UPRFL from the record selected as the Best Overall Response record.,,

@@ -1,0 +1,98 @@
+﻿Data Set,Variable,Label,Type,Length,Format,Codelist Name,Origin,Derivation / Comments / Predecessor,Notes,XL Comments,
+ADRS,STUDYID,Study Identifier,Char,20,$20.,,Predecessor,ADSL.STUDYID,,,
+ADRS,USUBJID,Unique Subject Identifier,Char,16,$16.,,Predecessor,ADSL.USUBJID,,,
+,ADSL_CORE,ADSL core variables are carried through all ADaM Datasets. See Core Variable column on the ADSL specs for variables kept on all ADaM datasets,,,,,,,,,
+ADRS,ASEQ,Analysis Sequence Number,Num,8,best20.,,Derived,"After sorting dataset by the KEYS, set to 1 for the first record per subject, then incremented by 1 for each subsequent record.",,,
+ADRS,RSSEQ,Sequence Number,Num,8,best20.,,Predecessor,RS.RSSEQ,,,
+ADRS,RSCAT,Category,Char,10,$10.,,Predecessor,RS.RSCAT,,,
+ADRS,RSTESTCD,Lab Test or Examination Short Name,Char,8,$8.,,Predecessor,RS.RSTESTCD,,,
+ADRS,RSTEST,Tumor/Lesion Assessment Test Name,Char,50,$50.,,Predecessor,RS.RSTEST,,,
+ADRS,RSLNKID,Link ID,Char,10,$10.,,Predecessor,RS.RSLNKID,,,
+ADRS,RSSTRESC,Character Result/Finding in Std Format,Char,200,$200.,,Predecessor,RS.RSSTRESC,,,
+ADRS,RSSTAT,Completion Status,Char,8,$8.,,Predecessor,RS.RSSTAT,,,
+ADRS,PDLOC,Organ with Progressed Lesion(S),Char,200,$200.,,Predecessor,SUPPRS.QVAL where QNAM='PDLOC',,,
+ADRS,VISITNUM,Visit Number,Num,8,best20.,,Predecessor,RS.VISITNUM,,,
+ADRS,VISIT,Visit Name,Char,75,$75.,,Predecessor,RS.VISIT,,,
+ADRS,RSDTC,Date/Time of Tumor/Lesion Measurement,Char,10,$10.,,Predecessor,RS.RSDTC,,,
+ADRS,RSDY,Study Day of Tumor/Lesion Measurement,Num,8,best20.,,Predecessor,RS.RSDY,,,
+ADRS,RSEVAL,Evaluator,Char,50,$50.,,Predecessor,RS.RSEVAL,,,
+ADRS,PARCAT1,Parameter Category 1,Char,12,$12.,TUP1CAT,Predecessor,Set to RS.RSCAT.,,,
+ADRS,PARCAT2,Parameter Category 2,Char,50,$50.,TEVAL,Predecessor,Set to RS.TREVAL.,,,
+ADRS,PARAMN,Parameter (N),Num,8,best20.,PARRS_N,Assigned,"Assigned based on PARAMCD, as per the codelist",,,
+ADRS,PARAMCD,Parameter Code,Char,8,$8.,PARRS,Assigned,Assign as per VLM.,,,
+ADRS,PARAM,Parameter,Char,100,$100.,PARRS_C,Assigned,"Assigned as the decoded version of PARAMCD, as per the codelist",,,
+ADRS,AVISITN,Analysis Visit (N),Num,8,best20.,,Predecessor,Equivalent to RS.VISITNUM.,,,
+ADRS,AVISIT,Analysis Visit,Char,75,$75.,,Assigned,Set to RS.VISIT in proper-case.,,,
+ADRS,ADT,Analysis Date,Num,8,date9.,,Derived,"Within a given PARAMCD and VISIT, the chronologically earliest RSDTC is identified. ADT is set to the numeric form of that earliest RSDTC, as a SAS numeric date.",,,
+ADRS,ADY,Analysis Relative Day,Num,8,best20.,,Derived,"Where ADSL.STAGE=EXPANSION:
+If ADT < ADSL.RANDDT then calculated as (ADT - RANDDT). 
+If ADT >= ADSL.RANDDT then calculated as (ADT - RANDDT + 1).
+Null if ADSL.RANDDT is null.
+
+Where ADSL.STAGE=ESCALATION:
+If ADT < ADSL.TRTSDT then calculated as (ADT - TRTSDT). 
+If ADT >= ADSL.TRTSDT then calculated as (ADT - TRTSDT + 1).
+Null if ADSL.TRTSDT is null.",,,
+ADRS,AVALC,Analysis Value (C),Char,200,$200.,,Assigned,See VLM for details.,,,
+ADRS,PREPDFL,On or Prior to 1st PD Flag,Char,1,$1.,,Derived,"Populated on records with RSEVAL = 'INVESTIGATOR' and RSCAT='RECIST 1.1' 
+Set to ""Y"" if ADT <= ADSL.INVPDDT or INVPDDT is missing.
+
+Populated on records with RSEVAL = 'INVESTIGATOR' and RSCAT='PCWG3' 
+Set to ""Y"" if ADT <= ADSL.PCIVPDDT or PCIVPDDT is missing.
+
+Populated on records with RSEVAL = 'INDEPENDENT ASSESSOR' and RSCAT='RECIST 1.1' and ACEPTFL='Y'
+Set to ""Y"" if ADT <= ADSL.BIRCPDDT or BIRCPDDT is missing.
+
+Populated on records with RSEVAL = 'INDEPENDENT ASSESSOR' and RSCAT='PCWG3' and ACEPTFL='Y'
+Set to ""Y"" if ADT <= ADSL.PCWGPDDT or PCWGPDDT is missing.",,,
+ADRS,PREACTFL,Prior to 1st Anti-Cancer Therapy Flag,Char,1,$1.,Y,Derived,"Populated on records with RSEVAL = 'INVESTIGATOR' or (RSEVAL = 'INDEPENDENT ASSESSOR' and ACEPTFL='Y')
+Set to 'Y' if ADT <=ADSL.FSBACTDT or FSBACTDT is missing",,,
+ADRS,ACEPTFL,Accepted Record Flag Imputed,Char,1,$1.,Y,Derived,"Only populate for records where RSEVAL=INDEPENDENT ASSESSOR
+Set to RS.RSACPTFL
+
+If a subject is missing RS.RSACPTFL for both RSEVALID='READER 1' and 'READER 2' records within the same visit and RSCAT then set ACEPTFL=Y for RSEVALID='READER 1' record.                                                                            ",,,
+ADRS,CONFCRFL,Confirmed CR Flag,Char,1,$1.,Y,Derived,"Overall responses of CR must be confirmed by an assessment at least 28 days later. CONFCRFL flags overall response records of CR  (where (PARAMCD = 'OVRLRIVR' or ( PARAMCD='OVRLRBI' and ACEPTFL='Y') ) and AVALC = ""CR"") which are subsequently confirmed. Only records that occur prior to subsequent anti-cancer therapy (where PREACTFL = 'Y' ), prior to first PD (where PREPDFL = 'Y')  and on/prior to data cut-off date (ADT <= CUTDT) are considered.
+
+CONFCRFL is set to 'Y' on the earliest record with AVALC  = 'CR' which also has a later overall response record with AVALC = 'CR' and ADT from the later response is at least 28 days after the first response ({2nd ADT - 1st ADT} >= 28).
+
+Note: the second CR record may occur after other intervening responses. Intervening OVRLRIVR records may have AVALC in ('NE', 'CR').
+
+Alert DM if an intervening record has AVALC in ('PR', 'SD', 'NON-CR/NON-PD').
+Note: Per Eisenhauer et al. ""If a CR is truly met at first time point, then any disease seen at a subsequent time point, even disease meeting PR criteria relative to baseline, makes the disease PD at that point (since disease must have reappeared after CR). However, sometimes ‘CR’ may be claimed when subsequent scans suggest small lesions were likely still present and in fact the patient had PR, not CR at the first time point. Under these circumstances, the original CR should be changed to PR.""",,,
+ADRS,CONFPRFL,Confirmed PR Flag,Char,1,$1.,Y,Derived,"Overall responses of PR must be confirmed by an assessment at least 28 days later. CONFPRFL flags overall response records of PR  (where (PARAMCD = 'OVRLRIVR'  or ( PARAMCD='OVRLRBI' and ACEPTFL='Y'))  and AVALC = ""PR"") which are subsequently confirmed. Only records that occur prior to subsequent anti-cancer therapy (where PREACTFL = 'Y' ), prior to first PD (where PREPDFL = 'Y'), and on/prior to analysis cut date (ADRS.ADT <= ADSL.CUTDT) are considered.
+
+CONFPRFL is set to 'Y' on the earliest record with AVALC  = 'PR' which also has a later overall response record with AVALC in ('CR', 'PR') and ADT from the later response is at least 28 days after the first response ({2nd ADT - 1st ADT} >= 28).
+
+Note: the second confirmatory record may occur after other intervening responses. Intervening OVRLRIVR records may have AVALC in ('NE', 'PR', 'CR').
+
+Alert DM if an intervening record has AVALC = 'PD'  as it should not be possible to observe a subsequent PR or CR after a PD.",,,
+ADRS,UCRFL,Unconfirmed CR Flag,Char,1,$1.,Y,Derived,"Flags overall response records with a response of CR (where (PARAMCD = 'OVRLRIVR'  or ( PARAMCD='OVRLRBI' and ACEPTFL='Y'))  and AVALC = ""CR"") that are not later confirmed (CONFCRFL = null on all records) and occur prior to subsequent anti-cancer therapy (where PREACTFL = 'Y' ),  prior to first PD (where PREPDFL = 'Y'), and on/prior to analysis cut date (ADRS.ADT <= ADSL.CUTDT).",,,
+ADRS,UPRFL,Unconfirmed PR Flag,Char,1,$1.,Y,Derived,"Flags overall response records with a response of PR (where (PARAMCD = 'OVRLRIVR'  or ( PARAMCD='OVRLRBI' and ACEPTFL='Y'))  and AVALC = ""PR"") that are not later confirmed (CONFPRFL = null on all records) and occur prior to subsequent anti-cancer therapy (where PREACTFL = 'Y' ), prior to first PD (where PREPDFL = 'Y'), and on/prior to analysis cut date (ADRS.ADT <= ADSL.CUTDT).",,,
+ADRS,SDDYFL,SD At Least 49 Days After Randomization,Char,1,$1.,Y,Derived,"Flags overall response records that are otherwise considered as ""SD"" (where (PARAMCD = 'OVRLRIVR'  or ( PARAMCD='OVRLRBI' and ACEPTFL='Y'))  and AVALC in ('NON-CR/NON-PD', 'SD', 'PR', 'CR') and CONFPRFL = '' and CONFCRFL = '') that occur prior to subsequent anti-cancer therapy (where PREACTFL = 'Y' ), prior to first PD (where PREPDFL = 'Y'), and occur at least 49 days after randomization ( (ADT-RANDDT) >=49)",,,
+ADRS,PVATADT,Previous Tumor Assessment Date,Num,8.,date9.,,Derived,"On Overall Response Records (where PARAMCD in ('OVRLRIVR' 'OVRLRBI' 'OVRLRPC')), populated with the date of the chronologically previous adequate tumor assessment (ATA)
+Only check for the same type of assessment: 
+RSCAT=""RECIST 1.1"" and RSEVAL=""INVESTIGATOR"".
+RSCAT=""PCWG3"" and RSEVAL=""INVESTIGATOR"".
+RSCAT=""RECIST 1.1"" and RSEVAL=""INDEPENDENT ASSESSOR""  and ACEPTFL='Y'
+RSCAT=""PCWG3"" and RSEVAL=""INDEPENDENT ASSESSOR""  and ACEPTFL='Y'
+Set to ADT from the previous record (by ADT) within the PARAMCD where AVALC not missing or ""NE"". Do not populate if missing ADT.
+If no previous ATA, set to date of randomization (ADSL.RANDDT).",,,
+ADRS,ATADIFDY,Days Since Previous ATA,Num,8,best20.,,Derived,ADT-PVATADT,,,
+ADRS,CRIT1,Analysis Criterion 1,Char,94,$94.,CRITRS1,Assigned,"Populated only when CRIT1FL = 'Y'.
+
+Set to ""Two or more missing adequate tumor assessments immediately prior to this scan.""",,,
+ADRS,CRIT1FL,Criterion 1 Evaluation Result Flag,Char,1,$1.,Y,Derived,"Flags records, if the scan occurred after two or more adequate tumor assessments were missed. Only check for the same type of assessment: 
+RSCAT=""RECIST 1.1"" and RSEVAL=""INVESTIGATOR"".
+RSCAT=""PCWG3"" and RSEVAL=""INVESTIGATOR"".
+RSCAT=""RECIST 1.1"" and RSEVAL=""INDEPENDENT ASSESSOR"" and ACEPTFL='y'
+RSCAT=""PCWG3"" and RSEVAL=""INDEPENDENT ASSESSOR"" and ACEPTFL='y'
+
+Tumor assessments are every 9 weeks (+/- 5 days) through Week 54, then every 12 weeks thereafter.
+If ADY <= 392, then set to 'Y' if ATADIFDY > 122
+If 392 < ADY <= 483, then set to 'Y' if ATADIFDY > 152
+If ADY > 483, then set to 'Y' if ATADIFDY > 182",,,
+,,,,,,,,,,"XW 2/14/2025: There are reader 1 and reader 2 data in BIRC datasets. Create a imputed acceptance flag, if the acceptance flag is non-missing in BIRC, choose the same value as in acceptance flag; if the acceptance is missing, choose reader 1's data. The imputed flag can be added to either ADSL or this dataset.",
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
+,,,,,,,,,,,
