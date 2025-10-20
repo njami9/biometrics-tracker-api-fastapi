@@ -98,6 +98,17 @@ class PersonnelOut(PersonnelBase):
     class Config:
         from_attributes = True  
 
+# --- Specifications ---
+class SpecTableOut(BaseModel):
+    table_name: str
+    kind: str
+    source_path: str
+    last_loaded_utc: str
+
+class SpecDatasetOut(BaseModel):
+    dataset_name: str
+    display_label: str
+
 
 # --- TOC (read-only list output) ---
 class TOCItemOut(BaseModel):

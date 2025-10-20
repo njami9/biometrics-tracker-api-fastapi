@@ -84,7 +84,7 @@ class QCComment(Base):
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
     )
     
-
+# --- Personnel ---
 class Personnel(Base):
     __tablename__ = "personnel"
 
@@ -93,6 +93,19 @@ class Personnel(Base):
     preferred_name: Mapped[Optional[str]] = mapped_column(String, index=True)
     full_name: Mapped[Optional[str]] = mapped_column(String, index=True)
     status: Mapped[Optional[str]] = mapped_column(String, index=True)
+
+# --- Specifications ---
+class SpecTable(Base):
+    __tablename__ = "spec_tables"
+    table_name: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    kind: Mapped[str] = mapped_column(String)
+    source_path: Mapped[str] = mapped_column(String)
+    last_loaded_utc: Mapped[str] = mapped_column(String)
+
+class SpecDataset(Base):
+    __tablename__ = "spec_datasets"
+    dataset_name: Mapped[str] = mapped_column(String, primary_key=True, index=True)
+    display_label: Mapped[str] = mapped_column(String, nullable=False)
 
 
 # ---- TOC Items (shared model for tables/figures/listings) ----
