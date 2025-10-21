@@ -107,6 +107,16 @@ class SpecDataset(Base):
     dataset_name: Mapped[str] = mapped_column(String, primary_key=True, index=True)
     display_label: Mapped[str] = mapped_column(String, nullable=False)
 
+class Metadata(Base):
+    __tablename__ = "metadata"
+    dataset_name: Mapped[str] = mapped_column(String(255), primary_key=True, index=True)
+    data_set_label: Mapped[str] = mapped_column(String(255))
+    class_of_dataset: Mapped[str] = mapped_column(String(255))
+    data_set_structure: Mapped[str] = mapped_column(String(255))
+    key_variables_of_dataset: Mapped[str] = mapped_column(String(255))
+    source_data_sets: Mapped[str] = mapped_column(String(255))
+    comments_for_developer_selection_criteria: Mapped[str] = mapped_column(String(255))
+    xl_comments: Mapped[str] = mapped_column(String(255))
 
 # ---- TOC Items (shared model for tables/figures/listings) ----
 class TOCItem(Base):

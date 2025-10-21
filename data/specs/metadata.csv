@@ -1,5 +1,4 @@
-﻿"Dataset 
-Name",Data Set Label,Class of Dataset,Data Set Structure:,Key Variables of Dataset,Source Data Sets,Comments for Developer + Selection Criteria,XL comments
+﻿"Dataset Name",Data Set Label,Class of Dataset,Data Set Structure:,Key Variables of Dataset,Source Data Sets,Comments for Developer + Selection Criteria,XL comments
 ADSL,Subject-Level Analysis Dataset,SUBJECT LEVEL ANALYSIS DATASET,One record per subject.,"STUDYID, USUBJID","SDTM: AE, CD, CM, DM, DS, EX, IE, PR, QS, SS, SU, SV, VS",Include all subjects in DM domain.,
 ADCM,Concomitant Medication Analysis Dataset,OCCURRENCE DATA STRUCTURE,"One record per subject, per medication category, per regimen number, per medication start date, per medication end date, per medication reported term","STUDYID, USUBJID, CMCAT, CMSTDTC, CMENDTC, CMTRT, CMSEQ","SDTM: CM
 ADaM: ADSL",Include all records in CM domain.,"ML 3/31/2023: Currently we don't have CMRGMNUM key variable in ADCM. APREGNUM was recently added to CRF to ""History of anti-cancer therapy"" page. We will update ODS specs to include APREGNUM in HTCDBL. Once HTCDBL is updated, I will inform Allucent to update SDTM.CD.

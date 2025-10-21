@@ -109,6 +109,16 @@ class SpecDatasetOut(BaseModel):
     dataset_name: str
     display_label: str
 
+class MetadataOut(BaseModel):
+    dataset_name: Optional[str]
+    data_set_label: Optional[str]
+    class_of_dataset: Optional[str]
+    data_set_structure: Optional[str]
+    key_variables_of_dataset: Optional[str]
+    source_data_sets: Optional[str]
+    comments_for_developer_selection_criteria: Optional[str]
+    xl_comments: Optional[str]
+
 
 # --- TOC (read-only list output) ---
 class TOCItemOut(BaseModel):
