@@ -24,7 +24,7 @@ def get_spec_table_rows(table: str):
     import pandas as pd
     import os
 
-    db_path = f"data/specs/Analysis Datasets/{table}.csv"
+    db_path = f"data/specs/Analysis_Datasets/{table}.csv"
     cross_path = f"data/specs/{table}.csv"
 
     if os.path.exists(db_path):
@@ -44,7 +44,7 @@ def get_spec_datasets(db: Session = Depends(get_db)):
 @router.get("/specs/datasets/{dataset}", tags=["specs"])
 def get_dataset_rows(dataset: str):
     import pandas as pd
-    path = f"data/specs/Analysis Datasets/{dataset}.csv"
+    path = f"data/specs/Analysis_Datasets/{dataset}.csv"
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="Dataset not found")
     df = pd.read_csv(path)
@@ -53,7 +53,7 @@ def get_dataset_rows(dataset: str):
 @router.get("/specs/datasets/{dataset}/variables", tags=["specs"])
 def get_dataset_variables(dataset: str):
     import pandas as pd
-    path = "data/specs/variable_metadata.csv"
+    path = "data/specs/metadata.csv"
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="Metadata not found")
     df = pd.read_csv(path)
