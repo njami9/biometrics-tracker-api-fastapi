@@ -41,7 +41,7 @@ def get_dataset_rows(dataset: str, db: Session = Depends(get_db)):
 def get_dataset_variables(dataset: str, db: Session = Depends(get_db)):
     stmt = select(Metadata).where(Metadata.dataset_name == dataset)
     return [row._mapping for row in db.execute(stmt).all()]
-
+'''
 # GET /v1/specs/{table} — returns rows from a whitelisted table
 @router.get("/specs/{table}")
 def get_table_rows(
@@ -59,3 +59,27 @@ def get_table_rows(
         return [dict(row._mapping) for row in db.execute(stmt).all()]
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error loading table '{table}': {str(e)}")
+'''
+# GET /v1/specs/{table} — returns rows from a whitelisted table
+@router.get("/specs/{table}")
+def get_table_rows(
+    table: str,
+    q: Optional[str] = Query(default=None, description="Search across text columns"),
+    db: Session = Depends(get_db),
+):
+    # Validate table exists in spec_tables
+    allowed = db.execute(select(SpecTable.table_name)).scalars().all()
+    if table not in allowed:
+        raise HTTPException(status_code=404, detail="Table not whitelisted")
+
+    # Reflect table dynamically
+    metadata_obj = MetaData()
+    target_table = Table(table, metadata_obj, autoload_with=db.bind)
+
+    stmt = select(target_table)
+    if q:
+        text_cols = [c for c in target_table.columns if "CHAR" in str(c.type).upper() or "TEXT" in str(c.type).upper()]
+        like = f"%{q.lower()}%"
+        stmt = stmt.where(or_(*[func.lower(c).like(like) for c in text_cols]))
+
+    return [dict(row._mapping) for row in db.execute(stmt).all()]
